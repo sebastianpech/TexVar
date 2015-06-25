@@ -1,0 +1,48 @@
+\documentclass[a4paper, 12pt]{article}
+%%%%%%%%%
+%% Packages
+%%%%%%%%%
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{float}
+\usepackage{graphicx,amsmath,amssymb,amstext,fancyhdr,anyfontsize,titlesec,caption,ucs,multirow}
+\usepackage[table]{xcolor}
+\usepackage{luacode}
+\usepackage{breqn} 
+\usepackage{listings}
+%%%%%%%%%
+%% Seitenrand
+%%%%%%%%%
+\usepackage[left=2.5cm,right=2.5cm,top=2.0cm,bottom=2cm,includeheadfoot]{geometry}
+%%%%%%%%%
+%% Titelseite
+%%%%%%%%%
+\title{\TITEL}
+\author{\AUTOR}
+\date{\today{}, Wien}
+%%%%%%%%%
+%% Schriftgrößendefinitionen
+%%%%%%%%%
+\titleformat{\title}{\fontsize{14}{15}\selectfont}{\thesection}{1em}{}{}
+\titleformat{\section}{\fontsize{13}{14}\selectfont\bfseries}{\thesection}{1em}{}{}
+\titleformat{\subsection}{\fontsize{12}{13}\selectfont\bfseries}{\thesubsection}{1em}{}{}
+\titleformat{\subsubsection}{\fontsize{11}{12}\selectfont\bfseries}{\thesubsubsection}{1em}{}{}
+\titleformat{\caption}{\fontsize{10}{12}\selectfont\bfseries}{\thesection}{1em}{}{}
+%%%%%%%%%
+%% Schriftart
+%%%%%%%%%
+%%%%%%%%%
+%% Kopf-und Fuszzeile
+%%%%%%%%%
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+%%%%%%%%%
+%% Beschriftungen
+%%%%%%%%%
+\renewcommand{\captionfont}{\fontsize{10}{12}\selectfont} 
+\captionsetup[table]{name=Tab.}
+\captionsetup[figure]{name=Abb.}
+%%%%%%%%%
+%% Literaturverzeichnis Ueberschrift
+%%%%%%%%%
+\renewcommand\refname{Literaturverzeichnis}

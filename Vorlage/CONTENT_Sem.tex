@@ -1,0 +1,170 @@
+%%%%%%%% Input CONFIG und Titelformatierung
+\input{HEADER_Sem.tex}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=[5.2]Lua,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+\begin{document}
+\section{Library laden}
+Laden von \lstinline$tVar$ und Festlegen eines Zahlenformates
+\begin{lstlisting}
+require("../tVar.lua")
+tVar.numFormat = "%.3f"
+\end{lstlisting}
+\begin{luacode*}
+	require("../tVar.lua")
+	matrix = require("../matrix")
+	tVar.numFormat = "%.3f"
+\end{luacode*}
+\section{U-Wert Berechnung}
+Berechnung des U-Wertes eine Bauteiles mit 2 Schichten.
+\begin{lstlisting}
+-- Variable Rse mit dem Wert 0.04 und der Latex Darstellung r_{se}
+rse = tVar:New(0.04,"r_{se}")
+rsi = tVar:New(0.13,"r_{si}") 
+	
+d1 = tVar:New(20,"d_{1}")
+lambda1 = tVar:New(0.035,"\\lambda_{1}")
+	
+d2 = tVar:New(10,"d_{2}")
+lambda2 = tVar:New(0.5,"\\lambda_{2}")
+	
+R = rse+d1/lambda1+d2/lambda2+rsi
+
+-- R:bracR() erzeugt Rundeklammern und den Therm R
+U=R:bracR()^(-1) 
+-- Bei der Ausgabe wird zuerst der Name der Var. angezeigt. Festlegen auf U
+U.nameTex = "U"
+\end{lstlisting}
+\begin{luacode*}
+	rse = tVar:New(0.04,"r_{se}") -- Variable Rse mit dem Wert 0.04 und der Latex Darstellung r_{se}
+	rsi = tVar:New(0.13,"r_{si}") 
+	
+	d1 = tVar:New(10,"d_{1}")
+	lambda1 = tVar:New(0.035,"\\lambda_{1}")
+	
+	d2 = tVar:New(10,"d_{2}")
+	lambda2 = tVar:New(0.5,"\\lambda_{2}")
+	
+	R = rse+d1/lambda1+d2/lambda2+rsi
+	
+	U=R:bracR()^(-1) -- R:bracR() erzeugt Runde Klammern und den Therm R
+	U.nameTex = "U" -- Bei der Ausgabe wird zuerst der Name der Var. angezeigt. Festlegen auf U
+\end{luacode*}
+Output mit \lstinline{U:outFull()}:
+\directlua{U:outFull()} 
+Output mit \lstinline{U:outHalf()}:
+	\directlua{U:outHalf()} 
+Output mit \lstinline{U:outVar()}:
+	\directlua{U:outVar()} 
+\section{Vergleichsspannung}
+Berechnung der Vergleichsspannung bei gegebenem $\sigma_{x}$ und $\tau_{xy}$
+\begin{luacode*}
+	sigma_x = tVar:New(11.4,"\\sigma_{x}")
+	tau_xy = tVar:New(2.43,"\\tau_{xy}")
+	
+	sigma_v = tVar.sqrt(sigma_x^2+3*tau_xy^2,2)
+	sigma_v.nameTex = "\\sigma_{v}"
+\end{luacode*}
+\begin{lstlisting}
+sigma_x = tVar:New(11.4,"\\sigma_{x}")
+tau_xy = tVar:New(2.43,"\\tau_{xy}")
+
+sigma_v = tVar.sqrt(sigma_x^2+3*tau_xy^2,2)
+sigma_v.nameTex = "\\sigma_{v}"
+\end{lstlisting}
+Output mit \lstinline{sigma_v:outFull()}:
+\directlua{sigma_v:outFull()} 
+\subsection{Resultierende Kraft}
+Berechnen der resultierenden Kraft auf einen Kreisquerschnitt.
+\begin{luacode*}
+	r = tVar:New(10,"r")
+
+	A=r^2*tVar.PI
+	F=sigma_v*A
+	F.nameTex = "F"
+\end{luacode*}
+\begin{lstlisting}
+r = tVar:New(10,"r")
+
+A=r^2*tVar.PI
+F=sigma_v*A
+F.nameTex = "F"
+\end{lstlisting}
+Output mit \lstinline{F:outFull()}:
+	\directlua{F:outFull()} 
+Ausführen mit \lstinline{sigma_v:fix()}:
+\begin{luacode*}
+	sigma_v:fix()
+	A=r^2*tVar.PI
+	F=sigma_v*A
+	F.nameTex = "F"
+\end{luacode*}
+\begin{lstlisting}
+-- fix() löscht die Berechnungsschritte einer Var., damit wird bei jedem Aufruf der Var. nur mehr der Name angezeigt
+sigma_v:fix()
+A=r^2*tVar.PI
+F=sigma_v*A
+F.nameTex = "F"
+\end{lstlisting}
+Output mit \lstinline{F:outFull()}:
+	\directlua{F:outFull()} 
+\section{Matrizen}
+\subsection{Addition und Subtraktion}
+\begin{luacode*}
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}")
+B=tMat:New({{3,1,4,1},{2,4,5,10}},"b_{1}")
+C = A + B:CRLF() -A
+C:setName("C")
+\end{luacode*}
+Output mit \lstinline{C:outFull()}:
+\directlua{C:outFull()} 
+\subsection{Multiplikation and Division}
+\begin{luacode*}
+	A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+	B=tMat:New({{3,1},{4,2},{5,8},{2,9}},"b_{1}")
+	D=tMat:New({{5,12.2},{3,22}},"D")	
+	C = A:CRLF("\\cdot") * (B*2) - D/2
+	C=-C:bracR()
+	C:setName("C")
+\end{luacode*}
+Output mit \lstinline{C:outFull()}:
+\directlua{C:outFull()} 
+\subsection{Transponieren}
+\begin{luacode*}
+	A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+	C = A:T()
+	C:setName("C")
+\end{luacode*}
+Output mit \lstinline{C:outFull()}:
+\directlua{C:outFull()} 
+\subsection{Determinante und Inverse}
+\begin{luacode*}
+	A_2=tMat:New({{10,2,5},{2,4,3},{7,4,3}},"a_{2}	")
+	C = A_2:Det()
+	Inv = A_2:Inv() * A_2:CRLF("=")
+	C:setName("C")
+	Inv:setName("Inv")
+\end{luacode*}
+Output mit \lstinline{C:outFull()}:
+\directlua{C:outFull()} 
+Output mit \lstinline{Inv:outFull()}:
+\directlua{Inv:outFull()} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
