@@ -126,6 +126,12 @@ Output mit \lstinline{F:outFull()}:
 	\directlua{F:outFull()} 
 \section{Matrizen}
 \subsection{Addition und Subtraktion}
+\begin{lstlisting}
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}")
+B=tMat:New({{3,1,4,1},{2,4,5,10}},"b_{1}")
+C = A + B:CRLF() -A
+C:setName("C")
+\end{lstlisting}
 \begin{luacode*}
 A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}")
 B=tMat:New({{3,1,4,1},{2,4,5,10}},"b_{1}")
@@ -135,36 +141,86 @@ C:setName("C")
 Output mit \lstinline{C:outFull()}:
 \directlua{C:outFull()} 
 \subsection{Multiplikation and Division}
+\begin{lstlisting}
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+B=tMat:New({{3,1},{4,2},{5,8},{2,9}},"b_{1}")
+D=tMat:New({{5,12.2},{3,22}},"D")	
+C = A:CRLF("\\cdot") * (B*2) - D/2
+C=-C:bracR()
+C:setName("C")
+\end{lstlisting}
 \begin{luacode*}
-	A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
-	B=tMat:New({{3,1},{4,2},{5,8},{2,9}},"b_{1}")
-	D=tMat:New({{5,12.2},{3,22}},"D")	
-	C = A:CRLF("\\cdot") * (B*2) - D/2
-	C=-C:bracR()
-	C:setName("C")
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+B=tMat:New({{3,1},{4,2},{5,8},{2,9}},"b_{1}")
+D=tMat:New({{5,12.2},{3,22}},"D")	
+C = A:CRLF("\\cdot") * (B*2) - D/2
+C=-C:bracR()
+C:setName("C")
 \end{luacode*}
 Output mit \lstinline{C:outFull()}:
 \directlua{C:outFull()} 
 \subsection{Transponieren}
+\begin{lstlisting}
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+C = A:T()
+C:setName("C")
+\end{lstlisting}
 \begin{luacode*}
-	A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
-	C = A:T()
-	C:setName("C")
+A=tMat:New({{10,2,5,3},{2,4,3,1}},"a_{1}	")
+C = A:T()
+C:setName("C")
 \end{luacode*}
 Output mit \lstinline{C:outFull()}:
 \directlua{C:outFull()} 
 \subsection{Determinante und Inverse}
+\begin{lstlisting}
+A_2=tMat:New({{10,2,5},{2,4,3},{7,4,3}},"a_{2}	")
+C = A_2:Det()
+Inv = A_2:Inv() * A_2:CRLF("=")
+C:setName("C")
+Inv:setName("Inv")
+\end{lstlisting}
 \begin{luacode*}
-	A_2=tMat:New({{10,2,5},{2,4,3},{7,4,3}},"a_{2}	")
-	C = A_2:Det()
-	Inv = A_2:Inv() * A_2:CRLF("=")
-	C:setName("C")
-	Inv:setName("Inv")
+A_2=tMat:New({{10,2,5},{2,4,3},{7,4,3}},"a_{2}	")
+C = A_2:Det()
+Inv = A_2:Inv() * A_2:CRLF("=")
+C:setName("C")
+Inv:setName("Inv")
 \end{luacode*}
 Output mit \lstinline{C:outFull()}:
 \directlua{C:outFull()} 
 Output mit \lstinline{Inv:outFull()}:
 \directlua{Inv:outFull()} 
-
+\section{Vektor Operationen}
+\subsection{Addition und Subtraktion}
+\begin{lstlisting}
+v_1=tVec:New({10,2,7},"v_{1}")
+v_2=tVec:New({3,1,2},"v_{2}")
+v_3 = (v_1+v_2):bracR()-v_2
+v_3:setName("v_{3}")
+\end{lstlisting}
+\begin{luacode*}
+	v_1=tVec:New({10,2,7},"v_{1}")
+	v_2=tVec:New({3,1,2},"v_{2}")
+	v_3 = (v_1+v_2):bracR()-v_2
+	v_3:setName("v_{3}")
+\end{luacode*}
+Output mit \lstinline{v_3:outFull()}:
+\directlua{v_3:outFull()} 
+\subsection{Skalarprodukt und Produkt mit einem Skalar}
+\begin{lstlisting}
+v_1=tVec:New({10,2,7},"v_{1}")
+v_2=tVec:New({3,1,2},"v_{2}")
+v_3 = (v_1*2):bracR()*v_2
+v_3:setName("v_{3}")
+\end{lstlisting}
+\begin{luacode*}
+	v_1=tVec:New({10,2,7},"v_{1}")
+	v_2=tVec:New({3,1,2},"v_{2}")
+	v_3 = (v_1*2):bracR()*v_2
+	v_3:setName("v_{3}")
+\end{luacode*}
+Output mit \lstinline{v_3:outFull()}:
+\directlua{v_3:outFull()} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

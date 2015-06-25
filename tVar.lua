@@ -231,7 +231,7 @@ function tMat.mAdd(_a,_b)
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
   
-  if (getmetatable(a) == tMat and getmetatable(b) == tMat) then
+  if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
@@ -239,7 +239,13 @@ function tMat.mAdd(_a,_b)
   else
     error("Can't perform operation Matrix + Skalar")
   end
-  
+  if(getmetatable(ans) == tMat) then
+	if(ans:size(2) == 1) then
+		local tempVal = ans.val
+		ans = tVec:New({},"ANS")
+		ans.val = tempVal
+	end
+  end
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
   ans.eqNum = a.eqNum .. "+" .. b.eqNum
   ans.nameTex = ans.eqTex
@@ -248,7 +254,7 @@ end
 
 function tMat:size(rc)
   if rc == 1 then return #self.val end
-  return #self.val[1]
+  return assert(#self.val[1],1)
 end
 
 
@@ -258,7 +264,7 @@ function tMat.mSub(_a,_b)
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
   
-  if (getmetatable(a) == tMat and getmetatable(b) == tMat) then
+  if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
@@ -267,6 +273,13 @@ function tMat.mSub(_a,_b)
     error("Can't perform operation Matrix + Skalar")
   end
  
+   if(getmetatable(ans) == tMat) then
+	if(ans:size(2) == 1) then 
+		local tempVal = ans.val
+		ans = tVec:New({},"ANS")
+		ans.val = tempVal
+	end
+  end
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
   ans.eqNum = a.eqNum .. "-" .. b.eqNum
   ans.nameTex = ans.eqTex
@@ -278,8 +291,7 @@ function tMat.mMul(_a,_b)
   ans.nameTex = ""
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  
-  if (getmetatable(a) == tMat and getmetatable(b) == tMat) then
+  if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(2) or a:size(2) ~= b:size(1)) then error ("Matrix Dimensions do not match") end
@@ -297,6 +309,14 @@ function tMat.mMul(_a,_b)
 
     ans.val = matrix.mulnum(mat.val,scale.val)
   end
+  if(getmetatable(ans) == tMat) then
+	if(ans:size(2) == 1) then 
+		local tempVal = ans.val
+		ans = tVec:New({},"ANS")
+		ans.val = tempVal
+	end
+  end
+  
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
   ans.nameTex = ans.eqTex
@@ -309,7 +329,7 @@ function tMat.mDiv(_a,_b)
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
   
-  if (getmetatable(a) == tMat and getmetatable(b) == tMat) then
+  if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     error("Can't perform division of two Matrices")
   else
     local mat = tMat:New({},"")
@@ -324,9 +344,17 @@ function tMat.mDiv(_a,_b)
 
     ans.val = matrix.divnum(mat.val,scale.val)
   end
+  if(getmetatable(ans) == tMat) then
+	if(ans:size(2) == 1) then 
+	local tempVal = ans.val
+		ans = tVec:New({},"ANS")
+		ans.val = tempVal
+	end
+  end
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
   ans.eqNum = "\\dfrac{" .. a.eqNum .. "}{" .. b.eqNum .. "}"
   ans.nameTex = ans.eqTex
+  
   return ans
 end
 
@@ -369,7 +397,61 @@ function tMat.mNeg(a)
 end
 
 function tMat.Check(_a)
-  if(getmetatable(_a) == tVar or getmetatable(_a) == tMat) then return _a end
+  if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
   ret = tVar:New(_a*1,string.format(tVar.numFormat,_a))
   return ret  
 end
+
+tVec = tMat:New({},"")
+tVec.texStyle = "vec"
+function tVec:New(_val,_nameTex,displayasmat)
+  local ret = {}
+
+  setmetatable(ret,self)
+  self.__index = self
+  self.__add = self.mAdd
+  self.__sub = self.mSub
+  self.__mul = self.mMul
+  self.__div = self.mDiv
+  self.__unm = self.mNeg
+  --self.__tostring = self.Print
+  ret.val = {}
+  for i=1,#_val do
+	ret.val[i] = {_val[i]} 
+  end
+  ret.nameTex = _nameTex
+  if displayasmat or displayasmat == nil then ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" end
+  ret.eqNum = ret:pFormatVal()
+  return ret
+end
+
+function tVec.mMul(_a,_b)
+  local ans = tVec:New({},"ANS")
+  ans.nameTex = ""
+  local a, b = tVec.Check(_a),tVec.Check(_b)
+  -- ab hier a und b entweder tMat oder tVar
+  
+  if (getmetatable(a) == tVec and getmetatable(b) == tVec) then
+    --falls beide Matrizen
+    --kontrolle ob gleiche anzahl zeilen und spalten
+    if(a:size(1) ~= b:size(1)) then error ("Vector Dimensions do not match") end
+	ans = tVar:New((matrix.mul(matrix.transpose(a.val),b.val))[1][1],"ANS")
+  else
+    local mat = tVec:New({},"")
+    local scale = tVar:New(0,"")
+    if (getmetatable(a) == tVec) then 
+      mat = a
+      scale = b
+    else
+      mat = b
+      scale = a
+    end
+
+    ans.val = matrix.mulnum(mat.val,scale.val)
+  end
+  ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
+  ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
+  ans.nameTex = ans.eqTex
+  return ans
+end
+

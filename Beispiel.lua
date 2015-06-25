@@ -1,10 +1,7 @@
-dofile"D:\\Meine Dateien\\Projekte\\201505_LuaLatexCAS\\tVar.lua"
-
--- Berechne den U-Wert einer Schicht
-d = tVar:New(10,"d_{1}")
-lambda = tVar:New(0.035,"\\lambda_{1}")
-R = d/lambda
-
-U=R:bracR()^(-1)
-U.nameTex = "U"
-print(U:printFull())
+require("tVar")
+matrix = require("matrix")
+tVar.numFormat = "%.3f"
+	v_1=tVec:New({10,2,7},"v_{1}")
+	v_2=tVec:New({3,1,2},"v_{2}")
+	v_3 = (v_1+v_2):bracR()-v_2
+	v_3:setName("v_{3}")
