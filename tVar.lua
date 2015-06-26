@@ -22,7 +22,7 @@ function tVar:New(_val,_nameTex)
   self.__div = self.Div
   self.__pow = self.Pow
   self.__unm = self.Neg
-  self.__tostring = self.Print
+  self.__tostring = self.print
   ret.val = _val
   ret.nameTex = _nameTex
   ret.eqNum = ret:pFormatVal()
@@ -80,6 +80,9 @@ end
 function tVar:printVar()
   return self.nameTex .. "=" .. self:pFormatVal()
 end
+function tVar:print()
+  return self:pFormatVal()
+end
 function tVar:outFull(numbering)
   local numbering = numbering or true
   local env = self.mathEnviroment
@@ -97,6 +100,9 @@ function tVar:outVar(numbering)
   local env = self.mathEnviroment
   if not numbering then env = env .. "*" end
   tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
+end
+function tVar:out()
+  tex.print("$"..self:print().."$")
 end
 --[[
 Metatables
@@ -156,9 +162,6 @@ function tVar.Pow(a,b)
   return ans
 end
 
-function tVar.Print(_a)
-  return _a:pFormatVal()
-end
 --[[
 Private Functions
 --]]
@@ -453,5 +456,20 @@ function tVec.mMul(_a,_b)
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
   ans.nameTex = ans.eqTex
   return ans
+end
+
+function tVec:crossP(_b)
+	local ans = tVec:New({},"ANS")
+	ans.nameTex = ""
+	if(getmetatable(self) == tVec and getmetatable(_b) == tVec) then
+		if(self:size(1) ~= _b:size(1)) then error ("Vektor dimensions do not match") end
+		ans.val = matrix.cross(self.val,_b.val)
+	else
+		error("Two Vectors needed")
+	end
+	ans.eqTex = self.nameTex .. " \\times " .. _b.nameTex
+	ans.eqNum = self.eqNum .. " \\times " .. _b.eqNum
+	ans.nameTex = ans.eqTex
+	return ans
 end
 

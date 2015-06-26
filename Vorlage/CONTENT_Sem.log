@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9) (rev 4971)  (format=lualatex 2015.5.28)  25 JUN 2015 17:22
+This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9) (rev 4971)  (format=lualatex 2015.5.28)  26 JUN 2015 09:20
 **CONTENT_Sem.tex
 (./CONTENT_Sem.tex
 LaTeX2e <2015/01/01>
@@ -739,26 +739,49 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 1.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3] [4]
+Overfull \hbox (25.19997pt too wide) in paragraph at lines 253--268
+[][][] 
+ []
 
-Package caption Warning: Unused \captionsetup[table] on input line 43.
-See the caption package documentation for explanation.
+
+Overfull \hbox (25.19997pt too wide) in paragraph at lines 270--287
+[][][] 
+ []
+
+
+Overfull \hbox (25.19997pt too wide) in paragraph at lines 289--308
+[][][] 
+ []
 
 
 Package caption Warning: Unused \captionsetup[figure] on input line 44.
 See the caption package documentation for explanation.
 
-[4] (./CONTENT_Sem.aux))
+
+Overfull \hbox (44.0935pt too wide) in paragraph at lines 251--310
+[]\T1/cmr/m/n/12 Wenn nicht an-ders an-ge-ge-ben, sind al-le Be-feh-le ent-spre
+-chen der Hier-ar-chie \T1/cmr/bx/n/12 tVar \OMS/cmsy/m/n/12 ) \T1/cmr/bx/n/12 
+tMat \OMS/cmsy/m/n/12 ) \T1/cmr/bx/n/12 tVec
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5] [6] (./CONTENT_Sem.aux))
 
 Here is how much of LuaTeX's memory you used:
- 14238 strings out of 494701
+ 14249 strings out of 494701
  100000,383344 words of node,token memory allocated
- 547 words of node memory still in use:
+ 569 words of node memory still in use:
     nodes
-   avail lists: 2:29,3:276,4:1631,5:796,6:1117,7:594,8:2,9:1703,10:92
- 17446 multiletter control sequences out of 65536+200000
+   avail lists: 2:29,3:298,4:1654,5:798,6:2337,7:701,8:2,9:1743,10:176
+ 17457 multiletter control sequences out of 65536+200000
  42 fonts using 1185119 bytes
- 43i,21n,58p,1212b,761s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,21n,58p,1212b,912s stack positions out of 5000i,500n,10000p,200000b,50000s
 <<C:\Users\spech.OFFICE\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi
 650\ecbx1200.pk>><<C:\Users\spech.OFFICE\AppData\Local\MiKTeX\2.9\fonts\pk\ljfou
 r\jknappen\ec\dpi650\ecrm1200.pk>><<C:\Users\spech.OFFICE\AppData\Local\MiKTeX\2
@@ -774,9 +797,9 @@ ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><<C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><<C:/Program F
 iles (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><<C:/Program Fil
 es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on CONTENT_Sem.pdf (4 pages, 152980 bytes).
+Output written on CONTENT_Sem.pdf (6 pages, 182228 bytes).
 
-PDF statistics: 251 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
