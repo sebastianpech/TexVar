@@ -51,14 +51,14 @@ function tVar.sqrt(a,n)
 end
 
 function tVar:bracR()
-  
+
   self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
   self.eqNum = self.encapuslate(self.eqNum,"\\left(","\\right)")
-  
+
   -- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
   self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
   self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
-  
+
   self.nameTex = self.eqTex
   return self
 end
@@ -109,7 +109,7 @@ Metatables
 --]]
 function tVar.Add(_a,_b)
   a,b = tVar.Check(_a),tVar.Check(_b)
-  
+
   local ans = tVar:New(a.val + b.val,"ANS")
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
   ans.eqNum = a.eqNum .. "+" .. b.eqNum
@@ -119,7 +119,7 @@ end
 
 function tVar.Sub(_a,_b)
   a,b = tVar.Check(_a),tVar.Check(_b)
-  
+
   local ans = tVar:New(a.val - b.val,"ANS")
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
   ans.eqNum = a.eqNum .. "-" .. b.eqNum
@@ -129,7 +129,7 @@ end
 
 function tVar.Mul(_a,_b)
   a,b = tVar.Check(_a),tVar.Check(_b)
-  
+
   local ans = tVar:New(a.val * b.val,"ANS")
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
@@ -139,7 +139,7 @@ end
 
 function tVar.Div(_a,_b)
   a,b = tVar.Check(_a),tVar.Check(_b)
-  
+
   local ans = tVar:New(a.val / b.val,"ANS")
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
   ans.eqNum = "\\dfrac{" .. a.eqNum .. "}{" .. b.eqNum .. "}"
@@ -150,7 +150,7 @@ end
 function tVar.Neg(a)
   local ans = tVar:New(-a.val,"ANS")
   ans.eqTex = "-"..a.nameTex
-  ans.eqNum = "-"..a.eqNum 
+  ans.eqNum = "-"..a.eqNum
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -176,7 +176,7 @@ end
 function tVar.Check(_a)
   if(getmetatable(_a) == tVar) then return _a end
   ret = tVar:New(_a,string.format(tVar.numFormat,_a))
-  return ret  
+  return ret
 end
 --[[
 Konstanten
@@ -230,15 +230,15 @@ end
 
 function tMat.mAdd(_a,_b)
   local ans = tMat:New({},"ANS")
-  
+
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  
+
   if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.add(a.val,b.val) 
+    ans.val = matrix.add(a.val,b.val)
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -263,21 +263,21 @@ end
 
 function tMat.mSub(_a,_b)
  local ans = tMat:New({},"ANS")
-  
+
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  
+
   if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.sub(a.val,b.val) 
+    ans.val = matrix.sub(a.val,b.val)
   else
     error("Can't perform operation Matrix + Skalar")
   end
- 
+
    if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then 
+	if(ans:size(2) == 1) then
 		local tempVal = ans.val
 		ans = tVec:New({},"ANS")
 		ans.val = tempVal
@@ -298,11 +298,11 @@ function tMat.mMul(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(2) or a:size(2) ~= b:size(1)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.mul(a.val,b.val) 
+    ans.val = matrix.mul(a.val,b.val)
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tMat) then 
+    if (getmetatable(a) == tMat) then
       mat = a
       scale = b
     else
@@ -313,13 +313,13 @@ function tMat.mMul(_a,_b)
     ans.val = matrix.mulnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then 
+	if(ans:size(2) == 1) then
 		local tempVal = ans.val
 		ans = tVec:New({},"ANS")
 		ans.val = tempVal
 	end
   end
-  
+
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
   ans.nameTex = ans.eqTex
@@ -328,16 +328,16 @@ end
 
 function tMat.mDiv(_a,_b)
   local ans = tMat:New({},"ANS")
-  
+
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  
+
   if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
     error("Can't perform division of two Matrices")
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tMat) then 
+    if (getmetatable(a) == tMat) then
       mat = a
       scale = b
     else
@@ -348,7 +348,7 @@ function tMat.mDiv(_a,_b)
     ans.val = matrix.divnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then 
+	if(ans:size(2) == 1) then
 	local tempVal = ans.val
 		ans = tVec:New({},"ANS")
 		ans.val = tempVal
@@ -357,14 +357,14 @@ function tMat.mDiv(_a,_b)
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
   ans.eqNum = "\\dfrac{" .. a.eqNum .. "}{" .. b.eqNum .. "}"
   ans.nameTex = ans.eqTex
-  
+
   return ans
 end
 
 function tMat:T()
   local ans = self:Copy()
   ans.val = matrix.transpose(self.val)
-  
+
   ans.eqTex = self.nameTex .. "^\\top"
   ans.eqNum = self.eqNum  .. "^\\top"
   ans.nameTex = ans.eqTex
@@ -373,7 +373,7 @@ end
 
 function tMat:Det()
   local ans = tVar:New(matrix.det(self.val),"ANS")
-  
+
   ans.eqTex = "|" .. self.nameTex .. "|"
   ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
   ans.nameTex = ans.eqTex
@@ -383,7 +383,7 @@ end
 function tMat:Inv()
   local ans = self:Copy()
   ans.val = matrix.invert(self.val)
-  
+
   ans.eqTex = self.nameTex .. "^{-1}"
   ans.eqNum = self.eqNum  .. "^{-1}"
   ans.nameTex = ans.eqTex
@@ -392,9 +392,9 @@ end
 
 function tMat.mNeg(a)
   local ans = a*(-1)
-  
+
   ans.eqTex = "-"..a.nameTex
-  ans.eqNum = "-"..a.eqNum 
+  ans.eqNum = "-"..a.eqNum
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -402,7 +402,7 @@ end
 function tMat.Check(_a)
   if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
   ret = tVar:New(_a*1,string.format(tVar.numFormat,_a))
-  return ret  
+  return ret
 end
 
 tVec = tMat:New({},"")
@@ -420,7 +420,7 @@ function tVec:New(_val,_nameTex,displayasmat)
   --self.__tostring = self.Print
   ret.val = {}
   for i=1,#_val do
-	ret.val[i] = {_val[i]} 
+	ret.val[i] = {_val[i]}
   end
   ret.nameTex = _nameTex
   if displayasmat or displayasmat == nil then ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" end
@@ -433,7 +433,7 @@ function tVec.mMul(_a,_b)
   ans.nameTex = ""
   local a, b = tVec.Check(_a),tVec.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  
+
   if (getmetatable(a) == tVec and getmetatable(b) == tVec) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
@@ -442,7 +442,7 @@ function tVec.mMul(_a,_b)
   else
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tVec) then 
+    if (getmetatable(a) == tVec) then
       mat = a
       scale = b
     else
@@ -472,4 +472,3 @@ function tVec:crossP(_b)
 	ans.nameTex = ans.eqTex
 	return ans
 end
-
