@@ -9,8 +9,8 @@ tVar = {
   numFormat = "%.3f",
   mathEnviroment = "align"
 }
- --[[
- Public Funktion
+--[[
+Public Funktion
 --]]
 function tVar:New(_val,_nameTex)
   local ret = {}
@@ -243,11 +243,11 @@ function tMat.mAdd(_a,_b)
     error("Can't perform operation Matrix + Skalar")
   end
   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then
-		local tempVal = ans.val
-		ans = tVec:New({},"ANS")
-		ans.val = tempVal
-	end
+    if(ans:size(2) == 1) then
+      local tempVal = ans.val
+      ans = tVec:New({},"ANS")
+      ans.val = tempVal
+    end
   end
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
   ans.eqNum = a.eqNum .. "+" .. b.eqNum
@@ -262,7 +262,7 @@ end
 
 
 function tMat.mSub(_a,_b)
- local ans = tMat:New({},"ANS")
+  local ans = tMat:New({},"ANS")
 
   local a, b = tMat.Check(_a),tMat.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
@@ -276,12 +276,12 @@ function tMat.mSub(_a,_b)
     error("Can't perform operation Matrix + Skalar")
   end
 
-   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then
-		local tempVal = ans.val
-		ans = tVec:New({},"ANS")
-		ans.val = tempVal
-	end
+  if(getmetatable(ans) == tMat) then
+    if(ans:size(2) == 1) then
+      local tempVal = ans.val
+      ans = tVec:New({},"ANS")
+      ans.val = tempVal
+    end
   end
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
   ans.eqNum = a.eqNum .. "-" .. b.eqNum
@@ -313,11 +313,11 @@ function tMat.mMul(_a,_b)
     ans.val = matrix.mulnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then
-		local tempVal = ans.val
-		ans = tVec:New({},"ANS")
-		ans.val = tempVal
-	end
+    if(ans:size(2) == 1) then
+      local tempVal = ans.val
+      ans = tVec:New({},"ANS")
+      ans.val = tempVal
+    end
   end
 
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
@@ -348,11 +348,11 @@ function tMat.mDiv(_a,_b)
     ans.val = matrix.divnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
-	if(ans:size(2) == 1) then
-	local tempVal = ans.val
-		ans = tVec:New({},"ANS")
-		ans.val = tempVal
-	end
+    if(ans:size(2) == 1) then
+      local tempVal = ans.val
+      ans = tVec:New({},"ANS")
+      ans.val = tempVal
+    end
   end
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
   ans.eqNum = "\\dfrac{" .. a.eqNum .. "}{" .. b.eqNum .. "}"
@@ -420,7 +420,7 @@ function tVec:New(_val,_nameTex,displayasmat)
   --self.__tostring = self.Print
   ret.val = {}
   for i=1,#_val do
-	ret.val[i] = {_val[i]}
+    ret.val[i] = {_val[i]}
   end
   ret.nameTex = _nameTex
   if displayasmat or displayasmat == nil then ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" end
@@ -438,7 +438,7 @@ function tVec.mMul(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1)) then error ("Vector Dimensions do not match") end
-	ans = tVar:New((matrix.mul(matrix.transpose(a.val),b.val))[1][1],"ANS")
+    ans = tVar:New((matrix.mul(matrix.transpose(a.val),b.val))[1][1],"ANS")
   else
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")
@@ -459,16 +459,16 @@ function tVec.mMul(_a,_b)
 end
 
 function tVec:crossP(_b)
-	local ans = tVec:New({},"ANS")
-	ans.nameTex = ""
-	if(getmetatable(self) == tVec and getmetatable(_b) == tVec) then
-		if(self:size(1) ~= _b:size(1)) then error ("Vektor dimensions do not match") end
-		ans.val = matrix.cross(self.val,_b.val)
-	else
-		error("Two Vectors needed")
-	end
-	ans.eqTex = self.nameTex .. " \\times " .. _b.nameTex
-	ans.eqNum = self.eqNum .. " \\times " .. _b.eqNum
-	ans.nameTex = ans.eqTex
-	return ans
+  local ans = tVec:New({},"ANS")
+  ans.nameTex = ""
+  if(getmetatable(self) == tVec and getmetatable(_b) == tVec) then
+    if(self:size(1) ~= _b:size(1)) then error ("Vektor dimensions do not match") end
+    ans.val = matrix.cross(self.val,_b.val)
+  else
+    error("Two Vectors needed")
+  end
+  ans.eqTex = self.nameTex .. " \\times " .. _b.nameTex
+  ans.eqNum = self.eqNum .. " \\times " .. _b.eqNum
+  ans.nameTex = ans.eqTex
+  return ans
 end
