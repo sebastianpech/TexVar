@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9) (rev 4971)  (format=lualatex 2015.5.28)  26 JUN 2015 09:20
+This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9) (rev 4971)  (format=lualatex 2015.5.28)  6 AUG 2015 14:25
 **CONTENT_Sem.tex
 (./CONTENT_Sem.tex
 LaTeX2e <2015/01/01>
@@ -745,6 +745,11 @@ Overfull \hbox (25.19997pt too wide) in paragraph at lines 253--268
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+[][]|\T1/cmr/m/n/12 Aus-ga-be: Na-me=Glei-chung=Er-geb-nis. [bool]
+ []
+
+
 Overfull \hbox (25.19997pt too wide) in paragraph at lines 270--287
 [][][] 
  []
@@ -778,7 +783,7 @@ Here is how much of LuaTeX's memory you used:
  100000,383344 words of node,token memory allocated
  569 words of node memory still in use:
     nodes
-   avail lists: 2:29,3:298,4:1654,5:798,6:2337,7:701,8:2,9:1743,10:176
+   avail lists: 2:29,3:298,4:1654,5:798,6:2366,7:701,8:2,9:1743,10:175
  17457 multiletter control sequences out of 65536+200000
  42 fonts using 1185119 bytes
  43i,21n,58p,1212b,912s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -797,7 +802,7 @@ ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><<C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><<C:/Program F
 iles (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><<C:/Program Fil
 es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on CONTENT_Sem.pdf (6 pages, 182228 bytes).
+Output written on CONTENT_Sem.pdf (6 pages, 182287 bytes).
 
 PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)

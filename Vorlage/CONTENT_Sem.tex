@@ -275,11 +275,11 @@ Wenn nicht anders angegeben, sind alle Befehle entsprechen der Hierarchie \textb
 		\hline
 		\lstinline{[tVar]:CRLF([string])} &Macht einen Zeilenumbruch an der Stelle in der Formel. [string] Optional. Zeichen wird am Ende der Zeile und am Anfang der neune Zeile eingefügt.\newline \lstinline!C = A + B:CRLF("-") - A!\\
 		\hline
-		\lstinline{[tVar]:outFull([boolean])} & Ausgabe: Name=Gleichung=Gleichung mit Werten=Ergebnis. [boolean] nummeriert für true.  \newline \lstinline!U:outFull(true) !\\
+		\lstinline{[tVar]:outFull([bool])} & Ausgabe: Name=Gleichung=Gleichung mit Werten=Ergebnis. [bool] nummeriert für true.  \newline \lstinline!U:outFull(true) !\\
 		\hline
-		\lstinline{[tVar]:outHalf([boolean])} & Ausgabe: Name=Gleichung=Ergebnis. [boolean] nummeriert für true.  \newline \lstinline!U:outHalf(true) !\\
+		\lstinline{[tVar]:outHalf([bool])} & Ausgabe: Name=Gleichung=Ergebnis. [bool] nummeriert für true.  \newline \lstinline!U:outHalf(true) !\\
 		\hline
-		\lstinline{[tVar]:outVar([boolean])} & Ausgabe: Name=Ergebnis. [boolean] nummeriert für true.  \newline \lstinline!U:outVar(true) !\\
+		\lstinline{[tVar]:outVar([bool],[bool])} & Ausgabe: Name=Ergebnis. [bool](1) nummeriert für true. [bool](2) ohne enviroment für false.  \newline \lstinline!U:outVar(false,true) !\\
 		\hline
 		\lstinline{[tVar]:out()} & Ausgabe: Ergebnis (Inline).\newline \lstinline!U:out() !\\
 		\hline
