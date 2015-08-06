@@ -84,22 +84,27 @@ function tVar:print()
   return self:pFormatVal()
 end
 function tVar:outFull(numbering)
-  local numbering = numbering or true
+  if numbering == nil then numbering = true end 
   local env = self.mathEnviroment
   if not numbering then env = env .. "*" end
   tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
 end
 function tVar:outHalf(numbering)
-  local numbering = numbering or true
+  if numbering == nil then numbering = true end 
   local env = self.mathEnviroment
   if not numbering then env = env .. "*" end
   tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
 end
-function tVar:outVar(numbering)
-  local numbering = numbering or true
+function tVar:outVar(numbering,enviroment)
+  if numbering == nil then numbering = true end 
+  if enviroment == nil then enviroment = true end 
   local env = self.mathEnviroment
-  if not numbering then env = env .. "*" end
-  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
+  if not enviroment then
+      tex.print(self:printVar())
+  else
+	  if not numbering then env = env .. "*" end
+	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
+  end
 end
 function tVar:out()
   tex.print("$"..self:print().."$")
