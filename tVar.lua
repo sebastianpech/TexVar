@@ -6,6 +6,7 @@ tVar = {
   nameTex = "",
   eqTex = "",
   eqNum = "",
+  unit = "",
   numFormat = "%.3f",
   mathEnviroment = "align"
 }
@@ -50,6 +51,10 @@ function tVar.sqrt(a,n)
   return ans
 end
 
+function tVar:setUnit(_unit)
+	self.unit = _unit
+end
+
 function tVar:bracR()
 
   self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
@@ -72,16 +77,16 @@ function tVar:CRLF(symb)
 end
 
 function tVar:printFull()
-  return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal()
+  return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
 function tVar:printHalf()
-  return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal()
+  return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 function tVar:printVar()
-  return self.nameTex .. "=" .. self:pFormatVal()
+  return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 function tVar:print()
-  return self:pFormatVal()
+  return self:pFormatVal().. "~" .. self.unit
 end
 function tVar:outFull(numbering)
   if numbering == nil then numbering = true end 
