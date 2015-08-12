@@ -70,7 +70,7 @@ U:setUnit("\\frac{m^2K}{W}")
 	U:setUnit("\\frac{m^2K}{W}")
 \end{luacode*}
 Output mit \lstinline{U:outFull()}:
-\directlua{U:outFull()}
+	\directlua{U:outFull()}
 Output mit \lstinline{U:outHalf()}:
 	\directlua{U:outHalf()}
 Output mit \lstinline{U:outVar()}:
@@ -251,9 +251,10 @@ v_3:setName("v_{3}")
 \end{luacode*}
 Output mit \lstinline{v_3:outFull()}:
 \directlua{v_3:outFull()}
+\newpage
 \section{Befehlsreferenz}
 Wenn nicht anders angegeben, sind alle Befehle entsprechen der Hierarchie \textbf{tVar}~\Rightarrow~\textbf{tMat}~\Rightarrow~\textbf{tVec} vererbt.
-\begin{table}[h]
+\begin{table}[ht]
 \begin{tabular}{|p{0.4\textwidth}|p{0.6\textwidth}|}
 	\hline
 	\multicolumn{2}{|c|}{\textbf{tVar}}\\
@@ -270,29 +271,32 @@ Wenn nicht anders angegeben, sind alle Befehle entsprechen der Hierarchie \textb
 	\hline
 	\lstinline{tVar.sqrt([tVar],[number])} & [numbert]te Wurzel aus [tVar]  \newline \lstinline!sigma_v = tVar.sqrt(sigma_x^2+3*tau_xy^2,2)!\\
 	\hline
-\end{tabular}
-\end{table}
-\begin{table}[h]
-	\begin{tabular}{|p{0.4\textwidth}|p{0.6\textwidth}|}
+	\lstinline{[tVar].debugMode = "on"||"off"} & Ausgabe der generierten \LaTeX-Kommandos \newline Global: \lstinline!tVar.debugMode = "on"! \\
 		\hline
+			\lstinline{[tVar].mathEnviroment = [string]} & Festlegen der Math-Umgebung. Default: align. Wenn "" dann keine Umgebung.\\
+			\hline
 		\lstinline{tVar.PI} & $\pi$  \newline \lstinline!A=r^2*tVar.PI!\\
 		\hline
 		\lstinline{[tVar]:fix([latex])} & Bereinigt die Variable von Berechnungsschritten, damit wird bei einer Rechenoperation nicht mehr die Gleichung verwendet sondern die Bezeichnung. [latex] Latex Darstellung (Optional)\newline \lstinline!A:fix()!\\
 		\hline
 		\lstinline{[tVar]:CRLF([string])} &Macht einen Zeilenumbruch an der Stelle in der Formel. [string] Optional. Zeichen wird am Ende der Zeile und am Anfang der neune Zeile eingefügt.\newline \lstinline!C = A + B:CRLF("-") - A!\\
 		\hline
-		\lstinline{[tVar]:outFull([bool])} & Ausgabe: Name=Gleichung=Gleichung mit Werten=Ergebnis. [bool] nummeriert für true.  \newline \lstinline!U:outFull(true) !\\
+
+	\end{tabular}
+\end{table}
+\begin{table}[ht]
+	\begin{tabular}{|p{0.4\textwidth}|p{0.6\textwidth}|}
 		\hline
-		\lstinline{[tVar]:outHalf([bool])} & Ausgabe: Name=Gleichung=Ergebnis. [bool] nummeriert für true.  \newline \lstinline!U:outHalf(true) !\\
+				\lstinline{[tVar]:outFull([bool],[bool])} & Ausgabe: Name=Gleichung=Gleichung mit Werten=Ergebnis. [bool] nummeriert für true. [bool](2) ohne enviroment für false.  \newline \lstinline!U:outFull(true) !\\
+				\hline
+		\hline
+		\lstinline{[tVar]:outHalf([bool],[bool])} & Ausgabe: Name=Gleichung=Ergebnis. [bool] nummeriert für true. [bool](2) ohne enviroment für false. \newline \lstinline!U:outHalf(true) !\\
 		\hline
 		\lstinline{[tVar]:outVar([bool],[bool])} & Ausgabe: Name=Ergebnis. [bool](1) nummeriert für true. [bool](2) ohne enviroment für false.  \newline \lstinline!U:outVar(false,true) !\\
 		\hline
 		\lstinline{[tVar]:out()} & Ausgabe: Ergebnis (Inline).\newline \lstinline!U:out() !\\
 		\hline
-	\end{tabular}
-\end{table}
-\begin{table}[h]
-	\begin{tabular}{|p{0.4\textwidth}|p{0.6\textwidth}|}
+
 		\hline
 		\multicolumn{2}{|c|}{\textbf{tMat}}\\
 		\hline

@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  7 AUG 2015 13:30
+This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  12 AUG 2015 17:34
 **CONTENT_Sem.tex
 (./CONTENT_Sem.tex
 LaTeX2e <2015/01/01>
@@ -736,23 +736,23 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {C:/Users/sebip_000/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
- [4]
-Overfull \hbox (25.19997pt too wide) in paragraph at lines 257--274
+ [4] [5]
+Overfull \hbox (25.19997pt too wide) in paragraph at lines 258--286
 [][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 286--287
+Underfull \hbox (badness 10000) in paragraph at lines 290--291
+[][]|\T1/cmr/m/n/12 Aus-ga-be: Na-me=Glei-chung=Glei-chung mit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 293--294
 [][]|\T1/cmr/m/n/12 Aus-ga-be: Na-me=Glei-chung=Er-geb-nis. [bool]
  []
 
 
-Overfull \hbox (25.19997pt too wide) in paragraph at lines 276--293
-[][][] 
- []
-
-
-Overfull \hbox (25.19997pt too wide) in paragraph at lines 295--314
+Overfull \hbox (25.19997pt too wide) in paragraph at lines 288--318
 [][][] 
  []
 
@@ -761,46 +761,42 @@ Package caption Warning: Unused \captionsetup[figure] on input line 44.
 See the caption package documentation for explanation.
 
 
-Overfull \hbox (44.0935pt too wide) in paragraph at lines 255--316
+Overfull \hbox (44.0935pt too wide) in paragraph at lines 256--320
 []\T1/cmr/m/n/12 Wenn nicht an-ders an-ge-ge-ben, sind al-le Be-feh-le ent-spre
 -chen der Hier-ar-chie \T1/cmr/bx/n/12 tVar \OMS/cmsy/m/n/12 ) \T1/cmr/bx/n/12 
 tMat \OMS/cmsy/m/n/12 ) \T1/cmr/bx/n/12 tVec
  []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[5] [6] (./CONTENT_Sem.aux))
+[6] [7] (./CONTENT_Sem.aux))
 
 Here is how much of LuaTeX's memory you used:
- 14251 strings out of 494708
+ 14259 strings out of 494708
  100000,383344 words of node,token memory allocated
- 569 words of node memory still in use:
+ 568 words of node memory still in use:
     nodes
-   avail lists: 2:29,3:309,4:1723,5:701,6:2497,7:667,8:2,9:1550,10:181
- 17452 multiletter control sequences out of 65536+200000
- 42 fonts using 1662011 bytes
+   avail lists: 2:29,3:308,4:1724,5:701,6:2368,7:679,8:2,9:1550,10:198
+ 17459 multiletter control sequences out of 65536+200000
+ 43 fonts using 1701267 bytes
  43i,21n,58p,1212b,912s stack positions out of 5000i,500n,10000p,200000b,50000s
-<<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi650
-\ecbx1200.pk>><<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
-ppen\ec\dpi650\ecrm1200.pk>><<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\
-pk\ljfour\jknappen\ec\dpi600\ectt1095.pk>><<C:\Users\sebip_000\AppData\Local\MiK
-TeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk>><<C:\Users\sebip_000\App
-Data\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi650\ecbx1200.pk>><<C:/Progr
-am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><<C:/Program Files
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><<C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><<C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmmi12.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmmi8.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmr12.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmr8.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on CONTENT_Sem.pdf (6 pages, 183676 bytes).
+<<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
+\ecrm0800.pk>><<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
+ppen\ec\dpi650\ecbx1200.pk>><<C:\Users\sebip_000\AppData\Local\MiKTeX\2.9\fonts\
+pk\ljfour\jknappen\ec\dpi650\ecrm1200.pk>><<C:\Users\sebip_000\AppData\Local\MiK
+TeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1095.pk>><<C:\Users\sebip_000\App
+Data\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk>><<C:\Users
+\sebip_000\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi650\ecbx1200.
+pk>><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><<C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><<C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><<C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><<C:/Program Files/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmmi8.pfb><<C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr12.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr8.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb><<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
+8.pfb>
+Output written on CONTENT_Sem.pdf (7 pages, 186294 bytes).
 
-PDF statistics: 325 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 336 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

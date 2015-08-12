@@ -8,8 +8,18 @@ tVar = {
   eqNum = "",
   unit = "",
   numFormat = "%.3f",
-  mathEnviroment = "align"
+  mathEnviroment = "align",
+  debugMode = "off"
 }
+-- Redefine tex.print function for debugging 
+local oldPrint = tex.print
+tex.print = function (_string)
+	if tVar.debugMode == "on" then
+		oldPrint("\\verb|" .. _string .. "|")
+	else
+		oldPrint(_string)
+	end
+end
 --[[
 Public Funktion
 --]]
@@ -88,21 +98,31 @@ end
 function tVar:print()
   return self:pFormatVal().. "~" .. self.unit
 end
-function tVar:outFull(numbering)
+function tVar:outFull(numbering,enviroment)
   if numbering == nil then numbering = true end 
+  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
-  if not numbering then env = env .. "*" end
-  tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
+  if not enviroment then
+      tex.print(self:printFull())
+  else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
+  end
 end
-function tVar:outHalf(numbering)
+function tVar:outHalf(numbering,enviroment)
   if numbering == nil then numbering = true end 
+  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
-  if not numbering then env = env .. "*" end
-  tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
+if not enviroment then
+      tex.print(self:printHalf())
+  else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
+  end
 end
 function tVar:outVar(numbering,enviroment)
   if numbering == nil then numbering = true end 
-  if enviroment == nil then enviroment = true end 
+  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
   if not enviroment then
       tex.print(self:printVar())
