@@ -1,7 +1,6 @@
-	--[[
+--[[
 Latex Var CAS
 --]]
---Output modes: RES, RES_EQ, RES_EQ_N,
 tVar = {
   val = nil,
   nameTex = "",
@@ -10,9 +9,7 @@ tVar = {
   unit = "",
   numFormat = "%.3f",
   mathEnviroment = "align",
-  debugMode = "off",
-  outputMode = "RES",
-  numeration = true
+  debugMode = "off"
 }
 -- Redefine tex.print function for debugging 
 local oldPrint = tex.print
@@ -99,23 +96,7 @@ function tVar:printVar()
   return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 function tVar:print()
-	  local env = self.mathEnviroment
-	  --RES, RES_EQ, RES_EQ_N,
-	  local outString = ""
-		if self.outputMode == "RES" then
-			outString = self:printVar()
-		elseif self.outputMode == "RES_EQ" then
-			outString = self:printHalf() 
-		else 
-			outString = self:printFull()
-		end
-	
-	  if env == "" then
-		  tex.print(outString)
-	  else
-		if not self.numeration then env = env .. "*" end
-		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
-	  end
+  return self:pFormatVal().. "~" .. self.unit
 end
 function tVar:outFull(numbering,enviroment)
   if numbering == nil then numbering = true end 
@@ -151,7 +132,7 @@ function tVar:outVar(numbering,enviroment)
   end
 end
 function tVar:out()
-  tex.print(self:pFormatVal())
+  tex.print("$"..self:print().."$")
 end
 --[[
 Metatables

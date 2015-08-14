@@ -217,8 +217,8 @@ v_3:setName("v_{3}")
 \end{luacode*}
 Output mit \lstinline{v_3:outFull()}:
 \directlua{v_3:outFull()} \\
-Nur den Wert Ausgeben mit \lstinline{v_3:out()}:
-\directlua{v_3:out()}
+Nur den Wert Ausgeben mit \lstinline{$v_3:out()$}:
+$\directlua{v_3:out()}$
 \subsection{Skalarprodukt und Produkt mit einem Skalar}
 Ist zur Zeit nur mit $R3$ Vektoren möglich.
 \begin{lstlisting}
@@ -251,8 +251,49 @@ v_3:setName("v_{3}")
 \end{luacode*}
 Output mit \lstinline{v_3:outFull()}:
 \directlua{v_3:outFull()}
-\newpage
-\section{Befehlsreferenz}
+\section{Globale Parameter}
+Folgende globalen Parameter können über:
+\begin{lstlisting}
+tVar.[befehl] = ""
+\end{lstlisting}
+oder lokal für eine Variable z.B.:
+\begin{lstlisting}
+U.[befehl] = ""
+\end{lstlisting}
+festgelegt werden.
+Mögliche Befehle mit default Werten sind:
+\begin{lstlisting}
+ numFormat = "%.3f"
+ mathEnviroment = "align"
+ debugMode = "off"
+ outputMode = "RES" --oder RES, RES_EQ, RES_EQ_N
+ numeration = true
+\end{lstlisting}
+\subsection{Beispiel 1}
+Globale Definition:
+\begin{lstlisting}
+tVar.outputMode = "RES"
+tVar.numeration = false
+\end{lstlisting}
+\begin{luacode*}
+tVar.outputMode = "RES"
+tVar.numeration = false
+\end{luacode*}
+Output mit \lstinline{U:print()}:
+\directlua{U:print()}
+\subsection{Beispiel 2}
+Globale Definition:
+\begin{lstlisting}
+tVar.outputMode = "RES_EQ"
+tVar.numeration = true
+\end{lstlisting}
+\begin{luacode*}
+tVar.outputMode = "RES_EQ"
+tVar.numeration = true
+\end{luacode*}
+Output mit \lstinline{U:print()}:
+\directlua{U:print()}
+\newpage\section{Befehlsreferenz}
 Wenn nicht anders angegeben, sind alle Befehle entsprechen der Hierarchie \textbf{tVar}~\Rightarrow~\textbf{tMat}~\Rightarrow~\textbf{tVec} vererbt.
 \begin{table}[ht]
 \begin{tabular}{|p{0.4\textwidth}|p{0.6\textwidth}|}
