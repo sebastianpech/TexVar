@@ -48,7 +48,7 @@ function tVar:setName(_nameTex)
   return self
 end
 
-function tVar:fix(_nameTex)
+function tVar:clean(_nameTex)
   self.nameTex = _nameTex or self.nameTex
   self.eqNum = self:pFormatVal()
   self.eqTex = self.nameTex
