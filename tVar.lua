@@ -92,6 +92,14 @@ function tVar:CRLF(symb)
   return ret
 end
 
+function tVar:CRLFb(symb)
+  symb = symb or ""
+  local ret = getmetatable(self):New(self.val,self.nameTex,false)
+  ret.eqTex = self.eqTex
+  ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
+  return ret
+end
+
 function tVar:printFull()
   return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
@@ -119,6 +127,7 @@ function tVar:print()
 		if not self.numeration then env = env .. "*" end
 		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
 	  end
+return self
 end
 function tVar:outFull(numbering,enviroment)
   if numbering == nil then numbering = true end 
@@ -130,6 +139,7 @@ function tVar:outFull(numbering,enviroment)
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
   end
+return self
 end
 function tVar:outHalf(numbering,enviroment)
   if numbering == nil then numbering = true end 
@@ -141,6 +151,7 @@ if not enviroment then
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
   end
+return self
 end
 function tVar:outVar(numbering,enviroment)
   if numbering == nil then numbering = true end 
@@ -152,9 +163,11 @@ function tVar:outVar(numbering,enviroment)
 	  if not numbering then env = env .. "*" end
 	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
   end
+return self
 end
 function tVar:out()
   tex.print(self:pFormatVal())
+return self
 end
 --[[
 Metatables
