@@ -169,6 +169,21 @@ function tVar:out()
   tex.print(self:pFormatVal())
 return self
 end
+function tVar:copy()
+	local orig = self
+    local copy = getmetatable(self):New(self.val,self.nameTex,false)
+
+	copy.eqTex = orig.eqTex
+	copy.eqNum = orig.eqNum
+	copy.unit = orig.unit
+	copy.numFormat = orig.numFormat
+	copy.mathEnviroment = orig.mathEnviroment
+	copy.debugMode = orig.debugMode
+	copy.outputMode = orig.outputMode
+	copy.numeration = orig.numeration
+
+	return copy
+end
 --[[
 Metatables
 --]]
