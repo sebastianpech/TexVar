@@ -47,6 +47,11 @@ function tVar:setName(_nameTex)
   self.nameTex = _nameTex
 end
 
+function tVar:setNU(_nameTex,_unit)
+	self.nameTex = _nameTex
+	self.unit = _unit
+end
+
 function tVar:fix(_nameTex)
   self.nameTex = _nameTex or self.nameTex
   self.eqNum = self:pFormatVal()
