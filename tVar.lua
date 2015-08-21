@@ -14,7 +14,7 @@ tVar = {
   outputMode = "RES",
   numeration = true
 }
--- Redefine tex.print function for debugging 
+Redefine tex.print function for debugging 
 local oldPrint = tex.print
 tex.print = function (_string)
 	if tVar.debugMode == "on" then
@@ -37,6 +37,9 @@ function tVar:New(_val,_nameTex)
   self.__pow = self.Pow
   self.__unm = self.Neg
   self.__tostring = self.print
+  self.__eq = self.Equal
+  self.__lt = self.LowerT
+  self.__le = self.LowerTE
   ret.val = _val
   ret.nameTex = _nameTex
   ret.eqNum = ret:pFormatVal()
@@ -229,8 +232,8 @@ end
 
 function tVar.Neg(a)
   local ans = tVar:New(-a.val,"ANS")
-  ans.eqTex = "-"..a.nameTex
-  ans.eqNum = "-"..a.eqNum
+  ans.eqTex = "{-"..a.nameTex.."}"
+  ans.eqNum = "{-"..a.eqNum.."}"
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -240,6 +243,22 @@ function tVar.Pow(a,b)
   ans.eqNum = a.eqNum.."^{".. b .."}"
   ans.nameTex = ans.eqTex
   return ans
+end
+
+--[[
+Comparing
+--]]
+function tVar.Equal(a,b)
+	if a.val == b.val then return true end
+	return false
+end
+function tVar.LowerT(a,b)
+	if a.val < b.val then return true end
+	return false
+end
+function tVar.LowerTe(a,b)
+	if a.val <= b.val then return true end
+	return false
 end
 
 --[[
