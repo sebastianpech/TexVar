@@ -103,6 +103,16 @@ function tVar:CRLFb(symb)
   return ret
 end
 
+function tVar.min(a,b)
+	if(a<b) then return a end
+	return b
+end
+
+function tVar.max(a,b)
+	if(a>b) then return a end
+	return b
+end
+
 function tVar:printFull()
   return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
