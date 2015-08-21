@@ -14,7 +14,7 @@ tVar = {
   outputMode = "RES",
   numeration = true
 }
-Redefine tex.print function for debugging 
+--Redefine tex.print function for debugging 
 local oldPrint = tex.print
 tex.print = function (_string)
 	if tVar.debugMode == "on" then

@@ -1,3 +1,4 @@
+tex = {}
 require("tVar")
 matrix = require("matrix")
 tVar.numFormat = "%.3f"
