@@ -1,2 +1,0 @@
-\select@language {ngerman}
-\contentsline {section}{\numberline {1}First Test with LuaTex}{2}

@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  22 AUG 2015 08:52
+This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  22 AUG 2015 09:13
 **"Example 1.tex"
 ("./Example 1.tex"
 LaTeX2e <2015/01/01>
@@ -182,7 +182,7 @@ LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 
-(../tVar.lua)
+(../../tVar.lua)
 Underfull \hbox (badness 10000) in paragraph at lines 1--28
 
  []
