@@ -1,7 +1,7 @@
 # TexVar
 Is a simple computer algebra system written in Lua.
 ## Prerequisite
-* LuaTeX kompiler (comes with MiKTex http://miktex.org/)
+* LuaTeX compiler (comes with MiKTex http://miktex.org/)
 
 ## Install
 Just load the library (tVar.lua).
