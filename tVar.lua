@@ -172,7 +172,7 @@ function tVar:print()
 	  end
 return self
 end
-function tVar:outFull(numbering,enviroment)
+function tVar:outRES_EQ_N(numbering,enviroment)
   if numbering == nil then numbering = true end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
@@ -184,7 +184,7 @@ function tVar:outFull(numbering,enviroment)
   end
 return self
 end
-function tVar:outHalf(numbering,enviroment)
+function tVar:outRES_EQ(numbering,enviroment)
   if numbering == nil then numbering = true end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
@@ -196,7 +196,7 @@ if not enviroment then
   end
 return self
 end
-function tVar:outVar(numbering,enviroment)
+function tVar:outRES(numbering,enviroment)
   if numbering == nil then numbering = true end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
