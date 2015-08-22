@@ -2,7 +2,8 @@ tex = {}
 require("tVar")
 matrix = require("matrix")
 tVar.numFormat = "%.3f"
-v_1=tVar:New(20,"v_{1}")
-v_2=tVar:New(20,"v_{2}")
-v_3 = ((v_1+v_2):bracR()*v_2):setName("v_{3}")
-print(v_1==v_2)
+a = tVar:New(10,"a")
+b = tVar:New(15,"b")
+c = tVar:New(20,"c")
+v_max = tVar.min(a,b,c):setName("v_{max}")
+print(v_max:printFull())

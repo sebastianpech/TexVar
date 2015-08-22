@@ -103,14 +103,44 @@ function tVar:CRLFb(symb)
   return ret
 end
 
-function tVar.min(a,b)
-	if(a<b) then return a end
-	return b
+function tVar.min(...)
+	local arg = table.pack(...)
+	local ret = arg[1]:copy()
+	local reteqTex = "min(" .. arg[1].nameTex  .. ","
+	local reteqNum = "min(" .. arg[1]:pFormatVal() .. ","
+	for i=2, #arg do
+		if ret > arg[i] then ret = arg[i]:copy() end
+		if(i<#arg) then
+			reteqTex = reteqTex .. arg[i].nameTex .. ","
+			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ","
+		else
+			reteqTex = reteqTex .. arg[i].nameTex .. ")"
+			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ")"
+		end
+    end
+	ret.eqTex = reteqTex
+	ret.eqNum = reteqNum
+	return ret
 end
 
-function tVar.max(a,b)
-	if(a>b) then return a end
-	return b
+function tVar.max(...)
+	local arg = table.pack(...)
+	local ret = arg[1]:copy()
+	local reteqTex = "max(" .. arg[1].nameTex  .. ","
+	local reteqNum = "max(" .. arg[1]:pFormatVal() .. ","
+	for i=2, #arg do
+		if ret < arg[i] then ret = arg[i]:copy() end
+		if(i<#arg) then
+			reteqTex = reteqTex .. arg[i].nameTex .. ","
+			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ","
+		else
+			reteqTex = reteqTex .. arg[i].nameTex .. ")"
+			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ")"
+		end
+    end
+	ret.eqTex = reteqTex
+	ret.eqNum = reteqNum
+	return ret
 end
 
 function tVar:printFull()
