@@ -1,0 +1,28 @@
+\documentclass{article}
+%
+\usepackage{luacode}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amstext}
+%
+\begin{document}
+\begin{luacode}
+	--load tVar library
+	require("../tVar.lua")
+	
+	--global Definitions
+	tVar.outputMode = "RES_EQ_N"
+	tVar.numFormat = "%.1f"
+	tVar.numeration = false
+	tVar.debugMode = "on"
+	
+	
+	--start fun
+	a_1 = tVar:New(3,"a_1"):outRES()
+	a_2 = tVar:New(11.4,"a_2"):outRES()
+	gamma_1_2 = tVar:New(1.3,"\\gamma_{1,2}"):outRES()
+	
+	res = ((a_1+a_2)/gamma_1_2+a_1^2):setName("res"):print()
+	
+	res2 = (res:clean() - a_1^2):setName(""):setUnit("kg"):print()
+\end{luacode}
+\end{document}

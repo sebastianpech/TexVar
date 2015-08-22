@@ -18,7 +18,7 @@ tVar = {
 local oldPrint = tex.print
 tex.print = function (_string)
 	if tVar.debugMode == "on" then
-		oldPrint("\\verb|" .. _string .. "|")
+		oldPrint("{\\tiny \\verb|" .. _string .. "|}\\\\")
 	else
 		oldPrint(_string)
 	end
@@ -144,13 +144,16 @@ function tVar.max(...)
 end
 
 function tVar:printFull()
-  return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
+	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
+	return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
 function tVar:printHalf()
-  return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
+	return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 function tVar:printVar()
-  return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
+	return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 function tVar:print()
 	  local env = self.mathEnviroment
@@ -173,7 +176,7 @@ function tVar:print()
 return self
 end
 function tVar:outRES_EQ_N(numbering,enviroment)
-  if numbering == nil then numbering = true end 
+  if numbering == nil then numbering = self.numeration end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
   if not enviroment then
@@ -185,7 +188,7 @@ function tVar:outRES_EQ_N(numbering,enviroment)
 return self
 end
 function tVar:outRES_EQ(numbering,enviroment)
-  if numbering == nil then numbering = true end 
+  if numbering == nil then numbering = self.numeration end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
 if not enviroment then
@@ -197,7 +200,7 @@ if not enviroment then
 return self
 end
 function tVar:outRES(numbering,enviroment)
-  if numbering == nil then numbering = true end 
+  if numbering == nil then numbering = self.numeration end 
   if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
   local env = self.mathEnviroment
   if not enviroment then
