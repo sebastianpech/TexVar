@@ -10,4 +10,4 @@ Just load the library (tVar.lua).
 See example in download folder
 
 ## Getting Started
-The easiest way is to start with the example and use the provided CheatSheet. It contains every command.
+The easiest way is to start with the example, use the provided CheatSheet and have a look at the Wiki.
