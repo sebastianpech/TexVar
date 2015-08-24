@@ -1,5 +1,7 @@
 # TexVar
-Is a simple computer algebra system written in Lua.
+Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
+TexVar is fully compatible with LaTeX. 
+
 ## Prerequisite
 * LuaTeX compiler (comes with MiKTex http://miktex.org/)
 
