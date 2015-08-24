@@ -1,4 +1,4 @@
-This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  22 AUG 2015 09:13
+This is LuaTeX, Version beta-0.79.1 (MiKTeX 2.9 64-bit) (rev 4971)  (format=lualatex 2015.5.28)  24 AUG 2015 21:10
 **"Example 1.tex"
 ("./Example 1.tex"
 LaTeX2e <2015/01/01>
@@ -183,29 +183,36 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 
 (../../tVar.lua)
-Underfull \hbox (badness 10000) in paragraph at lines 1--28
+LaTeX Font Info:    Try loading font information for U+msa on input line 1.
+ ("C:/Program Files/MiKTeX 2.9/tex/latex/amsfonts/umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 1.
 
- []
+("C:/Program Files/MiKTeX 2.9/tex/latex/amsfonts/umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
 
-[1
-
-{C:/Users/sebip_000/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-("./Example 1.aux"))
+{C:/Users/sebip_000/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] ("./Exa
+mple 1.aux"))
 
 Here is how much of LuaTeX's memory you used:
- 1433 strings out of 494708
+ 1469 strings out of 494708
  100000,89155 words of node,token memory allocated
- 319 words of node memory still in use:
+ 332 words of node memory still in use:
     nodes
-   avail lists: 2:12,3:13,4:41,5:4,6:285,7:6,9:16
- 5088 multiletter control sequences out of 65536+200000
- 17 fonts using 680479 bytes
- 39i,4n,26p,207b,114s stack positions out of 5000i,500n,10000p,200000b,50000s
-<<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><<C:/Prog
-ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on Example 1.pdf (1 page, 16418 bytes).
+   avail lists: 2:13,3:65,4:197,5:21,6:93,7:9,9:115
+ 5095 multiletter control sequences out of 65536+200000
+ 32 fonts using 1269507 bytes
+ 39i,10n,26p,207b,133s stack positions out of 5000i,500n,10000p,200000b,50000s
+<<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><<C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><<C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><<C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><<C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on Example 1.pdf (1 page, 42234 bytes).
 
-PDF statistics: 14 PDF objects out of 1000 (max. 8388607)
+PDF statistics: 26 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
