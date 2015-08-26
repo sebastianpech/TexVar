@@ -1,26 +1,31 @@
 \documentclass{article}
 %
 \usepackage{luacode}
-\usepackage[fleqn]{amsmath}
+\usepackage{amsmath}
 \usepackage{amssymb,amstext}
 %
 \begin{document}
 \begin{luacode}
 	--load tVar library
 	require("../../tVar.lua")
+	require("../../matrix.lua")
 	
 	--global Definitions
 	tVar.outputMode = "RES_EQ_N"
-	tVar.numFormat = "%.1f"
-	tVar.numeration = false
+	tVar.numFormat = "%.2f"
+	tVar.numeration = true
+	--tVar.debugMode = "on"
 		
 	--start fun
-	a_1 = tVar:New(3,"a_1"):outRES()
-	a_2 = tVar:New(11.4,"a_2"):outRES()
+	a_1 = tVar:New(3,"a_{asdf}"):outRES(true)
+	a_2 = tVar:New(11.4,"a_2"):outRES(false)
 	gamma_1_2 = tVar:New(1.3,"\\gamma_{1,2}"):outRES()
 	
-	res = ((a_1+a_2)/gamma_1_2+a_1^2):setName("res"):print()
+	res = (((a_1+a_2)/gamma_1_2):bracR()):setName("res_1"):setUnit("mm"):print()
 	
-	res2 = (res:clean() - a_1^2):setName(""):setUnit("kg"):print()
+	res2 = (res:clean() - a_1^2):setName("res_2"):setUnit("kg"):print()
+
+	
 \end{luacode}
+
 \end{document}
