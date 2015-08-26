@@ -234,7 +234,7 @@ end
 Metatables
 --]]
 function tVar.Add(_a,_b)
-  a,b = tVar.Check(_a),tVar.Check(_b)
+  local a,b = tVar.Check(_a),tVar.Check(_b)
 
   local ans = tVar:New(a.val + b.val,"ANS")
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
@@ -244,8 +244,7 @@ function tVar.Add(_a,_b)
 end
 
 function tVar.Sub(_a,_b)
-  a,b = tVar.Check(_a),tVar.Check(_b)
-
+  local a,b = tVar.Check(_a),tVar.Check(_b)
   local ans = tVar:New(a.val - b.val,"ANS")
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
   ans.eqNum = a.eqNum .. "-" .. b.eqNum
@@ -254,7 +253,7 @@ function tVar.Sub(_a,_b)
 end
 
 function tVar.Mul(_a,_b)
-  a,b = tVar.Check(_a),tVar.Check(_b)
+  local a,b = tVar.Check(_a),tVar.Check(_b)
 
   local ans = tVar:New(a.val * b.val,"ANS")
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
@@ -264,7 +263,7 @@ function tVar.Mul(_a,_b)
 end
 
 function tVar.Div(_a,_b)
-  a,b = tVar.Check(_a),tVar.Check(_b)
+  local a,b = tVar.Check(_a),tVar.Check(_b)
 
   local ans = tVar:New(a.val / b.val,"ANS")
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
@@ -275,8 +274,8 @@ end
 
 function tVar.Neg(a)
   local ans = tVar:New(-a.val,"ANS")
-  ans.eqTex = "{-"..a.nameTex.."}"
-  ans.eqNum = "{-"..a.eqNum.."}"
+  ans.eqTex = "({-"..a.nameTex.."})"
+  ans.eqNum = "({-"..a.eqNum.."})"
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -308,7 +307,18 @@ end
 Private Functions
 --]]
 function tVar:pFormatVal()
-  return string.format(self.numFormat,self.val)
+	return tVar.formatValue(self.numFormat,self.val)
+	--return string.format(self.numFormat,self.val)
+end
+
+function tVar.formatValue(numFormat,val)
+	local simpleFormat = string.format(numFormat,val)
+	local simpleFormatNumber = tonumber(simpleFormat)
+	-- check for unary int and surround with brackets
+	if simpleFormatNumber < 0 then
+		simpleFormat = "(" .. simpleFormat .. ")"
+	end
+	return simpleFormat
 end
 
 function tVar.encapuslate(string,_open,_close)
@@ -363,7 +373,7 @@ function tMat:pFormatVal()
   for j=1, self:size(1) do
     local row = {}
     for i=1, self:size(2) do
-      row[i] = string.format(self.numFormat,self.val[j][i])
+      row[i] = tVar.formatValue(self.val[j][i],self.numFormat)
     end
     ret[j] = table.concat(row,"&")
   end
