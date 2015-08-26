@@ -106,19 +106,20 @@ end
 
 function tVar.min(...)
 	local arg = table.pack(...)
-	local ret = arg[1]:copy()
-	local reteqTex = "min(" .. arg[1].nameTex  .. ","
-	local reteqNum = "min(" .. arg[1]:pFormatVal() .. ","
+	local ret = tVar.Check(arg[1]):copy()
+	local reteqTex = "min(" .. tVar.Check(arg[1]).eqTex  .. ";"
+	local reteqNum = "min(" .. tVar.Check(arg[1]).eqNum .. ";"
 	for i=2, #arg do
-		if ret > arg[i] then ret = arg[i]:copy() end
+		if ret > tVar.Check(arg[i]) then ret = tVar.Check(arg[i]):copy() end
 		if(i<#arg) then
-			reteqTex = reteqTex .. arg[i].nameTex .. ","
-			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ","
+			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ";"
+			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ";"
 		else
-			reteqTex = reteqTex .. arg[i].nameTex .. ")"
-			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ")"
+			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ")"
+			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ")"
 		end
     end
+	ret.nameTex = reteqTex
 	ret.eqTex = reteqTex
 	ret.eqNum = reteqNum
 	return ret
@@ -126,19 +127,20 @@ end
 
 function tVar.max(...)
 	local arg = table.pack(...)
-	local ret = arg[1]:copy()
-	local reteqTex = "max(" .. arg[1].nameTex  .. ","
-	local reteqNum = "max(" .. arg[1]:pFormatVal() .. ","
+	local ret = tVar.Check(arg[1]):copy()
+	local reteqTex = "max(" .. tVar.Check(arg[1]).eqTex  .. ";"
+	local reteqNum = "max(" .. tVar.Check(arg[1]).eqNum .. ";"
 	for i=2, #arg do
-		if ret < arg[i] then ret = arg[i]:copy() end
+		if ret < tVar.Check(arg[i]) then ret = tVar.Check(arg[i]):copy() end
 		if(i<#arg) then
-			reteqTex = reteqTex .. arg[i].nameTex .. ","
-			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ","
+			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ";"
+			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ";"
 		else
-			reteqTex = reteqTex .. arg[i].nameTex .. ")"
-			reteqNum = reteqNum .. arg[i]:pFormatVal() .. ")"
+			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ")"
+			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ")"
 		end
     end
+	ret.nameTex = reteqTex
 	ret.eqTex = reteqTex
 	ret.eqNum = reteqNum
 	return ret
@@ -330,7 +332,8 @@ end
 
 function tVar.Check(_a)
   if(getmetatable(_a) == tVar) then return _a end
-  ret = tVar:New(_a,string.format(tVar.numFormat,_a))
+  ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
+  ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
   return ret
 end
 --[[
@@ -556,7 +559,8 @@ end
 
 function tMat.Check(_a)
   if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
-  ret = tVar:New(_a*1,string.format(tVar.numFormat,_a))
+  ret = tVar:New(_a*1,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
+  ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
   return ret
 end
 
