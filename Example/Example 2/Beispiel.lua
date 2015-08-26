@@ -1,9 +1,9 @@
 tex = {}
-require("tVar")
+dofile("D:/Meine Dateien/Git/TexVar/tVar.lua")
+tVar.decimalSeparator = ","
 matrix = require("matrix")
-tVar.numFormat = "%.3f"
-a = tVar:New(10,"a")
-b = tVar:New(15,"b")
-c = tVar:New(20,"c")
-v_max = tVar.min(a,b,c):setName("v_{max}")
-print(v_max:printFull())
+b = tVar:New(3,"a")
+print(b:printFull())
+
+a = 5-b
+print(b:printFull())

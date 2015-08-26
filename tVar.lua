@@ -12,7 +12,8 @@ tVar = {
   mathEnviroment = "align",
   debugMode = "off",
   outputMode = "RES",
-  numeration = true
+  numeration = true,
+	decimalSeparator = ".",
 }
 --Redefine tex.print function for debugging 
 local oldPrint = tex.print
@@ -307,17 +308,19 @@ end
 Private Functions
 --]]
 function tVar:pFormatVal()
-	return tVar.formatValue(self.numFormat,self.val)
+	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
 	--return string.format(self.numFormat,self.val)
 end
 
-function tVar.formatValue(numFormat,val)
+function tVar.formatValue(numFormat,val,decimalSeparator)
 	local simpleFormat = string.format(numFormat,val)
 	local simpleFormatNumber = tonumber(simpleFormat)
 	-- check for unary int and surround with brackets
 	if simpleFormatNumber < 0 then
 		simpleFormat = "(" .. simpleFormat .. ")"
 	end
+	-- decimal seperator
+	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")
 	return simpleFormat
 end
 
@@ -373,7 +376,7 @@ function tMat:pFormatVal()
   for j=1, self:size(1) do
     local row = {}
     for i=1, self:size(2) do
-      row[i] = tVar.formatValue(self.val[j][i],self.numFormat)
+      row[i] = tVar.formatValue(self.numFormat,self.val[j][i],self.decimalSeparator)
     end
     ret[j] = table.concat(row,"&")
   end
