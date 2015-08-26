@@ -15,7 +15,12 @@ tVar = {
   numeration = true,
 	decimalSeparator = ".",
 }
---Redefine tex.print function for debugging 
+--[[
+- Redefine tex.print command for 
+- debug output of LaTex Commands
+-
+- @_string (string) Text for output
+]]--
 local oldPrint = tex.print
 tex.print = function (_string)
 	if tVar.debugMode == "on" then
@@ -25,77 +30,136 @@ tex.print = function (_string)
 	end
 end
 --[[
-Public Funktion
+- create new tVar object. tVar has all properties, functions and
+- metatables
+- 
+- @_val (number) value of LaTeX Variable
+- @_nameTex (string) LaTeX representation
+- @return (tVar) Number with LaTeX representation
 --]]
 function tVar:New(_val,_nameTex)
-  local ret = {}
-  setmetatable(ret,self)
-  self.__index = self
-  self.__add = self.Add
-  self.__sub = self.Sub
-  self.__mul = self.Mul
-  self.__div = self.Div
-  self.__pow = self.Pow
-  self.__unm = self.Neg
-  self.__tostring = self.print
-  self.__eq = self.Equal
-  self.__lt = self.LowerT
-  self.__le = self.LowerTE
-  ret.val = _val
-  ret.nameTex = _nameTex
-  ret.eqNum = ret:pFormatVal()
-  return ret
+	local ret = {}
+	setmetatable(ret,self)
+	self.__index = self
+	self.__add = self.Add
+	self.__sub = self.Sub
+	self.__mul = self.Mul
+	self.__div = self.Div
+	self.__pow = self.Pow
+	self.__unm = self.Neg
+	self.__tostring = self.print
+	self.__eq = self.Equal
+	self.__lt = self.LowerT
+	self.__le = self.LowerTE
+	ret.val = _val
+	ret.nameTex = _nameTex
+	ret.eqNum = ret:pFormatVal()
+	return ret
 end
-
+--[[
+- sets the name of tVar object
+- 
+- @_nameTex (string) LaTeX representation
+- @return (tVar) self
+]]--
 function tVar:setName(_nameTex)
-  self.nameTex = _nameTex
-  return self
+	self.nameTex = _nameTex
+	return self
 end
-
+--[[
+- removes all calculation steps from tVar object.align
+-
+- @_nameTex (string, optional) LaTeX representation
+- @return self
+]]--
 function tVar:clean(_nameTex)
-  self.nameTex = _nameTex or self.nameTex
-  self.eqNum = self:pFormatVal()
-  self.eqTex = self.nameTex
-  return self
+	self.nameTex = _nameTex or self.nameTex
+	self.eqNum = self:pFormatVal()
+	self.eqTex = self.nameTex
+	return self
 end
-
-function tVar.sqrt(a,n)
-  n = n or 2
-  local ans = tVar:New(math.pow(a.val,1/n),"ANS")
-  local grad = ""
-  if n > 2 then grad = "[" .. n .. "]" end
-  ans.eqTex = "\\sqrt".. grad .. "{" .. a.nameTex .. "}"
-  ans.eqNum = "\\sqrt".. grad .. "{" .. a.eqNum .. "}"
-  ans.nameTex = ans.eqTex
-  return ans
-end
-
+--[[
+- sets unit of tVar object
+-
+- @_unit (string) Unit
+- @return self
+]]--
 function tVar:setUnit(_unit)
 	self.unit = _unit
 	return self
 end
+--[[
+- copy tVar to get rid of references
+-
+- @return (tVar) copied
+]]--
+function tVar:copy()
+	local orig = self
+    local copy = getmetatable(self):New(self.val,self.nameTex,false)
 
+	copy.eqTex = orig.eqTex
+	copy.eqNum = orig.eqNum
+	copy.unit = orig.unit
+	copy.numFormat = orig.numFormat
+	copy.mathEnviroment = orig.mathEnviroment
+	copy.debugMode = orig.debugMode
+	copy.outputMode = orig.outputMode
+	copy.numeration = orig.numeration
+
+	return copy
+end
+--[[
+- calculates root of tVar object
+-
+- @a (tVar) calculate root of this object
+- @n (number,optional) default=2 nth root
+- @return (tVar) self
+]]--
+function tVar.sqrt(a,n)
+	n = n or 2
+	local ans = tVar:New(math.pow(a.val,1/n),"ANS")
+	local grad = ""
+	if n > 2 then grad = "[" .. n .. "]" end
+	ans.eqTex = "\\sqrt".. grad .. "{" .. a.nameTex .. "}"
+	ans.eqNum = "\\sqrt".. grad .. "{" .. a.eqNum .. "}"
+	ans.nameTex = ans.eqTex
+	return ans
+end
+--[[
+- sourrounds the tVar objects eqTex and eqNum with round brackets
+-
+- @return (tVar) self
+]]--
 function tVar:bracR()
+	self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
+	self.eqNum = self.encapuslate(self.eqNum,"\\left(","\\right)")
 
-  self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
-  self.eqNum = self.encapuslate(self.eqNum,"\\left(","\\right)")
+	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
+	self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
 
-  -- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
-  self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
-  self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
-
-  self.nameTex = self.eqTex
-  return self
+	self.nameTex = self.eqTex
+	return self
 end
-
+--[[
+- adds linebreak in eqNum after tVar
+- 
+- @symb (string,optional) Symbol is added before and after linebreak
+- return (tVar) with brackets
+]]--
 function tVar:CRLF(symb)
-  symb = symb or ""
-  local ret = getmetatable(self):New(self.val,self.nameTex,false)
-  ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
-  ret.eqNum = self.eqNum .. symb .. " \\nonumber\\\\& "
-  return ret
+	symb = symb or ""
+	local ret = getmetatable(self):New(self.val,self.nameTex,false)
+	--ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
+	ret.eqNum = self.eqNum .. symb .. " \\nonumber\\\\& "
+	return ret
 end
-
+--[[
+- adds linebreak in eqNum before tVar
+- 
+- @symb (string,optional) Symbol is added before and after linebreak
+- return (tVar) with brackets
+]]--
 function tVar:CRLFb(symb)
   symb = symb or ""
   local ret = getmetatable(self):New(self.val,self.nameTex,false)
@@ -103,7 +167,12 @@ function tVar:CRLFb(symb)
   ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
   return ret
 end
-
+--[[
+- calculates mimimum of tVars
+- 
+- @... (tVar,number) values
+- return (tVar) with min Value
+]]--
 function tVar.min(...)
 	local arg = table.pack(...)
 	local ret = tVar.Check(arg[1]):copy()
@@ -124,7 +193,12 @@ function tVar.min(...)
 	ret.eqNum = reteqNum
 	return ret
 end
-
+--[[
+- calculates maximum of tVars
+- 
+- @... (tVar,number) values
+- return (tVar) with max Value
+]]--
 function tVar.max(...)
 	local arg = table.pack(...)
 	local ret = tVar.Check(arg[1]):copy()
@@ -145,96 +219,130 @@ function tVar.max(...)
 	ret.eqNum = reteqNum
 	return ret
 end
-
+--[[
+- create string with Name, Result, Equation, Numbers and Unit
+- 
+- return (string) complete formula
+]]--
 function tVar:printFull()
 	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
 	return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
+--[[
+- create string with Name, Result, Equation and Unit
+- 
+- return (string) complete formula
+]]--
 function tVar:printHalf()
 	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
+--[[
+- create string with Name, Result and Unit
+- 
+- return (string) complete formula
+]]--
 function tVar:printVar()
 	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
+--[[
+- use tex.print to print tVar depending on global definitions
+-
+- @return (tVar) self for concatination
+]]--
 function tVar:print()
-	  local env = self.mathEnviroment
-	  --RES, RES_EQ, RES_EQ_N,
-	  local outString = ""
-		if self.outputMode == "RES" then
-			outString = self:printVar()
-		elseif self.outputMode == "RES_EQ" then
-			outString = self:printHalf() 
-		else 
-			outString = self:printFull()
-		end
-	
-	  if env == "" then
-		  tex.print(outString)
-	  else
-		if not self.numeration then env = env .. "*" end
-		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
-	  end
-return self
-end
-function tVar:outRES_EQ_N(numbering,enviroment)
-  if numbering == nil then numbering = self.numeration end 
-  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-  local env = self.mathEnviroment
-  if not enviroment then
-      tex.print(self:printFull())
-  else
-	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
-  end
-return self
-end
-function tVar:outRES_EQ(numbering,enviroment)
-  if numbering == nil then numbering = self.numeration end 
-  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-  local env = self.mathEnviroment
-if not enviroment then
-      tex.print(self:printHalf())
-  else
-	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
-  end
-return self
-end
-function tVar:outRES(numbering,enviroment)
-  if numbering == nil then numbering = self.numeration end 
-  if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-  local env = self.mathEnviroment
-  if not enviroment then
-      tex.print(self:printVar())
-  else
-	  if not numbering then env = env .. "*" end
-	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
-  end
-return self
-end
-function tVar:out()
-  tex.print(self:pFormatVal())
-return self
-end
-function tVar:copy()
-	local orig = self
-    local copy = getmetatable(self):New(self.val,self.nameTex,false)
+	local env = self.mathEnviroment
+	--RES, RES_EQ, RES_EQ_N,
+	local outString = ""
+	if self.outputMode == "RES" then
+		outString = self:printVar()
+	elseif self.outputMode == "RES_EQ" then
+		outString = self:printHalf() 
+	else 
+		outString = self:printFull()
+	end
 
-	copy.eqTex = orig.eqTex
-	copy.eqNum = orig.eqNum
-	copy.unit = orig.unit
-	copy.numFormat = orig.numFormat
-	copy.mathEnviroment = orig.mathEnviroment
-	copy.debugMode = orig.debugMode
-	copy.outputMode = orig.outputMode
-	copy.numeration = orig.numeration
-
-	return copy
+	if env == "" then
+	  tex.print(outString)
+	else
+	if not self.numeration then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
+	end
+	return self
 end
 --[[
-Metatables
+- use tex.print to print tVar with Name, Result, Equation, Numbers and Unit
+-
+- @numbering (boolean, optional) show numbering besides formula
+- @enviroment (boolean, optional) use math enviroment
+- @return (tVar) self for concatination
+]]--
+function tVar:outRES_EQ_N(numbering,enviroment)
+	if numbering == nil then numbering = self.numeration end 
+	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
+	local env = self.mathEnviroment
+	if not enviroment then
+	  tex.print(self:printFull())
+	else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
+	end
+	return self
+end
+--[[
+- use tex.print to print tVar with Name, Result, Equation and Unit
+-
+- @numbering (boolean, optional) show numbering besides formula
+- @enviroment (boolean, optional) use math enviroment
+- @return (tVar) self for concatination
+]]--
+function tVar:outRES_EQ(numbering,enviroment)
+	if numbering == nil then numbering = self.numeration end 
+	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
+	local env = self.mathEnviroment
+	if not enviroment then
+	  tex.print(self:printHalf())
+	else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
+	end
+	return self
+end
+--[[
+- use tex.print to print tVar with Name, Result and Unit
+-
+- @numbering (boolean, optional) show numbering besides formula
+- @enviroment (boolean, optional) use math enviroment
+- @return (tVar) self for concatination
+]]--
+function tVar:outRES(numbering,enviroment)
+	if numbering == nil then numbering = self.numeration end 
+	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
+	local env = self.mathEnviroment
+	if not enviroment then
+	  tex.print(self:printVar())
+	else
+	  if not numbering then env = env .. "*" end
+	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
+	end
+	return self
+end
+--[[
+- use tex.print to print tVar only number
+-
+- @return (tVar) self for concatination
+]]--
+function tVar:out()
+	tex.print(self:pFormatVal())
+return self
+end
+--[[
+- Metatables
+-
+- @_a (tVar,number)
+- @_b (tVar,number)
+- @return (tVar)
 --]]
 function tVar.Add(_a,_b)
   local a,b = tVar.Check(_a),tVar.Check(_b)
