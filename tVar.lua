@@ -8,9 +8,12 @@ DESCRIPTION
 	TexVar is fully compatible with LaTeX.
 
 DEPENDENCIES
-	Lua Modules luamatrix (only required if matrix or vecotr mode is used) http://luamatrix.luaforge.net
+	Lua Modules luamatrix in lib folder http://luamatrix.luaforge.net
 	LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
-
+	
+	LaTex Packages
+		luacode - for running luacode in LaTex documents
+		amsmath - for display math equations
 LICENSE
 	Copyright (c) 2015 Sebastian Pech
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
@@ -57,6 +60,10 @@ tVar = {
 	numeration = true,
 	decimalSeparator = ".",
 }
+--- Load required modules
+--
+-- luamatrix
+tVar.matrix = require "lib.matrix"
 --- Redefine tex.print command for 
 -- debug output of LaTex Commands
 --
@@ -585,7 +592,7 @@ function tMat.mAdd(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.add(a.val,b.val)
+    ans.val = tVar.matrix.add(a.val,b.val)
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -617,7 +624,7 @@ function tMat.mSub(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.sub(a.val,b.val)
+    ans.val = tVar.matrix.sub(a.val,b.val)
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -650,7 +657,7 @@ function tMat.mMul(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(2) or a:size(2) ~= b:size(1)) then error ("Matrix Dimensions do not match") end
-    ans.val = matrix.mul(a.val,b.val)
+    ans.val = tVar.matrix.mul(a.val,b.val)
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
@@ -662,7 +669,7 @@ function tMat.mMul(_a,_b)
       scale = a
     end
 
-    ans.val = matrix.mulnum(mat.val,scale.val)
+    ans.val = tVar.matrix.mulnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
@@ -703,7 +710,7 @@ function tMat.mDiv(_a,_b)
       scale = a
     end
 
-    ans.val = matrix.divnum(mat.val,scale.val)
+    ans.val = tVar.matrix.divnum(mat.val,scale.val)
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
@@ -736,7 +743,7 @@ end
 -- @return (tMat) Transposed
 function tMat:T()
   local ans = self:copy()
-  ans.val = matrix.transpose(self.val)
+  ans.val = tVar.matrix.transpose(self.val)
 
   ans.eqTex = self.nameTex .. "^\\top"
   ans.eqNum = self.eqNum  .. "^\\top"
@@ -747,7 +754,7 @@ end
 --
 -- @return (tMat) Determinant
 function tMat:Det()
-  local ans = tVar:New(matrix.det(self.val),"ANS")
+  local ans = tVar:New(tVar.matrix.det(self.val),"ANS")
 
   ans.eqTex = "|" .. self.nameTex .. "|"
   ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
@@ -759,7 +766,7 @@ end
 -- @return (tMat) Inverse
 function tMat:Inv()
   local ans = self:copy()
-  ans.val = matrix.invert(self.val)
+  ans.val = tVar.matrix.invert(self.val)
 
   ans.eqTex = self.nameTex .. "^{-1}"
   ans.eqNum = self.eqNum  .. "^{-1}"
@@ -825,7 +832,7 @@ function tVec.mMul(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1)) then error ("Vector Dimensions do not match") end
-    ans = tVar:New((matrix.mul(matrix.transpose(a.val),b.val))[1][1],"ANS")
+    ans = tVar:New((tVar.matrix.mul(tVar.matrix.transpose(a.val),b.val))[1][1],"ANS")
   else
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")
@@ -837,7 +844,7 @@ function tVec.mMul(_a,_b)
       scale = a
     end
 
-    ans.val = matrix.mulnum(mat.val,scale.val)
+    ans.val = tVar.matrix.mulnum(mat.val,scale.val)
   end
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
@@ -853,7 +860,7 @@ function tVec:crossP(_b)
   ans.nameTex = ""
   if(getmetatable(self) == tVec and getmetatable(_b) == tVec) then
     if(self:size(1) ~= _b:size(1)) then error ("Vektor dimensions do not match") end
-    ans.val = matrix.cross(self.val,_b.val)
+    ans.val = tVar.matrix.cross(self.val,_b.val)
   else
     error("Two Vectors needed")
   end
