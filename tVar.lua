@@ -1,26 +1,72 @@
-	--[[
-Latex Var CAS
+--[[
+----------
+| TexVar |
+----------
+
+DESCRIPTION
+	Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
+	TexVar is fully compatible with LaTeX.
+
+DEPENDENCIES
+	Lua Modules luamatrix (only required if matrix or vecotr mode is used) http://luamatrix.luaforge.net
+	LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
+
+LICENSE
+	Copyright (c) 2015 Sebastian Pech
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without 
+	restriction, including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom 
+	the Software is furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+DEVELOPER
+	Sebastian Pech
 --]]
---Output modes: RES, RES_EQ, RES_EQ_N,
+--- Initialize tVar table
+--
+-- @param val (number) value of tVar
+-- @param nameTex (string) LaTeX representation 
+-- @param eqTex (string) equation for calculating val i.e. history
+-- @param eqNum (string) equation for calculating val i.e. history with numbers
+-- @param unit (string) is added after result with fixed space
+-- @param numformat (string) numberformat for displaying val
+-- @param mathEnviroment (string) LaTeX math enviroment that is used for output
+-- @param debugMode (string) if set to "on" every tex.print command is surrounded with \verb||
+-- @param outputMode (string) can be RES for Result, RES_EQ form Result and Equation and RES_EQ_N form Result, Equation and Numbers. Controls the print() command
+-- @param numeration (bool) turns equation numeration on and of. Controls the print() command
+-- @param decimalSeparator (string) sets the decimalSeparatio i.e. ","
 tVar = {
-  val = nil,
-  nameTex = "",
-  eqTex = "",
-  eqNum = "",
-  unit = "",
-  numFormat = "%.3f",
-  mathEnviroment = "align",
-  debugMode = "off",
-  outputMode = "RES",
-  numeration = true,
+	val = nil,
+	nameTex = "",
+	eqTex = "",
+	eqNum = "",
+	unit = "",
+	numFormat = "%.3f",
+	mathEnviroment = "align",
+	debugMode = "off",
+	outputMode = "RES",
+	numeration = true,
 	decimalSeparator = ".",
 }
---[[
-- Redefine tex.print command for 
-- debug output of LaTex Commands
--
-- @_string (string) Text for output
-]]--
+--- Konstants
+-- 
+-- tVar.PI PI as tVar with LaTeX representation
+tVar.PI = tVar:New(math.pi,"\\pi")
+tVar.PI.eqNum = "\\pi"
+--- Redefine tex.print command for 
+-- debug output of LaTex Commands
+--
+-- @param _string (string) Text for output
+------------------------------------
 local oldPrint = tex.print
 tex.print = function (_string)
 	if tVar.debugMode == "on" then
@@ -29,14 +75,12 @@ tex.print = function (_string)
 		oldPrint(_string)
 	end
 end
---[[
-- create new tVar object. tVar has all properties, functions and
-- metatables
-- 
-- @_val (number) value of LaTeX Variable
-- @_nameTex (string) LaTeX representation
-- @return (tVar) Number with LaTeX representation
---]]
+--- create new tVar object. tVar has all properties, functions and
+-- metatables
+-- 
+-- @param _val (number) value of LaTeX Variable
+-- @param _nameTex (string) LaTeX representation
+-- @return (tVar) Number with LaTeX representation
 function tVar:New(_val,_nameTex)
 	local ret = {}
 	setmetatable(ret,self)
@@ -56,43 +100,35 @@ function tVar:New(_val,_nameTex)
 	ret.eqNum = ret:pFormatVal()
 	return ret
 end
---[[
-- sets the name of tVar object
-- 
-- @_nameTex (string) LaTeX representation
-- @return (tVar) self
-]]--
+--- sets the name of tVar object
+-- 
+-- @param _nameTex (string) LaTeX representation
+-- @return (tVar) self
 function tVar:setName(_nameTex)
 	self.nameTex = _nameTex
 	return self
 end
---[[
-- removes all calculation steps from tVar object.align
--
-- @_nameTex (string, optional) LaTeX representation
-- @return self
-]]--
+--- removes all calculation steps from tVar object.align
+--
+-- @param _nameTex (string, optional) LaTeX representation
+-- @return self
 function tVar:clean(_nameTex)
 	self.nameTex = _nameTex or self.nameTex
 	self.eqNum = self:pFormatVal()
 	self.eqTex = self.nameTex
 	return self
 end
---[[
-- sets unit of tVar object
--
-- @_unit (string) Unit
-- @return self
-]]--
+--- sets unit of tVar object
+--
+-- @param _unit (string) Unit
+-- @return self
 function tVar:setUnit(_unit)
 	self.unit = _unit
 	return self
 end
---[[
-- copy tVar to get rid of references
--
-- @return (tVar) copied
-]]--
+--- copy tVar to get rid of references
+--
+-- @return (tVar) copied
 function tVar:copy()
 	local orig = self
     local copy = getmetatable(self):New(self.val,self.nameTex,false)
@@ -108,13 +144,11 @@ function tVar:copy()
 
 	return copy
 end
---[[
-- calculates root of tVar object
--
-- @a (tVar) calculate root of this object
-- @n (number,optional) default=2 nth root
-- @return (tVar) self
-]]--
+--- calculates root of tVar object
+--
+-- @param a (tVar) calculate root of this object
+-- @param n (number,optional) default=2 nth root
+-- @return (tVar) self
 function tVar.sqrt(a,n)
 	n = n or 2
 	local ans = tVar:New(math.pow(a.val,1/n),"ANS")
@@ -125,11 +159,9 @@ function tVar.sqrt(a,n)
 	ans.nameTex = ans.eqTex
 	return ans
 end
---[[
-- sourrounds the tVar objects eqTex and eqNum with round brackets
--
-- @return (tVar) self
-]]--
+--- sourrounds the tVar objects eqTex and eqNum with round brackets
+--
+-- @return (tVar) self
 function tVar:bracR()
 	self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
 	self.eqNum = self.encapuslate(self.eqNum,"\\left(","\\right)")
@@ -141,12 +173,10 @@ function tVar:bracR()
 	self.nameTex = self.eqTex
 	return self
 end
---[[
-- adds linebreak in eqNum after tVar
-- 
-- @symb (string,optional) Symbol is added before and after linebreak
-- return (tVar) with brackets
-]]--
+--- adds linebreak in eqNum after tVar
+-- 
+-- @param symb (string,optional) Symbol is added before and after linebreak
+-- return (tVar) with brackets
 function tVar:CRLF(symb)
 	symb = symb or ""
 	local ret = getmetatable(self):New(self.val,self.nameTex,false)
@@ -154,11 +184,10 @@ function tVar:CRLF(symb)
 	ret.eqNum = self.eqNum .. symb .. " \\nonumber\\\\& "
 	return ret
 end
---[[
-- adds linebreak in eqNum before tVar
-- 
-- @symb (string,optional) Symbol is added before and after linebreak
-- return (tVar) with brackets
+--- adds linebreak in eqNum before tVar
+-- 
+-- @param symb (string,optional) Symbol is added before and after linebreak
+-- @return (tVar) with brackets
 ]]--
 function tVar:CRLFb(symb)
   symb = symb or ""
@@ -167,12 +196,10 @@ function tVar:CRLFb(symb)
   ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
   return ret
 end
---[[
-- calculates mimimum of tVars
-- 
-- @... (tVar,number) values
-- return (tVar) with min Value
-]]--
+--- calculates mimimum of tVars
+-- 
+-- @param ... (tVar,number) values
+-- return (tVar) with min Value
 function tVar.min(...)
 	local arg = table.pack(...)
 	local ret = tVar.Check(arg[1]):copy()
@@ -193,12 +220,10 @@ function tVar.min(...)
 	ret.eqNum = reteqNum
 	return ret
 end
---[[
-- calculates maximum of tVars
-- 
-- @... (tVar,number) values
-- return (tVar) with max Value
-]]--
+--- calculates maximum of tVars
+-- 
+-- @param ... (tVar,number) values
+-- return (tVar) with max Value
 function tVar.max(...)
 	local arg = table.pack(...)
 	local ret = tVar.Check(arg[1]):copy()
@@ -219,38 +244,30 @@ function tVar.max(...)
 	ret.eqNum = reteqNum
 	return ret
 end
---[[
-- create string with Name, Result, Equation, Numbers and Unit
-- 
-- return (string) complete formula
-]]--
+--- create string with Name, Result, Equation, Numbers and Unit
+-- 
+-- @return (string) complete formula
 function tVar:printFull()
 	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
 	return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
---[[
-- create string with Name, Result, Equation and Unit
-- 
-- return (string) complete formula
-]]--
+--- create string with Name, Result, Equation and Unit
+-- 
+-- @return (string) complete formula
 function tVar:printHalf()
 	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
---[[
-- create string with Name, Result and Unit
-- 
-- return (string) complete formula
-]]--
+--- create string with Name, Result and Unit
+-- 
+-- @return (string) complete formula
 function tVar:printVar()
 	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
---[[
-- use tex.print to print tVar depending on global definitions
--
-- @return (tVar) self for concatination
-]]--
+--- use tex.print to print tVar depending on global definitions
+--
+-- @return (tVar) self for concatination
 function tVar:print()
 	local env = self.mathEnviroment
 	--RES, RES_EQ, RES_EQ_N,
@@ -271,13 +288,11 @@ function tVar:print()
 	end
 	return self
 end
---[[
-- use tex.print to print tVar with Name, Result, Equation, Numbers and Unit
--
-- @numbering (boolean, optional) show numbering besides formula
-- @enviroment (boolean, optional) use math enviroment
-- @return (tVar) self for concatination
-]]--
+--- use tex.print to print tVar with Name, Result, Equation, Numbers and Unit
+--
+-- @param numbering (boolean, optional) show numbering besides formula
+-- @param enviroment (boolean, optional) use math enviroment
+-- @return (tVar) self for concatination
 function tVar:outRES_EQ_N(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
 	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
@@ -290,13 +305,11 @@ function tVar:outRES_EQ_N(numbering,enviroment)
 	end
 	return self
 end
---[[
-- use tex.print to print tVar with Name, Result, Equation and Unit
--
-- @numbering (boolean, optional) show numbering besides formula
-- @enviroment (boolean, optional) use math enviroment
-- @return (tVar) self for concatination
-]]--
+--- use tex.print to print tVar with Name, Result, Equation and Unit
+--
+-- @param numbering (boolean, optional) show numbering besides formula
+-- @param enviroment (boolean, optional) use math enviroment
+-- @return (tVar) self for concatination
 function tVar:outRES_EQ(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
 	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
@@ -309,13 +322,11 @@ function tVar:outRES_EQ(numbering,enviroment)
 	end
 	return self
 end
---[[
-- use tex.print to print tVar with Name, Result and Unit
--
-- @numbering (boolean, optional) show numbering besides formula
-- @enviroment (boolean, optional) use math enviroment
-- @return (tVar) self for concatination
-]]--
+--- use tex.print to print tVar with Name, Result and Unit
+--
+-- @param numbering (boolean, optional) show numbering besides formula
+-- @param enviroment (boolean, optional) use math enviroment
+-- @return (tVar) self for concatination
 function tVar:outRES(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
 	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
@@ -328,22 +339,19 @@ function tVar:outRES(numbering,enviroment)
 	end
 	return self
 end
---[[
-- use tex.print to print tVar only number
--
-- @return (tVar) self for concatination
-]]--
+--- use tex.print to only print the value
+--
+-- @return (tVar) self for concatination
 function tVar:out()
 	tex.print(self:pFormatVal())
 return self
 end
---[[
-- Metatables
--
-- @_a (tVar,number)
-- @_b (tVar,number)
-- @return (tVar)
---]]
+--- Addition
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Add(_a,_b)
   local a,b = tVar.Check(_a),tVar.Check(_b)
 
@@ -353,7 +361,12 @@ function tVar.Add(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Subtraction
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Sub(_a,_b)
   local a,b = tVar.Check(_a),tVar.Check(_b)
   local ans = tVar:New(a.val - b.val,"ANS")
@@ -362,7 +375,12 @@ function tVar.Sub(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Multiplikation
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Mul(_a,_b)
   local a,b = tVar.Check(_a),tVar.Check(_b)
 
@@ -372,7 +390,12 @@ function tVar.Mul(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Division
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Div(_a,_b)
   local a,b = tVar.Check(_a),tVar.Check(_b)
 
@@ -382,7 +405,12 @@ function tVar.Div(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Unary Minus
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Neg(a)
   local ans = tVar:New(-a.val,"ANS")
   ans.eqTex = "({-"..a.nameTex.."})"
@@ -390,6 +418,12 @@ function tVar.Neg(a)
   ans.nameTex = ans.eqTex
   return ans
 end
+--- Power
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Pow(a,b)
   local ans = tVar:New(a.val^b,"ANS")
   ans.eqTex = a.nameTex.."^{".. b .."}"
@@ -398,30 +432,48 @@ function tVar.Pow(a,b)
   return ans
 end
 
---[[
-Comparing
---]]
+--- Compare Equal
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.Equal(a,b)
 	if a.val == b.val then return true end
 	return false
 end
+--- Compare Lower than
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.LowerT(a,b)
 	if a.val < b.val then return true end
 	return false
 end
+--- Compare Lower than Equal
+-- Metatable
+--
+-- @param _a (tVar,number)
+-- @param _b (tVar,number)
+-- @return (tVar)
 function tVar.LowerTe(a,b)
 	if a.val <= b.val then return true end
 	return false
 end
-
---[[
-Private Functions
---]]
+--- Call the number format function according to format definitions tVar
+--
+-- @return (String) formatted number as string
 function tVar:pFormatVal()
 	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
 	--return string.format(self.numFormat,self.val)
 end
-
+--- Format a Number according to a number format and a decimal Separator
+--
+-- @param numFormat (string) containing the numberformat e.g. %.2f
+-- @param val (number) number to be formatted
+-- @param decimalSeparator (string) "." gets replaced by decimalSeparator
 function tVar.formatValue(numFormat,val,decimalSeparator)
 	local simpleFormat = string.format(numFormat,val)
 	local simpleFormatNumber = tonumber(simpleFormat)
@@ -433,25 +485,30 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")
 	return simpleFormat
 end
-
+--- Enxapsulate a String with _open and _close used for brackets
+--
+-- @param string (string) string to be enclosed
+-- @param _open (string) is added before string
+-- @param _close (string) is added after string
 function tVar.encapuslate(string,_open,_close)
-  return _open .. string .. _close
+	return _open .. string .. _close
 end
-
+--- Checks if overloaded param is tVar or not
+-- if not for calculation purposes the overloaded param 
+-- is converted to tVar an returned
+-- eq number 17 is return as tVar:New(17,"17.0")
+--
+-- @param _a (tVar,number) param to be cecked
+-- @return (tVar) _a as tVar
 function tVar.Check(_a)
-  if(getmetatable(_a) == tVar) then return _a end
-  ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
-  ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
-  return ret
+	if(getmetatable(_a) == tVar) then return _a end
+	ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
+	ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
+	return ret
 end
---[[
-Konstanten
---]]
-tVar.PI = tVar:New(math.pi,"\\pi")
-tVar.PI.eqNum = "\\pi"
---[[
-tVar Matix und Vektor Modul
---]]
+--- Matix Modul
+-- Initialize tMat as empty tVar table
+--
 tMat = tVar:New(0,"")
 tMat.texStyle = "mathbf"
 function tMat:New(_val,_nameTex,displayasmat)
