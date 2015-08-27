@@ -18,6 +18,8 @@ Try the examples
 Have a look at the Wiki and the Cheatsheet
 
 # LICENSE
+TexVar is a free software distributed under the terms of the MIT license.
+
 Copyright (c) 2015 Sebastian Pech
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without 
