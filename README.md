@@ -1,27 +1,23 @@
-----------
-| TexVar |
-----------
-
-DESCRIPTION
+# DESCRIPTION
 	Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
 	TexVar is fully compatible with LaTeX.
 
-DEPENDENCIES
-	LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
-	Lua Modules
-		luamatrix
-	Latex Modules
-		luacode
-		amsmath
+# DEPENDENCIES
+	- LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
+	- Lua Modules
+		- luamatrix
+	- Latex Modules
+		- luacode
+		- amsmath
 
-INSTALLATION
+# INSTALLATION
 	Just download the folders and copy lib and tVar into the folder your *.tex Script is.
 
-GETTING STARTED
+# GETTING STARTED
 	Try the examples
 	Have a look at the Wiki and the Cheatsheet
 
-LICENSE
+# LICENSE
 	Copyright (c) 2015 Sebastian Pech
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 	and associated documentation files (the "Software"), to deal in the Software without 
@@ -38,5 +34,5 @@ LICENSE
 	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-DEVELOPER
+# DEVELOPER
 	Sebastian Pech
