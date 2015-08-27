@@ -1,13 +1,42 @@
-# TexVar
-Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
-TexVar is fully compatible with LaTeX. 
+----------
+| TexVar |
+----------
 
-## Prerequisite
-* LuaTeX compiler (comes with MiKTex http://miktex.org/)
+DESCRIPTION
+	Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
+	TexVar is fully compatible with LaTeX.
 
-## Install
-Just load the library (tVar.lua).
-See example in download folder
+DEPENDENCIES
+	LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
+	Lua Modules
+		luamatrix
+	Latex Modules
+		luacode
+		amsmath
 
-## Getting Started
-The easiest way is to start with the example, use the provided CheatSheet and have a look at the Wiki.
+INSTALLATION
+	Just download the folders and copy lib and tVar into the folder your *.tex Script is.
+
+GETTING STARTED
+	Try the examples
+	Have a look at the Wiki and the Cheatsheet
+
+LICENSE
+	Copyright (c) 2015 Sebastian Pech
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+	and associated documentation files (the "Software"), to deal in the Software without 
+	restriction, including without limitation the rights to use, copy, modify, merge, publish, 
+	distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom 
+	the Software is furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+DEVELOPER
+	Sebastian Pech
