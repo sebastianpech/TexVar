@@ -57,11 +57,6 @@ tVar = {
 	numeration = true,
 	decimalSeparator = ".",
 }
---- Konstants
--- 
--- tVar.PI PI as tVar with LaTeX representation
-tVar.PI = tVar:New(math.pi,"\\pi")
-tVar.PI.eqNum = "\\pi"
 --- Redefine tex.print command for 
 -- debug output of LaTex Commands
 --
@@ -188,13 +183,56 @@ end
 -- 
 -- @param symb (string,optional) Symbol is added before and after linebreak
 -- @return (tVar) with brackets
-]]--
 function tVar:CRLFb(symb)
   symb = symb or ""
   local ret = getmetatable(self):New(self.val,self.nameTex,false)
   ret.eqTex = self.eqTex
   ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
   return ret
+end
+--- Call the number format function according to format definitions tVar
+--
+-- @return (String) formatted number as string
+function tVar:pFormatVal()
+	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
+	--return string.format(self.numFormat,self.val)
+end
+--- Format a Number according to a number format and a decimal Separator
+--
+-- @param numFormat (string) containing the numberformat e.g. %.2f
+-- @param val (number) number to be formatted
+-- @param decimalSeparator (string) "." gets replaced by decimalSeparator
+function tVar.formatValue(numFormat,val,decimalSeparator)
+	local simpleFormat = string.format(numFormat,val)
+	local simpleFormatNumber = tonumber(simpleFormat)
+	-- check for unary int and surround with brackets
+	if simpleFormatNumber < 0 then
+		simpleFormat = "(" .. simpleFormat .. ")"
+	end
+	-- decimal seperator
+	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")
+	return simpleFormat
+end
+--- Enxapsulate a String with _open and _close used for brackets
+--
+-- @param string (string) string to be enclosed
+-- @param _open (string) is added before string
+-- @param _close (string) is added after string
+function tVar.encapuslate(string,_open,_close)
+	return _open .. string .. _close
+end
+--- Checks if overloaded param is tVar or not
+-- if not for calculation purposes the overloaded param 
+-- is converted to tVar an returned
+-- eq number 17 is return as tVar:New(17,"17.0")
+--
+-- @param _a (tVar,number) param to be cecked
+-- @return (tVar) _a as tVar
+function tVar.Check(_a)
+	if(getmetatable(_a) == tVar) then return _a end
+	ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
+	ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
+	return ret
 end
 --- calculates mimimum of tVars
 -- 
@@ -344,7 +382,7 @@ end
 -- @return (tVar) self for concatination
 function tVar:out()
 	tex.print(self:pFormatVal())
-return self
+	return self
 end
 --- Addition
 -- Metatable
@@ -431,7 +469,6 @@ function tVar.Pow(a,b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
 --- Compare Equal
 -- Metatable
 --
@@ -462,83 +499,57 @@ function tVar.LowerTe(a,b)
 	if a.val <= b.val then return true end
 	return false
 end
---- Call the number format function according to format definitions tVar
---
--- @return (String) formatted number as string
-function tVar:pFormatVal()
-	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
-	--return string.format(self.numFormat,self.val)
-end
---- Format a Number according to a number format and a decimal Separator
---
--- @param numFormat (string) containing the numberformat e.g. %.2f
--- @param val (number) number to be formatted
--- @param decimalSeparator (string) "." gets replaced by decimalSeparator
-function tVar.formatValue(numFormat,val,decimalSeparator)
-	local simpleFormat = string.format(numFormat,val)
-	local simpleFormatNumber = tonumber(simpleFormat)
-	-- check for unary int and surround with brackets
-	if simpleFormatNumber < 0 then
-		simpleFormat = "(" .. simpleFormat .. ")"
-	end
-	-- decimal seperator
-	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")
-	return simpleFormat
-end
---- Enxapsulate a String with _open and _close used for brackets
---
--- @param string (string) string to be enclosed
--- @param _open (string) is added before string
--- @param _close (string) is added after string
-function tVar.encapuslate(string,_open,_close)
-	return _open .. string .. _close
-end
---- Checks if overloaded param is tVar or not
--- if not for calculation purposes the overloaded param 
--- is converted to tVar an returned
--- eq number 17 is return as tVar:New(17,"17.0")
---
--- @param _a (tVar,number) param to be cecked
--- @return (tVar) _a as tVar
-function tVar.Check(_a)
-	if(getmetatable(_a) == tVar) then return _a end
-	ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
-	ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
-	return ret
-end
+--- Konstants
+-- 
+-- tVar.PI PI as tVar with LaTeX representation
+tVar.PI = tVar:New(math.pi,"\\pi")
+tVar.PI.eqNum = "\\pi"
 --- Matix Modul
 -- Initialize tMat as empty tVar table
 --
+-- @param texStyle (string) defines display of matrices as variable i.e. bold
 tMat = tVar:New(0,"")
 tMat.texStyle = "mathbf"
-function tMat:New(_val,_nameTex,displayasmat)
-  local ret = {}
-
-  setmetatable(ret,self)
-  self.__index = self
-  self.__add = self.mAdd
-  self.__sub = self.mSub
-  self.__mul = self.mMul
-  self.__div = self.mDiv
-  self.__unm = self.mNeg
-  --self.__tostring = self.Print
-  ret.val = _val
-  ret.nameTex = _nameTex
-  if displayasmat or displayasmat == nil then ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" end
-  ret.eqNum = ret:pFormatVal()
-  return ret
+--- overrides the tVal:New function with new special metatables for matrices
+--
+-- @param _val (2dim array) style {{r1c1,r1c2,r1c3},{r2c1,r2c2,r2c3}}
+-- @param _nameTex (string) LaTeX representation
+function tMat:New(_val,_nameTex)
+	local ret = {}
+	setmetatable(ret,self)
+	self.__index = self
+	self.__add = self.mAdd
+	self.__sub = self.mSub
+	self.__mul = self.mMul
+	self.__div = self.mDiv
+	self.__unm = self.mNeg
+	ret.val = _val
+	ret.nameTex = _nameTex
+	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+	ret.eqNum = ret:pFormatVal()
+	return ret
 end
-
+--- same setName as in tVar but uses param texStyle for formatting
+--
+-- @param _nameTex (string) LaTeX representation
+-- @return self 
 function tMat:setName(_nameTex)
-  self.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+	self.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+	return self
 end
-
-function tMat:Copy()
+--- create a copy of a matrix to remove pointers on table
+--
+-- @return (tMat) copy
+function tMat:copy()
   local ret = tMat:New(self.val,self.nameTex)
   ret.eqNum = self.eqNum
   ret.eqTex = self.eqTex
   return ret
 end
+--- Call the number format function according to format definitions tMat
+-- for every number in matrix
+--
+-- @return (String) formatted number as string with matrix enviroment
 function tMat:pFormatVal()
   local ret = {}
   for j=1, self:size(1) do
@@ -550,7 +561,20 @@ function tMat:pFormatVal()
   end
   return "\\begin{pmatrix} ".. table.concat(ret,"\\\\") .. " \\end{pmatrix}"
 end
-
+--- returns the size of the matrix
+--
+-- @param rc (1 or 2) 1 is for row count 2 if for collumn count
+-- @return (number)
+function tMat:size(rc)
+  if rc == 1 then return #self.val end
+  return assert(#self.val[1],1)
+end
+--- Addition
+-- Metatable
+--
+-- @param _a (tMat)
+-- @param _b (tMat)
+-- @return (tVar)
 function tMat.mAdd(_a,_b)
   local ans = tMat:New({},"ANS")
 
@@ -577,13 +601,12 @@ function tMat.mAdd(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
-function tMat:size(rc)
-  if rc == 1 then return #self.val end
-  return assert(#self.val[1],1)
-end
-
-
+--- Substraction
+-- Metatable
+--
+-- @param _a (tMat)
+-- @param _b (tMat)
+-- @return (tVar)
 function tMat.mSub(_a,_b)
   local ans = tMat:New({},"ANS")
 
@@ -611,7 +634,13 @@ function tMat.mSub(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Multiplikation
+-- matrix*scale = elementwise multiplikation
+-- Metatable
+--
+-- @param _a (tMat,number)
+-- @param _b (tMat,number)
+-- @return (tMat)
 function tMat.mMul(_a,_b)
   local ans = tMat:New({},"ANS")
   ans.nameTex = ""
@@ -648,7 +677,13 @@ function tMat.mMul(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Division
+-- only matrix/scale = elementwise division
+-- Metatable
+--
+-- @param _a (tMat,number)
+-- @param _b (tMat,number)
+-- @return (tMat)
 function tMat.mDiv(_a,_b)
   local ans = tMat:New({},"ANS")
 
@@ -683,36 +718,11 @@ function tMat.mDiv(_a,_b)
 
   return ans
 end
-
-function tMat:T()
-  local ans = self:Copy()
-  ans.val = matrix.transpose(self.val)
-
-  ans.eqTex = self.nameTex .. "^\\top"
-  ans.eqNum = self.eqNum  .. "^\\top"
-  ans.nameTex = ans.eqTex
-  return ans
-end
-
-function tMat:Det()
-  local ans = tVar:New(matrix.det(self.val),"ANS")
-
-  ans.eqTex = "|" .. self.nameTex .. "|"
-  ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
-  ans.nameTex = ans.eqTex
-  return ans
-end
-
-function tMat:Inv()
-  local ans = self:Copy()
-  ans.val = matrix.invert(self.val)
-
-  ans.eqTex = self.nameTex .. "^{-1}"
-  ans.eqNum = self.eqNum  .. "^{-1}"
-  ans.nameTex = ans.eqTex
-  return ans
-end
-
+--- unary minus
+-- Metatable
+--
+-- @param _a (tMat)
+-- @return (tMat)
 function tMat.mNeg(a)
   local ans = a*(-1)
 
@@ -721,16 +731,64 @@ function tMat.mNeg(a)
   ans.nameTex = ans.eqTex
   return ans
 end
+--- Transpose
+--
+-- @return (tMat) Transposed
+function tMat:T()
+  local ans = self:copy()
+  ans.val = matrix.transpose(self.val)
 
+  ans.eqTex = self.nameTex .. "^\\top"
+  ans.eqNum = self.eqNum  .. "^\\top"
+  ans.nameTex = ans.eqTex
+  return ans
+end
+--- Determinant
+--
+-- @return (tMat) Determinant
+function tMat:Det()
+  local ans = tVar:New(matrix.det(self.val),"ANS")
+
+  ans.eqTex = "|" .. self.nameTex .. "|"
+  ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
+  ans.nameTex = ans.eqTex
+  return ans
+end
+--- Inverse
+--
+-- @return (tMat) Inverse
+function tMat:Inv()
+  local ans = self:copy()
+  ans.val = matrix.invert(self.val)
+
+  ans.eqTex = self.nameTex .. "^{-1}"
+  ans.eqNum = self.eqNum  .. "^{-1}"
+  ans.nameTex = ans.eqTex
+  return ans
+end
+--- Checks if overloaded param is tMat,tVec,tVar or not
+-- if not for calculation purposes the overloaded param 
+-- is converted to tVar and returned
+-- eq number 17 is return as tVar:New(17,"17.0")
+--
+-- @param _a (tVar,tMat,tVec,number) param to be cecked
+-- @return (tVar) _a as tVar
 function tMat.Check(_a)
   if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
   ret = tVar:New(_a*1,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
   ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
   return ret
 end
-
+--- Vector Modul
+-- Initialize tVec as empty tMat table
+--
+-- @param texStyle (string) defines display of matrices as variable i.e. bold
 tVec = tMat:New({},"")
 tVec.texStyle = "vec"
+--- overrides the tMat:New function with new special metatables for matrices
+--
+-- @param _val (2dim array) style {{r1c1,r1c2,r1c3},{r2c1,r2c2,r2c3}}
+-- @param _nameTex (string) LaTeX representation
 function tVec:New(_val,_nameTex,displayasmat)
   local ret = {}
 
@@ -751,7 +809,12 @@ function tVec:New(_val,_nameTex,displayasmat)
   ret.eqNum = ret:pFormatVal()
   return ret
 end
-
+--- Multiplikation
+-- Metatable
+--
+-- @param _a (tMat,number)
+-- @param _b (tMat,number)
+-- @return (tMat)
 function tVec.mMul(_a,_b)
   local ans = tVec:New({},"ANS")
   ans.nameTex = ""
@@ -781,7 +844,10 @@ function tVec.mMul(_a,_b)
   ans.nameTex = ans.eqTex
   return ans
 end
-
+--- Crossproduct
+--
+-- @param _b (tVec)
+-- @return (tVec)
 function tVec:crossP(_b)
   local ans = tVec:New({},"ANS")
   ans.nameTex = ""
