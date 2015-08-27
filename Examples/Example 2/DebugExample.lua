@@ -5,7 +5,7 @@ tex={}
 tex.print = print
 
 -- load tVar module
-require("tVar")
+require("tVar/init")
 
 --- do test calculations
 A= tMat:New({{1,2,3},{3,4,5},{6,7,8}},"A")
