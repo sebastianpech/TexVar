@@ -14,8 +14,7 @@ TexVar is fully compatible with LaTeX.
 Just download the folders and copy lib and tVar into the folder your *.tex Script is.
 
 # GETTING STARTED
-Try the examples
-Have a look at the Wiki and the Cheatsheet
+Try the examples and have a look at the Wiki and the Cheatsheet
 
 # LICENSE
 TexVar is a free software distributed under the terms of the MIT license.
