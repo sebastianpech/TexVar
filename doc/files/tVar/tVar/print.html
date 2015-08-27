@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Luadocs for tVar/tVar/print.lua</title>
+    <link rel="stylesheet" href="../../../luadoc.css" type="text/css" />
+    <!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+    <div id="product_logo"></div>
+    <div id="product_name"><big><b></b></big></div>
+    <div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../../../files/tVar/constants.html">tVar/constants.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/init.html">tVar/init.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tMat/calc.html">tVar/tMat/calc.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tMat/core.html">tVar/tMat/core.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tMat/misc.html">tVar/tMat/misc.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tMat/print.html">tVar/tMat/print.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tVar/calc.html">tVar/tVar/calc.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tVar/core.html">tVar/tVar/core.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tVar/misc.html">tVar/tVar/misc.lua</a>
+	</li>
+
+	<li><strong>tVar/tVar/print.lua</strong></li>
+	
+	<li>
+		<a href="../../../files/tVar/tVec/calc.html">tVar/tVec/calc.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/tVar/tVec/core.html">tVar/tVec/core.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>tVar/tVar/print.lua</code></h1>
+
+
+
+
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar.encapuslate">tVar.encapuslate</a>&nbsp;(string, _open, _close)</td>
+    <td class="summary">Enxapsulate a String with _open and _close used for brackets  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar.formatValue">tVar.formatValue</a>&nbsp;(numFormat, val, decimalSeparator)</td>
+    <td class="summary">Format a Number according to a number format and a decimal Separator  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:out">tVar:out</a>&nbsp;()</td>
+    <td class="summary">use tex.print to only print the value  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:outRES">tVar:outRES</a>&nbsp;(numbering, enviroment)</td>
+    <td class="summary">use tex.print to print tVar with Name, Result and Unit  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:outRES_EQ">tVar:outRES_EQ</a>&nbsp;(numbering, enviroment)</td>
+    <td class="summary">use tex.print to print tVar with Name, Result, Equation and Unit  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:outRES_EQ_N">tVar:outRES_EQ_N</a>&nbsp;(numbering, enviroment)</td>
+    <td class="summary">use tex.print to print tVar with Name, Result, Equation, Numbers and Unit  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:pFormatVal">tVar:pFormatVal</a>&nbsp;()</td>
+    <td class="summary">print script contains function for output and formatting   Call the number format function according to format definitions tVar  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:print">tVar:print</a>&nbsp;()</td>
+    <td class="summary">use tex.print to print tVar depending on global definitions  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:printFull">tVar:printFull</a>&nbsp;()</td>
+    <td class="summary">create string with Name, Result, Equation, Numbers and Unit  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:printHalf">tVar:printHalf</a>&nbsp;()</td>
+    <td class="summary">create string with Name, Result, Equation and Unit  </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#tVar:printVar">tVar:printVar</a>&nbsp;()</td>
+    <td class="summary">create string with Name, Result and Unit  </td>
+    </tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="tVar.encapuslate"></a><strong>tVar.encapuslate</strong>&nbsp;(string, _open, _close)</dt>
+<dd>
+Enxapsulate a String with _open and _close used for brackets 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  string: (string) string to be enclosed
+	</li>
+	
+	<li>
+	  _open: (string) is added before string
+	</li>
+	
+	<li>
+	  _close: (string) is added after string
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar.formatValue"></a><strong>tVar.formatValue</strong>&nbsp;(numFormat, val, decimalSeparator)</dt>
+<dd>
+Format a Number according to a number format and a decimal Separator 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  numFormat: (string) containing the numberformat e.g. %.2f
+	</li>
+	
+	<li>
+	  val: (number) number to be formatted
+	</li>
+	
+	<li>
+	  decimalSeparator: (string) "." gets replaced by decimalSeparator
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:out"></a><strong>tVar:out</strong>&nbsp;()</dt>
+<dd>
+use tex.print to only print the value 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(tVar) self for concatination
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:outRES"></a><strong>tVar:outRES</strong>&nbsp;(numbering, enviroment)</dt>
+<dd>
+use tex.print to print tVar with Name, Result and Unit 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  numbering: (boolean, optional) show numbering besides formula
+	</li>
+	
+	<li>
+	  enviroment: (boolean, optional) use math enviroment
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+(tVar) self for concatination
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:outRES_EQ"></a><strong>tVar:outRES_EQ</strong>&nbsp;(numbering, enviroment)</dt>
+<dd>
+use tex.print to print tVar with Name, Result, Equation and Unit 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  numbering: (boolean, optional) show numbering besides formula
+	</li>
+	
+	<li>
+	  enviroment: (boolean, optional) use math enviroment
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+(tVar) self for concatination
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:outRES_EQ_N"></a><strong>tVar:outRES_EQ_N</strong>&nbsp;(numbering, enviroment)</dt>
+<dd>
+use tex.print to print tVar with Name, Result, Equation, Numbers and Unit 
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  numbering: (boolean, optional) show numbering besides formula
+	</li>
+	
+	<li>
+	  enviroment: (boolean, optional) use math enviroment
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+(tVar) self for concatination
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:pFormatVal"></a><strong>tVar:pFormatVal</strong>&nbsp;()</dt>
+<dd>
+print script contains function for output and formatting   Call the number format function according to format definitions tVar 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(String) formatted number as string
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:print"></a><strong>tVar:print</strong>&nbsp;()</dt>
+<dd>
+use tex.print to print tVar depending on global definitions 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(tVar) self for concatination
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:printFull"></a><strong>tVar:printFull</strong>&nbsp;()</dt>
+<dd>
+create string with Name, Result, Equation, Numbers and Unit 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(string) complete formula
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:printHalf"></a><strong>tVar:printHalf</strong>&nbsp;()</dt>
+<dd>
+create string with Name, Result, Equation and Unit 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(string) complete formula
+
+
+
+</dd>
+
+
+
+
+<dt><a name="tVar:printVar"></a><strong>tVar:printVar</strong>&nbsp;()</dt>
+<dd>
+create string with Name, Result and Unit 
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+(string) complete formula
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+    <p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+</body>
+</html>
