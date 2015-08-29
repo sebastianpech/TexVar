@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Fields">Fields</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/constants.html">constants</a></li>
+  <li><a href="../modules/init.html">init</a></li>
+  <li><a href="../modules/tmat.calc.html">tmat.calc</a></li>
+  <li><a href="../modules/tmat.core.html">tmat.core</a></li>
+  <li><a href="../modules/tmat.misc.html">tmat.misc</a></li>
+  <li><a href="../modules/tmat.print.html">tmat.print</a></li>
+  <li><strong>tvar.calc</strong></li>
+  <li><a href="../modules/tvar.core.html">tvar.core</a></li>
+  <li><a href="../modules/tvar.misc.html">tvar.misc</a></li>
+  <li><a href="../modules/tvar.print.html">tvar.print</a></li>
+  <li><a href="../modules/tvec.calc.html">tvec.calc</a></li>
+  <li><a href="../modules/tvec.core.html">tvec.core</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>tvar.calc</code></h1>
+<p>calculation script
+ Contains Metatables and Functions for calculation</p>
+<p>
+ calculates root of tVar object
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Add">tVar.Add (_a, _b)</a></td>
+	<td class="summary">Addition
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Sub">tVar.Sub (_a, _b)</a></td>
+	<td class="summary">Subtraction
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Mul">tVar.Mul (_a, _b)</a></td>
+	<td class="summary">Multiplikation
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Div">tVar.Div (_a, _b)</a></td>
+	<td class="summary">Division
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Neg">tVar.Neg (_a, _b)</a></td>
+	<td class="summary">Unary Minus
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Pow">tVar.Pow (_a, _b)</a></td>
+	<td class="summary">Power
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Equal">tVar.Equal (_a, _b)</a></td>
+	<td class="summary">Compare Equal
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.LowerT">tVar.LowerT (_a, _b)</a></td>
+	<td class="summary">Compare Lower than
+ Metatable</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.LowerTe">tVar.LowerTe (_a, _b)</a></td>
+	<td class="summary">Compare Lower than Equal
+ Metatable</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#tVar.min">tVar.min</a></td>
+	<td class="summary">calculates mimimum of tVars</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.max">tVar.max</a></td>
+	<td class="summary">calculates maximum of tVars</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.abs">tVar.abs</a></td>
+	<td class="summary">calculates absolute val</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.acos">tVar.acos</a></td>
+	<td class="summary">calculates inverse cosine</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.cos">tVar.cos</a></td>
+	<td class="summary">calculates cosine</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.cosh">tVar.cosh</a></td>
+	<td class="summary">calculates cosine hyperbolicus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.asin">tVar.asin</a></td>
+	<td class="summary">calculates inverse sine</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.sin">tVar.sin</a></td>
+	<td class="summary">calculates sine</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.sinh">tVar.sinh</a></td>
+	<td class="summary">calculates sine hyperbolicus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.atan">tVar.atan</a></td>
+	<td class="summary">calculates inverse tangent</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.tan">tVar.tan</a></td>
+	<td class="summary">calculates tangent</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.tanh">tVar.tanh</a></td>
+	<td class="summary">calculates tangent hyperbolicus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.ceil">tVar.ceil</a></td>
+	<td class="summary">round up</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.floor">tVar.floor</a></td>
+	<td class="summary">round down</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.exp">tVar.exp</a></td>
+	<td class="summary">euler function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.log">tVar.log</a></td>
+	<td class="summary">log</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.log10">tVar.log10</a></td>
+	<td class="summary">log10</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.rad">tVar.rad</a></td>
+	<td class="summary">convert to rad</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.deg">tVar.deg</a></td>
+	<td class="summary">convert to deg</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.atan2">tVar.atan2</a></td>
+	<td class="summary">calculates inverse tangens with with appr.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "tVar.Add"></a>
+    <strong>tVar.Add (_a, _b)</strong>
+    </dt>
+    <dd>
+    Addition
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Sub"></a>
+    <strong>tVar.Sub (_a, _b)</strong>
+    </dt>
+    <dd>
+    Subtraction
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Mul"></a>
+    <strong>tVar.Mul (_a, _b)</strong>
+    </dt>
+    <dd>
+    Multiplikation
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Div"></a>
+    <strong>tVar.Div (_a, _b)</strong>
+    </dt>
+    <dd>
+    Division
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Neg"></a>
+    <strong>tVar.Neg (_a, _b)</strong>
+    </dt>
+    <dd>
+    Unary Minus
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Pow"></a>
+    <strong>tVar.Pow (_a, _b)</strong>
+    </dt>
+    <dd>
+    Power
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Equal"></a>
+    <strong>tVar.Equal (_a, _b)</strong>
+    </dt>
+    <dd>
+    Compare Equal
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.LowerT"></a>
+    <strong>tVar.LowerT (_a, _b)</strong>
+    </dt>
+    <dd>
+    Compare Lower than
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.LowerTe"></a>
+    <strong>tVar.LowerTe (_a, _b)</strong>
+    </dt>
+    <dd>
+    Compare Lower than Equal
+ Metatable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number)
+        </li>
+        <li><span class="parameter">_b</span>
+         (tVar,number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar)
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "tVar.min"></a>
+    <strong>tVar.min</strong>
+    </dt>
+    <dd>
+    calculates mimimum of tVars
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.max"></a>
+    <strong>tVar.max</strong>
+    </dt>
+    <dd>
+    calculates maximum of tVars
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.abs"></a>
+    <strong>tVar.abs</strong>
+    </dt>
+    <dd>
+    calculates absolute val
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.acos"></a>
+    <strong>tVar.acos</strong>
+    </dt>
+    <dd>
+    calculates inverse cosine
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.cos"></a>
+    <strong>tVar.cos</strong>
+    </dt>
+    <dd>
+    calculates cosine
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.cosh"></a>
+    <strong>tVar.cosh</strong>
+    </dt>
+    <dd>
+    calculates cosine hyperbolicus
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.asin"></a>
+    <strong>tVar.asin</strong>
+    </dt>
+    <dd>
+    calculates inverse sine
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.sin"></a>
+    <strong>tVar.sin</strong>
+    </dt>
+    <dd>
+    calculates sine
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.sinh"></a>
+    <strong>tVar.sinh</strong>
+    </dt>
+    <dd>
+    calculates sine hyperbolicus
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.atan"></a>
+    <strong>tVar.atan</strong>
+    </dt>
+    <dd>
+    calculates inverse tangent
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.tan"></a>
+    <strong>tVar.tan</strong>
+    </dt>
+    <dd>
+    calculates tangent
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.tanh"></a>
+    <strong>tVar.tanh</strong>
+    </dt>
+    <dd>
+    calculates tangent hyperbolicus
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.ceil"></a>
+    <strong>tVar.ceil</strong>
+    </dt>
+    <dd>
+    round up
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.floor"></a>
+    <strong>tVar.floor</strong>
+    </dt>
+    <dd>
+    round down
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.exp"></a>
+    <strong>tVar.exp</strong>
+    </dt>
+    <dd>
+    euler function
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.log"></a>
+    <strong>tVar.log</strong>
+    </dt>
+    <dd>
+    log
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.log10"></a>
+    <strong>tVar.log10</strong>
+    </dt>
+    <dd>
+    log10
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.rad"></a>
+    <strong>tVar.rad</strong>
+    </dt>
+    <dd>
+    convert to rad
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.deg"></a>
+    <strong>tVar.deg</strong>
+    </dt>
+    <dd>
+    convert to deg
+
+
+    <ul>
+        <li><span class="parameter">tVar</span>
+        ,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.atan2"></a>
+    <strong>tVar.atan2</strong>
+    </dt>
+    <dd>
+    calculates inverse tangens with with appr.  quadrant
+
+
+
+    <ul>
+        <li><span class="parameter">opposite</span>
+         (tVar,number) values
+        </li>
+        <li><span class="parameter">adjacent</span>
+         (tVar,number) values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-08-29 22:44:21 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
