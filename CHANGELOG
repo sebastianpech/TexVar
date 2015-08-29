@@ -1,2 +1,24 @@
+Version XX [XX/XX/XXXX]
+	* new Functions
+		* tVar.link
+		* Math-Functions
+			* tVar.abs
+			* tVar.acos
+			* tVar.cos
+			* tVar.cosh
+			* tVar.asin
+			* tVar.sin
+			* tVar.sinh
+			* tVar.atan
+			* tVar.tan
+			* tVar.tanh
+			* tVar.ceil
+			* tVar.floor
+			* tVar.exp
+			* tVar.log
+			* tVar.log10
+			* tVar.rad
+			* tVar.deg
+			* tVar.atan2
 Version 0.1 [27/08/2015]
     * first release
