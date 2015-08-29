@@ -18,54 +18,6 @@ function tVar.sqrt(a,n)
 	ans.nameTex = ans.eqTex
 	return ans
 end
---- calculates mimimum of tVars
--- 
--- @param ... (tVar,number) values
--- return (tVar) with min Value
-function tVar.min(...)
-	local arg = table.pack(...)
-	local ret = tVar.Check(arg[1]):copy()
-	local reteqTex = "min(" .. tVar.Check(arg[1]).eqTex  .. ";"
-	local reteqNum = "min(" .. tVar.Check(arg[1]).eqNum .. ";"
-	for i=2, #arg do
-		if ret > tVar.Check(arg[i]) then ret = tVar.Check(arg[i]):copy() end
-		if(i<#arg) then
-			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ";"
-			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ";"
-		else
-			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ")"
-			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ")"
-		end
-    end
-	ret.nameTex = reteqTex
-	ret.eqTex = reteqTex
-	ret.eqNum = reteqNum
-	return ret
-end
---- calculates maximum of tVars
--- 
--- @param ... (tVar,number) values
--- return (tVar) with max Value
-function tVar.max(...)
-	local arg = table.pack(...)
-	local ret = tVar.Check(arg[1]):copy()
-	local reteqTex = "max(" .. tVar.Check(arg[1]).eqTex  .. ";"
-	local reteqNum = "max(" .. tVar.Check(arg[1]).eqNum .. ";"
-	for i=2, #arg do
-		if ret < tVar.Check(arg[i]) then ret = tVar.Check(arg[i]):copy() end
-		if(i<#arg) then
-			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ";"
-			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ";"
-		else
-			reteqTex = reteqTex .. tVar.Check(arg[i]).eqTex .. ")"
-			reteqNum = reteqNum .. tVar.Check(arg[i]).eqNum .. ")"
-		end
-    end
-	ret.nameTex = reteqTex
-	ret.eqTex = reteqTex
-	ret.eqNum = reteqNum
-	return ret
-end
 --- Addition
 -- Metatable
 --
@@ -181,3 +133,104 @@ function tVar.LowerTe(a,b)
 	if a.val <= b.val then return true end
 	return false
 end
+--- calculates mimimum of tVars
+-- 
+-- @param (tVar,number) values
+-- return (tVar) with min Value
+tVar.min = tVar.link(math.min,"min(",")")
+--- calculates maximum of tVars
+-- 
+-- @param (tVar,number) values
+-- return (tVar) with max Value
+tVar.max = tVar.link(math.max,"max(",")")
+--- calculates absolute val
+-- 
+-- @param (tVar,number) values
+-- return (tVar) with max Value
+tVar.abs = tVar.link(math.abs,"abs(",")")
+--- calculates inverse cosine
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.acos = tVar.link(math.acos,"acos(",")")
+--- calculates cosine
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.cos = tVar.link(math.cos,"cos(",")")
+--- calculates cosine hyperbolicus 
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.cosh = tVar.link(math.cosh,"cosh(",")")
+--- calculates inverse sine
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.asin = tVar.link(math.asin,"asin(",")")
+--- calculates sine
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.sin = tVar.link(math.sin,"sin(",")")
+--- calculates sine hyperbolicus 
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.sinh = tVar.link(math.sinh,"sinh(",")")
+--- calculates inverse tangent
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.atan = tVar.link(math.atan,"atan(",")")
+--- calculates tangent
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.tan = tVar.link(math.tan,"tan(",")")
+--- calculates tangent hyperbolicus 
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.tanh = tVar.link(math.tanh,"tanh(",")")
+--- round up 
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.ceil = tVar.link(math.ceil,"ceil(",")")
+--- round down
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.floor = tVar.link(math.floor,"floor(",")")
+--- euler function
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.exp = tVar.link(math.exp,"e^{","}")
+--- log
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.log = tVar.link(math.log,"log(",")")
+--- log10
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.log10 = tVar.link(math.log10,"log10(",")")
+--- convert to rad
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.rad = tVar.link(math.rad,"rad(",")")
+--- convert to deg
+-- 
+-- @param (tVar,number) values
+-- return (tVar) 
+tVar.deg = tVar.link(math.deg,"deg(",")")
+--- calculates inverse tangens with with appr. quadrant
+-- 
+-- @param opposite (tVar,number) values
+-- @param adjacent (tVar,number) values
+-- return (tVar) 
+tVar.atan2 = tVar.link(math.atan2,"atan2(",")")
