@@ -110,7 +110,7 @@ end
 -- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.Equal(a,b)
-	if a.val == b.val then return true end
+	if tVar.roundValToPrec(a) == tVar.roundValToPrec(b) then return true end
 	return false
 end
 --- Compare Lower than
@@ -120,7 +120,7 @@ end
 -- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.LowerT(a,b)
-	if a.val < b.val then return true end
+	if tVar.roundValToPrec(a) < tVar.roundValToPrec(b) then return true end
 	return false
 end
 --- Compare Lower than Equal
@@ -130,7 +130,7 @@ end
 -- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.LowerTe(a,b)
-	if a.val <= b.val then return true end
+	if tVar.roundValToPrec(a) <= tVar.roundValToPrec(b) then return true end
 	return false
 end
 --- calculates mimimum of tVars

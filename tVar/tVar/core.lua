@@ -16,6 +16,7 @@
 -- @param outputMode (string) can be RES for Result, RES_EQ form Result and Equation and RES_EQ_N form Result, Equation and Numbers. Controls the print() command
 -- @param numeration (bool) turns equation numeration on and of. Controls the print() command
 -- @param decimalSeparator (string) sets the decimalSeparatio i.e. ","
+-- @param calcPrecision (number) ammount of decimal places
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -28,6 +29,7 @@ tVar = {
 	outputMode = "RES",
 	numeration = true,
 	decimalSeparator = ".",
+	calcPrecision = 10
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables

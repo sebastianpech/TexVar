@@ -150,3 +150,10 @@ function tVar.link(luaFunction,texBefore,texAfter)
 		return ans
 	end
 end
+--- rounds result to internal precision
+--
+-- @return (number) val of tVar roundet to calcPrecision
+function tVar:roundValToPrec()
+	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
+end
+
