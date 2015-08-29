@@ -109,3 +109,44 @@ function tVar.Check(_a)
 	ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
 	return ret
 end
+--- function returns table of vlaues from tVar objects
+--
+-- @param tVarTable (tVar table)
+-- @return table of tVar.val
+function tVar.valuesFromtVar(tVarTable)
+	local ret = {}
+	for i=1, #tVarTable do
+		ret[i] = tVarTable[i].val
+	end
+	return ret
+end
+--- used for converting lua functions to tVar function with mathematical representation
+--
+-- @param luaFunction function to be converted to tVar function
+-- @param texBefore (string) text is added befor the list of tVar function names
+-- @param texAfter (string) same as texBefor but after the list
+-- @return (tVar) result of lua function with tVar paramters
+function tVar.link(luaFunction,texBefore,texAfter)
+	local originalFunction = luaFunction
+	local _texBefore = texBefore
+	local _texAfter = texAfter
+	return function (...)
+		local arg = table.pack(...)
+		local ans = tVar:New(originalFunction(table.unpack(tVar.valuesFromtVar(arg))),"ANS")
+		-- concat arg values
+		local nameStr = ""
+		local numbStr = ""
+		for i=1, #arg do
+			nameStr = nameStr .. tVar.Check(arg[i]).nameTex
+			numbStr = numbStr .. tVar.Check(arg[i]).eqNum
+			if i<#arg then
+				nameStr = nameStr .. "; "
+				numbStr = numbStr .. "; "
+			end
+		end
+		ans.eqTex = _texBefore .. nameStr .. _texAfter
+		ans.eqNum = _texBefore .. numbStr .. _texAfter
+		ans.nameTex = ans.eqTex
+		return ans
+	end
+end
