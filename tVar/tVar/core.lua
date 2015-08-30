@@ -29,7 +29,9 @@ tVar = {
 	outputMode = "RES",
 	numeration = true,
 	decimalSeparator = ".",
-	calcPrecision = 10
+	calcPrecision = 10,
+	history_fun = nil,
+  history_arg = {}
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables
@@ -47,7 +49,7 @@ function tVar:New(_val,_nameTex)
 	self.__div = self.Div
 	self.__pow = self.Pow
 	self.__unm = self.Neg
-	self.__tostring = self.print
+	--self.__tostring = self.print
 	self.__eq = self.Equal
 	self.__lt = self.LowerT
 	self.__le = self.LowerTE
@@ -55,4 +57,16 @@ function tVar:New(_val,_nameTex)
 	ret.nameTex = _nameTex
 	ret.eqNum = ret:pFormatVal()
 	return ret
+end
+--- calculate result of history
+--
+-- @return result
+function tVar:solve()
+	
+	if self.val ~= nil then return self end
+	for i=1,#self.history_arg do
+		self.history_arg[i]:solve()
+	end
+	self.val = self.history_fun(table.unpack(self.history_arg))
+	return self
 end

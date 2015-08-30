@@ -7,6 +7,7 @@
 --
 -- @return (String) formatted number as string
 function tVar:pFormatVal()
+	if self.val == nil then return self.nameTex end
 	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
 	--return string.format(self.numFormat,self.val)
 end
@@ -16,11 +17,16 @@ end
 -- @param val (number) number to be formatted
 -- @param decimalSeparator (string) "." gets replaced by decimalSeparator
 function tVar.formatValue(numFormat,val,decimalSeparator)
-	local simpleFormat = string.format(numFormat,val)
-	local simpleFormatNumber = tonumber(simpleFormat)
-	-- check for unary int and surround with brackets
-	if simpleFormatNumber < 0 then
-		simpleFormat = "(" .. simpleFormat .. ")"
+	local simpleFormat = ""
+	if val == nil then
+		simpleFormat = "nil"
+	else
+		simpleFormat = string.format(numFormat,val)
+		local simpleFormatNumber = tonumber(simpleFormat)
+		-- check for unary int and surround with brackets
+		if simpleFormatNumber < 0 then
+			simpleFormat = "(" .. simpleFormat .. ")"
+		end
 	end
 	-- decimal seperator
 	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")

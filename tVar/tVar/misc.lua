@@ -130,9 +130,25 @@ function tVar.link(luaFunction,texBefore,texAfter)
 	local originalFunction = luaFunction
 	local _texBefore = texBefore
 	local _texAfter = texAfter
+	
+	local orcalcFunction = function (...)
+		local arg = table.pack(...)
+		return originalFunction(table.unpack(tVar.valuesFromtVar(arg)))
+	end
+	
 	return function (...)
 		local arg = table.pack(...)
-		local ans = tVar:New(originalFunction(table.unpack(tVar.valuesFromtVar(arg))),"ANS")
+		-- cheack every element in arg table in case one is a number
+		local anyvalNil = false
+		for i,v in ipairs(arg) do
+			arg[i] = tVar.Check(v)
+			if (arg[i].val == nil) then anyvalNil = true end
+		end
+		local ans = tVar:New(nil,"ANS")
+		
+		if anyvalNil == false then
+			ans.val = originalFunction(table.unpack(tVar.valuesFromtVar(arg)))
+		end
 		-- concat arg values
 		local nameStr = ""
 		local numbStr = ""
@@ -147,6 +163,10 @@ function tVar.link(luaFunction,texBefore,texAfter)
 		ans.eqTex = _texBefore .. nameStr .. _texAfter
 		ans.eqNum = _texBefore .. numbStr .. _texAfter
 		ans.nameTex = ans.eqTex
+		
+		ans.history_fun = orcalcFunction
+		ans.history_arg = arg
+		
 		return ans
 	end
 end
@@ -156,4 +176,3 @@ end
 function tVar:roundValToPrec()
 	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
 end
-
