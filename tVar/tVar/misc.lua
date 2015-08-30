@@ -176,3 +176,32 @@ end
 function tVar:roundValToPrec()
 	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
 end
+--- quick input mode converts a string to a variable
+-- a_sdf_g_h becomes a_{sdf,g,h}
+--
+function tVar.q(_)
+	if type(_) ~= "table" then
+		_={_}
+	end
+	for i,_string in ipairs(_) do
+		local overLoad = string.gmatch(_string,"([^=]+)")
+		local varName = overLoad()
+
+		local nameTex = string.gsub(varName,"_",",") -- replace _ with ,
+		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
+
+		local _, count = string.gsub(nameTex, ",", "") -- counter remaining ,
+		print(count)
+		if count > 1 then 
+			nameTex = string.gsub(nameTex,",","}^") -- replace all , with }^
+		else
+			nameTex = nameTex .. "}"
+		end
+
+		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
+
+		local value = overLoad()
+		
+		_G[varName]=tVar:New(tonumber(value),nameTex)
+	end
+end
