@@ -2,6 +2,7 @@
 -- tVar init script
 -- Load required modules
 ----------------------------------------------------------------------------
+
 require "tVar.tVar.core"
 require "tVar.tVar.misc"
 require "tVar.tVar.calc"
@@ -21,3 +22,6 @@ require "tVar.constants"
 --
 -- luamatrix
 tVar.matrix = require "lib.matrix"
+
+--- Version Control
+tVar.version = "1.1.0"
