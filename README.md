@@ -2,6 +2,12 @@
 Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
 TexVar is fully compatible with LaTeX.
 
+# NEW FUNCTIONS
+See details in doc or CheatSheet
+- tVar.q
+- tVar.link
+- new Mathfunctions
+
 # DEPENDENCIES
 - LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
 - Lua Modules
