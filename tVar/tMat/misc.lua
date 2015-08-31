@@ -3,6 +3,7 @@
 -- contains function not intend to be used by users
 --
 ----------------------------------------------------------------------------
+
 --- same setName as in tVar but uses param texStyle for formatting
 --
 -- @param _nameTex (string) LaTeX representation
@@ -40,4 +41,18 @@ function tMat.Check(_a)
   ret = tVar:New(_a*1,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
   ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
   return ret
+end
+--- converts every number in a table to tVar
+--
+-- @param _tab table mixed tVar and Number
+-- @return table containing only tVar
+function tMat.CheckTable(_tab)
+	local tVarVal = {}
+	for r=1,#_tab do
+		tVarVal[r] = {}
+		for c=1,#_tab[r] do
+			tVarVal[r][c] = tVar.Check(_tab[r][c])
+		end
+	end
+	return tVarVal
 end

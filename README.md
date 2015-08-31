@@ -4,14 +4,12 @@ TexVar is fully compatible with LaTeX.
 
 # LATEST VERSION
 Download:
-[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.1.1)
+[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.2.0)
 |
-[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.1.1)
+[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.2.0)
 
-What's new:
-- tVar.q
-- tVar.link
-- new Mathfunctions
+[What's new](CHANGELOG)
+
 
 See details in doc or CheatSheet
 # DEPENDENCIES
@@ -26,9 +24,9 @@ See details in doc or CheatSheet
 Just download the folders and copy lib and tVar into the folder your *.tex script is.
 
 # GETTING STARTED
-Start with the examples (found in Examples folder) and at the [wiki](https://gitlab.com/Specht08/TexVar/wikis/Examples).
+Start with the examples (found in Examples folder) and at the [wiki](https://gitlab.com/Specht08/TexVar/wikis/home).
 
-Then grab the CheatSheet or have a look at the wiki and create your own projects.
+For further information download the [docu](doc) or have a look at the [Cheatsheet](Examples/CheatSheet/tVar.pdf).
 
 # LICENSE
 TexVar is a free software distributed under the terms of the MIT license.

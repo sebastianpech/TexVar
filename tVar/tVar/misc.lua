@@ -3,6 +3,7 @@
 -- contains function not intend to be used by users
 --
 ----------------------------------------------------------------------------
+
 --- Redefine tex.print command for 
 -- debug output of LaTex Commands
 --
@@ -179,7 +180,7 @@ end
 --- quick input mode converts a string to a variable
 -- a_sdf_g_h becomes a_{sdf,g,h}
 --
-function tVar.q(_)
+function tVar.q(_,output)
 	if type(_) ~= "table" then
 		_={_}
 	end
@@ -191,17 +192,25 @@ function tVar.q(_)
 		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
 
 		local _, count = string.gsub(nameTex, ",", "") -- counter remaining ,
-		print(count)
+		local _, count2 = string.gsub(nameTex, "{", "") -- counter remaining ,
 		if count > 1 then 
 			nameTex = string.gsub(nameTex,",","}^") -- replace all , with }^
 		else
-			nameTex = nameTex .. "}"
+			if count2 > 0 then
+				nameTex = nameTex .. "}"
+			end
 		end
 
 		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
 
 		local value = overLoad()
 		
+		-- remove special chars from Varname
+		varName = string.gsub(varName,"\\","")
 		_G[varName]=tVar:New(tonumber(value),nameTex)
+	
+		if output then
+				_G[varName]:outRES()
+		end
 	end
 end

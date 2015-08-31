@@ -3,6 +3,7 @@
 -- contains function for output and formatting
 --
 ----------------------------------------------------------------------------
+
 --- Call the number format function according to format definitions tVar
 --
 -- @return (String) formatted number as string

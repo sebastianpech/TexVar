@@ -3,6 +3,7 @@
 -- creates the basic object and the New-Function
 --
 ----------------------------------------------------------------------------
+
 --- Vector Modul
 -- Initialize tVec as empty tMat table
 --
@@ -13,23 +14,26 @@ tVec.texStyle = "vec"
 --
 -- @param _val (2dim array) style {{r1c1,r1c2,r1c3},{r2c1,r2c2,r2c3}}
 -- @param _nameTex (string) LaTeX representation
-function tVec:New(_val,_nameTex,displayasmat)
-  local ret = {}
+function tVec:New(_val,_nameTex)
+	local ret = {}
 
-  setmetatable(ret,self)
-  self.__index = self
-  self.__add = self.mAdd
-  self.__sub = self.mSub
-  self.__mul = self.mMul
-  self.__div = self.mDiv
-  self.__unm = self.mNeg
-  --self.__tostring = self.Print
-  ret.val = {}
-  for i=1,#_val do
-    ret.val[i] = {_val[i]}
-  end
-  ret.nameTex = _nameTex
-  if displayasmat or displayasmat == nil then ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" end
-  ret.eqNum = ret:pFormatVal()
-  return ret
+	setmetatable(ret,self)
+	self.__index = self
+	self.__add = self.mAdd
+	self.__sub = self.mSub
+	self.__mul = self.mMul
+	self.__div = self.mDiv
+	self.__unm = self.mNeg
+	--self.__tostring = self.Print
+	local val = {}
+	for i=1,#_val do
+		val[i] = {_val[i]}
+	end
+	
+	ret.val = tMat.CheckTable(val)
+
+	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+	ret.eqNum = ret:pFormatVal()
+	ret.eqMat = ret:pFormatnameTex()
+	return ret
 end

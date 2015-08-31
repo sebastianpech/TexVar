@@ -3,6 +3,7 @@
 -- creates the basic object and the New-Function
 --
 ----------------------------------------------------------------------------
+
 --- Initialize tVar table
 --
 -- @param val (number) value of tVar
@@ -10,13 +11,15 @@
 -- @param eqTex (string) equation for calculating val i.e. history
 -- @param eqNum (string) equation for calculating val i.e. history with numbers
 -- @param unit (string) is added after result with fixed space
--- @param numformat (string) numberformat for displaying val
+-- @param numFormat (string) numberformat for displaying val
 -- @param mathEnviroment (string) LaTeX math enviroment that is used for output
 -- @param debugMode (string) if set to "on" every tex.print command is surrounded with \verb||
 -- @param outputMode (string) can be RES for Result, RES_EQ form Result and Equation and RES_EQ_N form Result, Equation and Numbers. Controls the print() command
 -- @param numeration (bool) turns equation numeration on and of. Controls the print() command
 -- @param decimalSeparator (string) sets the decimalSeparatio i.e. ","
 -- @param calcPrecision (number) ammount of decimal places
+-- @param history_fun stores the tVar function for the result
+-- @param history_arg stores the arguments used with history_fun
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -31,7 +34,7 @@ tVar = {
 	decimalSeparator = ".",
 	calcPrecision = 10,
 	history_fun = nil,
-  history_arg = {}
+	history_arg = {}
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables

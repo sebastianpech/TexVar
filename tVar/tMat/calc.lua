@@ -3,6 +3,7 @@
 -- Contains Metatables and Functions for calculation
 --
 ----------------------------------------------------------------------------
+
 --- Addition
 -- Metatable
 --
@@ -32,6 +33,7 @@ function tMat.mAdd(_a,_b)
   end
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
   ans.eqNum = a.eqNum .. "+" .. b.eqNum
+  ans.eqMat = (a.eqMat or a.nameTex) .. "+" .. (b.eqMat or b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -65,6 +67,7 @@ function tMat.mSub(_a,_b)
   end
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
   ans.eqNum = a.eqNum .. "-" .. b.eqNum
+  ans.eqMat = (a.eqMat or a.nameTex) .. "-" .. (b.eqMat or b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -86,7 +89,7 @@ function tMat.mMul(_a,_b)
     if getmetatable(a) == tMat and getmetatable(b) == tMat then
 		if a:size(1) ~= b:size(1) and a:size(2) ~= b:size(2) then error ("Matrix dimensions do not match") end
 	elseif getmetatable(a) == tMat and getmetatable(b) == tVec then
-		if a:size(2) ~= b:size(1) then error ("Vector dimension does not match") end
+		if a:size(2) ~= b:size(1) then error ("Vector dimension does not match " .. a:size(2) .. ", " .. b:size(1)) end
 	elseif getmetatable(a) == tVec and getmetatable(b) == tMat then 
 		if a:size(1) ~= b:size(2) then error ("Matrix dimension does not match") end
 	end
@@ -115,6 +118,7 @@ function tMat.mMul(_a,_b)
 
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
+	  ans.eqMat = (a.eqMat or a.nameTex) .. " \\cdot " .. (b.eqMat or b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -155,6 +159,7 @@ function tMat.mDiv(_a,_b)
   end
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
   ans.eqNum = "\\dfrac{" .. a.eqNum .. "}{" .. b.eqNum .. "}"
+  ans.eqMat = "\\dfrac{" .. (a.eqMat or a.nameTex) .. "}{" .. (b.eqMat or b.nameTex) .. "}"
   ans.nameTex = ans.eqTex
 
   return ans
@@ -162,7 +167,7 @@ end
 --- unary minus
 -- Metatable
 --
--- @param _a (tMat)
+-- @param a (tMat)
 -- @return (tMat)
 function tMat.mNeg(a)
   local ans = a*(-1)
@@ -170,6 +175,7 @@ function tMat.mNeg(a)
   ans.eqTex = "-"..a.nameTex
   ans.eqNum = "-"..a.eqNum
   ans.nameTex = ans.eqTex
+	  ans.eqMat = "-" .. (a.eqMat or a.nameTex)
   return ans
 end
 --- Transpose
@@ -182,6 +188,7 @@ function tMat:T()
   ans.eqTex = self.nameTex .. "^\\top"
   ans.eqNum = self.eqNum  .. "^\\top"
   ans.nameTex = ans.eqTex
+		  ans.eqMat = (a.eqMat or a.nameTex) .. "^\\top"
   return ans
 end
 --- Determinant
@@ -192,6 +199,7 @@ function tMat:Det()
 
   ans.eqTex = "|" .. self.nameTex .. "|"
   ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
+ans.eqMat = "\\begin{vmatrix} " .. (a.eqMat or a.nameTex)  .. "\\end{vmatrix} "
   ans.nameTex = ans.eqTex
   return ans
 end

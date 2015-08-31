@@ -3,6 +3,7 @@
 -- Contains Metatables and Functions for calculation
 --
 ----------------------------------------------------------------------------
+
 --- Multiplikation
 -- Metatable
 --
@@ -35,6 +36,7 @@ function tVec.mMul(_a,_b)
   end
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
+  ans.eqMat = (a.eqMat or a.nameTex) .. " \\cdot " .. (b.eqMat or b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
 end
@@ -53,6 +55,7 @@ function tVec:crossP(_b)
   end
   ans.eqTex = self.nameTex .. " \\times " .. _b.nameTex
   ans.eqNum = self.eqNum .. " \\times " .. _b.eqNum
+  ans.eqMat = (a.eqMat or a.nameTex) .. " \\times " .. (b.eqMat or b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
 end

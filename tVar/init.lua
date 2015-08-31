@@ -24,4 +24,6 @@ require "tVar.constants"
 tVar.matrix = require "lib.matrix"
 
 --- Version Control
-tVar.version = "1.1.1"
+tVar.getVersion = function()
+tex.print("Version: 1.2.0")
+end

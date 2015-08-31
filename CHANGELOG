@@ -1,25 +1,28 @@
-Version 1.1.0 [30/08/2015]
-	* new Functions
-		* tVar.q
-		* tVar.link
-		* Math-Functions
-			* tVar.abs
-			* tVar.acos
-			* tVar.cos
-			* tVar.cosh
-			* tVar.asin
-			* tVar.sin
-			* tVar.sinh
-			* tVar.atan
-			* tVar.tan
-			* tVar.tanh
-			* tVar.ceil
-			* tVar.floor
-			* tVar.exp
-			* tVar.log
-			* tVar.log10
-			* tVar.rad
-			* tVar.deg
-			* tVar.atan2
-Version 1.0.0 [27/08/2015]
+Version 1.2.0
+	* added switch for tVar.q
+	* tMat and tVec now use tVar for matrix entries
+	* global tMat.eqTexAsMatrix toggles printing matrix and vector as variable name or as matrix with tVar variable names on and off
+Version 1.1.0
+	* tVar.q
+	* tVar.link
+	* Math-Functions
+		* tVar.abs
+		* tVar.acos
+		* tVar.cos
+		* tVar.cosh
+		* tVar.asin
+		* tVar.sin
+		* tVar.sinh
+		* tVar.atan
+		* tVar.tan
+		* tVar.tanh
+		* tVar.ceil
+		* tVar.floor
+		* tVar.exp
+		* tVar.log
+		* tVar.log10
+		* tVar.rad
+		* tVar.deg
+		* tVar.atan2
+Version 1.0.0
     * first release

@@ -140,7 +140,6 @@ end
 -- Metatable
 --
 -- @param _a (tVar,number)
--- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.Neg(_a)
   local a = tVar.Check(_a)
@@ -191,9 +190,10 @@ function tVar.Pow(_a,_b)
   
   return ans
 end
---- unary nummeric
+--- Power nummeric
 --
--- @param _a (number)
+-- @param _a (tVar)
+-- @param _b (tVar)
 -- @return number
 function tVar.Pow_N(_a,_b)
 	return _a.val^_b.val
@@ -201,8 +201,8 @@ end
 --- Compare Equal
 -- Metatable
 --
--- @param _a (tVar,number)
--- @param _b (tVar,number)
+-- @param a (tVar,number)
+-- @param b (tVar,number)
 -- @return (tVar)
 function tVar.Equal(a,b)
 	if tVar.roundValToPrec(a) == tVar.roundValToPrec(b) then return true end
@@ -211,8 +211,8 @@ end
 --- Compare Lower than
 -- Metatable
 --
--- @param _a (tVar,number)
--- @param _b (tVar,number)
+-- @param a (tVar,number)
+-- @param b (tVar,number)
 -- @return (tVar)
 function tVar.LowerT(a,b)
 	if tVar.roundValToPrec(a) < tVar.roundValToPrec(b) then return true end
@@ -221,8 +221,8 @@ end
 --- Compare Lower than Equal
 -- Metatable
 --
--- @param _a (tVar,number)
--- @param _b (tVar,number)
+-- @param a (tVar,number)
+-- @param b (tVar,number)
 -- @return (tVar)
 function tVar.LowerTe(a,b)
 	if tVar.roundValToPrec(a) <= tVar.roundValToPrec(b) then return true end
