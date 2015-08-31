@@ -4,9 +4,9 @@ TexVar is fully compatible with LaTeX.
 
 # LATEST VERSION
 Download:
-[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.1.0)
+[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.1.1)
 |
-[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.1.0)
+[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.1.1)
 
 What's new:
 - tVar.q
