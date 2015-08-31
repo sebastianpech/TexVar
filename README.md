@@ -26,7 +26,7 @@ See details in doc or CheatSheet
 Just download the folders and copy lib and tVar into the folder your *.tex script is.
 
 # GETTING STARTED
-Start with Example 1 (found in Examples folder).
+Start with the examples (found in Examples folder) and at the [wiki](https://gitlab.com/Specht08/TexVar/wikis/Examples).
 
 Then grab the CheatSheet or have a look at the wiki and create your own projects.
 
