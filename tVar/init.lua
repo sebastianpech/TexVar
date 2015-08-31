@@ -24,4 +24,4 @@ require "tVar.constants"
 tVar.matrix = require "lib.matrix"
 
 --- Version Control
-tVar.version = "1.1.0"
+tVar.version = "1.1.1"
