@@ -2,11 +2,6 @@
 %
 \usepackage{luacode}
 \usepackage[fleqn]{amsmath}
-% create commands for units (not needed but good practice) 
-\newcommand{\msKpW}{\tfrac{m^2K}{W}}
-\newcommand{\WpmsK}{\tfrac{W}{m^2K}}
-\newcommand{\WpmK}{\tfrac{W}{mK}}
-\newcommand{\m}{m}
 %
 \begin{document}
 Using math functions for trigonometric caluclations.\\
@@ -37,7 +32,7 @@ Using math functions for trigonometric caluclations.\\
 		tex.print("\\emph{wrong!}")
 	end
 	
-	tex.print("\\\\Compare values regard global \\emph{calcPrecision} with " .. tVar.calcPrecision .. " decimal places:\\\\")
+	tex.print("\\\\Compare values regarding global \\emph{calcPrecision} with " .. tVar.calcPrecision .. " decimal places:\\\\")
 	
 	if a_2 == a then
 		tex.print("\\emph{correct!}")
