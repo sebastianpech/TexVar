@@ -30,9 +30,6 @@ Start with the examples (found in Examples folder) and at the [wiki](https://git
 
 Then grab the CheatSheet or have a look at the wiki and create your own projects.
 
-Example 2 is just for debugging purposes
-
-
 # LICENSE
 TexVar is a free software distributed under the terms of the MIT license.
 
