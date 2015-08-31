@@ -79,12 +79,19 @@ function tMat.mMul(_a,_b)
   local ans = tMat:New({},"ANS")
   ans.nameTex = ""
   local a, b = tMat.Check(_a),tMat.Check(_b)
-  -- ab hier a und b entweder tMat oder tVar
+  -- ab hier a und b tMat or tVar or tVec
   if ((getmetatable(a) == tMat and getmetatable(b) == tMat) or (getmetatable(a) == tVec and getmetatable(b) == tMat) or (getmetatable(a) == tMat and getmetatable(b) == tVec) or (getmetatable(a) == tVec and getmetatable(b) == tVec)) then
-    --falls beide Matrizen
+    --falls beide Matrizen oder vektoren
     --kontrolle ob gleiche anzahl zeilen und spalten
-    if(a:size(1) ~= b:size(2) or a:size(2) ~= b:size(1)) then error ("Matrix Dimensions do not match") end
-    ans.val = tVar.matrix.mul(a.val,b.val)
+    if getmetatable(a) == tMat and getmetatable(b) == tMat then
+		if a:size(1) ~= b:size(1) and a:size(2) ~= b:size(2) then error ("Matrix dimensions do not match") end
+	elseif getmetatable(a) == tMat and getmetatable(b) == tVec then
+		if a:size(2) ~= b:size(1) then error ("Vector dimension does not match") end
+	elseif getmetatable(a) == tVec and getmetatable(b) == tMat then 
+		if a:size(1) ~= b:size(2) then error ("Matrix dimension does not match") end
+	end
+    
+	ans.val = tVar.matrix.mul(a.val,b.val)
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
