@@ -20,6 +20,7 @@
 -- @param calcPrecision (number) ammount of decimal places
 -- @param history_fun stores the tVar function for the result
 -- @param history_arg stores the arguments used with history_fun
+-- @param qOutput controls the output for q function
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -34,7 +35,8 @@ tVar = {
 	decimalSeparator = ".",
 	calcPrecision = 10,
 	history_fun = nil,
-	history_arg = {}
+	history_arg = {},
+	qOutput = false
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables

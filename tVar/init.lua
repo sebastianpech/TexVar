@@ -17,13 +17,11 @@ require "tVar.tVec.core"
 require "tVar.tVec.calc"
 
 require "tVar.constants"
+require "tVar.misc"
 
 --- Load external
 --
 -- luamatrix
 tVar.matrix = require "lib.matrix"
 
---- Version Control
-tVar.getVersion = function()
-tex.print("Version: 1.2.0")
-end
+tVar.Version = "1.2.0"

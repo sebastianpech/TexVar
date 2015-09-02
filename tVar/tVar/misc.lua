@@ -180,14 +180,14 @@ end
 --- quick input mode converts a string to a variable
 -- a_sdf_g_h becomes a_{sdf,g,h}
 --
-function tVar.q(_,output)
+function tVar.q(_)
 	if type(_) ~= "table" then
 		_={_}
 	end
 	for i,_string in ipairs(_) do
-		local overLoad = string.gmatch(_string,"([^=]+)")
+		local overLoad = string.gmatch(_string,"([^:=]+)")
 		local varName = overLoad()
-
+	
 		local nameTex = string.gsub(varName,"_",",") -- replace _ with ,
 		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
 
@@ -204,13 +204,23 @@ function tVar.q(_,output)
 		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
 
 		local value = overLoad()
-		
 		-- remove special chars from Varname
 		varName = string.gsub(varName,"\\","")
-		_G[varName]=tVar:New(tonumber(value),nameTex)
-	
-		if output then
-				_G[varName]:outRES()
+		
+		-- check if value is number matrix or vector
+		if string.sub(value,1,2) == "{{" then --matrix
+			
+			local value = assert(loadstring("return " .. value))()
+			_G[varName]=tMat:New(value,nameTex)
+		elseif string.sub(value,1,1) == "{" then -- vector
+			local value = assert(loadstring("return " .. value))()
+			_G[varName]=tVec:New(value,nameTex)
+		else -- number
+			_G[varName]=tVar:New(value,nameTex)
+		end
+
+		if tVar.qOutput then
+			_G[varName]:outRES()
 		end
 	end
 end
