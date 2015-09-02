@@ -183,35 +183,37 @@ end
 -- @return (tMat) Transposed
 function tMat:T()
   local ans = self:copy()
-  ans.val = tVar.matrix.transpose(self.val)
+  ans.val = tMat.CheckTable(tVar.matrix.transpose(tMat.converttVartoNumber(self.val)))
 
   ans.eqTex = self.nameTex .. "^\\top"
   ans.eqNum = self.eqNum  .. "^\\top"
   ans.nameTex = ans.eqTex
-		  ans.eqMat = (a.eqMat or a.nameTex) .. "^\\top"
+		ans.eqMat = (self.eqMat or self.nameTex) .. "^\\top"
   return ans
 end
 --- Determinant
 --
 -- @return (tMat) Determinant
 function tMat:Det()
-  local ans = tVar:New(tVar.matrix.det(self.val),"ANS")
+	local ans = tVar:New(tVar.matrix.det(tMat.converttVartoNumber(self.val)),"ANS")
 
-  ans.eqTex = "|" .. self.nameTex .. "|"
-  ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
-ans.eqMat = "\\begin{vmatrix} " .. (a.eqMat or a.nameTex)  .. "\\end{vmatrix} "
-  ans.nameTex = ans.eqTex
-  return ans
+	ans.eqTex = "|" .. self.nameTex .. "|"
+	ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
+	ans.nameTex = ans.eqTex
+	return ans
 end
 --- Inverse
 --
 -- @return (tMat) Inverse
 function tMat:Inv()
-  local ans = self:copy()
-  ans.val = tVar.matrix.invert(self.val)
+	local ans = self:copy()
+	local inv,rng=tVar.matrix.invert(tMat.converttVartoNumber(self.val))
+	
+	ans.val = tMat.CheckTable(inv)
 
-  ans.eqTex = self.nameTex .. "^{-1}"
-  ans.eqNum = self.eqNum  .. "^{-1}"
-  ans.nameTex = ans.eqTex
-  return ans
+	ans.eqTex = self.nameTex .. "^{-1}"
+	ans.eqNum = self.eqNum  .. "^{-1}"
+	ans.eqMat = "{"..(self.eqMat or self.nameTex) .. "}^{-1}"
+	ans.nameTex = ans.eqTex
+	return ans
 end

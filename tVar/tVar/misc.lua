@@ -32,6 +32,8 @@ end
 function tVar:clean(_nameTex)
 	self.nameTex = _nameTex or self.nameTex
 	self.eqNum = self:pFormatVal()
+	if self.eqMat then 	self.eqMat = self:pFormatVal() end
+
 	self.eqTex = self.nameTex
 	return self
 end

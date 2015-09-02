@@ -18,6 +18,7 @@ end
 function tMat:copy()
   local ret = tMat:New(self.val,self.nameTex)
   ret.eqNum = self.eqNum
+  ret.eqMat = self.eqMat
   ret.eqTex = self.eqTex
   return ret
 end
@@ -55,4 +56,18 @@ function tMat.CheckTable(_tab)
 		end
 	end
 	return tVarVal
+end
+--- convert tVar Table to Number Table
+--
+-- @param tVarTable
+-- @return Number table
+function tMat.converttVartoNumber(tVarTable)
+	local numberTable = {}
+	for r=1, #tVarTable do
+		numberTable[r] = {}
+		for c=1, #tVarTable[r] do
+			numberTable[r][c] = tVarTable[r][c].val
+		end
+	end
+	return numberTable
 end
