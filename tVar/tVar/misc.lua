@@ -212,10 +212,10 @@ function tVar.q(_)
 		-- check if value is number matrix or vector
 		if string.sub(value,1,2) == "{{" then --matrix
 			
-			local value = assert(loadstring("return " .. value))()
+			local value = assert(load("return " .. value))()
 			_G[varName]=tMat:New(value,nameTex)
 		elseif string.sub(value,1,1) == "{" then -- vector
-			local value = assert(loadstring("return " .. value))()
+			local value = assert(load("return " .. value))()
 			_G[varName]=tVec:New(value,nameTex)
 		else -- number
 			_G[varName]=tVar:New(value,nameTex)

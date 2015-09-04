@@ -23,7 +23,7 @@ function tVar.intFile(path)
 
 		local interpLine = tVar.interpretEasyInputLine(line)
 		-- run string command
-		assert(loadstring(interpLine))()
+		assert(load(interpLine))()
 	end
 end
 --- Easy Input analyses a string and
@@ -38,7 +38,7 @@ function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		local interpLine = tVar.interpretEasyInputLine(line)
 		-- run string command
-		assert(loadstring(interpLine))()
+		assert(load(interpLine))()
 	end
 end
 

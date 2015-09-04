@@ -1,3 +1,5 @@
+Version 1.2.3
+	* Bugfix
 Version 1.2.1
 	* added EasyInput Mode. See Example 4
 	* tVar.q now compatible with tMat and tVec
