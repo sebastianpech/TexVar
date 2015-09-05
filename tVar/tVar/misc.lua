@@ -128,8 +128,11 @@ end
 -- @param luaFunction function to be converted to tVar function
 -- @param texBefore (string) text is added befor the list of tVar function names
 -- @param texAfter (string) same as texBefor but after the list
+-- @param returntype (tVar,tMat oder tVec) tVar is default
 -- @return (tVar) result of lua function with tVar paramters
-function tVar.link(luaFunction,texBefore,texAfter)
+function tVar.link(luaFunction,texBefore,texAfter,returntype)
+	local returntype = returntype
+	if returntype == nil then returntype = tVar end
 	local originalFunction = luaFunction
 	local _texBefore = texBefore
 	local _texAfter = texAfter
@@ -141,23 +144,30 @@ function tVar.link(luaFunction,texBefore,texAfter)
 	
 	return function (...)
 		local arg = table.pack(...)
+
 		-- cheack every element in arg table in case one is a number
 		local anyvalNil = false
 		for i,v in ipairs(arg) do
-			arg[i] = tVar.Check(v)
+			arg[i] = returntype.Check(v)
 			if (arg[i].val == nil) then anyvalNil = true end
 		end
-		local ans = tVar:New(nil,"ANS")
-		
+		local ans = returntype:New(nil,"ANS")
+		local val = nil
+
 		if anyvalNil == false then
-			ans.val = originalFunction(table.unpack(tVar.valuesFromtVar(arg)))
+			val = originalFunction(table.unpack(returntype.valuesFromtVar(arg)))
+			if returntype ~= tVar then
+				val = tMat.CheckTable(val)
+			end
 		end
+		
+		ans.val = val
 		-- concat arg values
 		local nameStr = ""
 		local numbStr = ""
 		for i=1, #arg do
-			nameStr = nameStr .. tVar.Check(arg[i]).nameTex
-			numbStr = numbStr .. tVar.Check(arg[i]).eqNum
+			nameStr = nameStr .. returntype.Check(arg[i]).nameTex
+			numbStr = numbStr .. returntype.Check(arg[i]).eqNum
 			if i<#arg then
 				nameStr = nameStr .. "; "
 				numbStr = numbStr .. "; "

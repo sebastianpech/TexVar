@@ -33,7 +33,7 @@ end
 -- #This is a comment --> tex.print("This is a comment")
 -- a_1=3 --> a_1=tVar:New(3,"a_{1}")
 --
--- @param path path to easy input file
+-- @param _string path to easy input file
 function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		local interpLine = tVar.interpretEasyInputLine(line)

@@ -15,7 +15,6 @@ function tVec.mMul(_a,_b)
   ans.nameTex = ""
   local a, b = tVec.Check(_a),tVec.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-
   if (getmetatable(a) == tVec and getmetatable(b) == tVec) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
@@ -24,7 +23,8 @@ function tVec.mMul(_a,_b)
   else
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tVec) then
+
+     if (getmetatable(a) == tVec or getmetatable(a) == tMat) then
       mat = a
       scale = b
     else

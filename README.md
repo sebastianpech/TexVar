@@ -1,12 +1,13 @@
 # DESCRIPTION
 Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
 TexVar is fully compatible with LaTeX.
+Project Website [projzoo.at](http://www.projzoo.at/?page_id=36)
 
 # LATEST VERSION
 Download:
-[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.2.2)
+[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.2.3)
 |
-[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.2.2)
+[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.2.3)
 
 [What's new](CHANGELOG)
 

@@ -66,8 +66,19 @@ function tMat.converttVartoNumber(tVarTable)
 	for r=1, #tVarTable do
 		numberTable[r] = {}
 		for c=1, #tVarTable[r] do
-			numberTable[r][c] = tVarTable[r][c].val
+			numberTable[r][c] = tVar.Check(tVarTable[r][c]).val
 		end
 	end
 	return numberTable
+end
+--- function returns table of vlaues from tMAt objects
+--
+-- @param tMatTable (tMat table)
+-- @return table of tMat.val
+function tMat.valuesFromtVar(tMatTable)
+	local ret = {}
+	for i=1, #tMatTable do
+		ret[i] = tMat.converttVartoNumber(tMatTable[i].val)
+	end
+	return ret
 end

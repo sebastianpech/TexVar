@@ -25,12 +25,16 @@ function tVec:New(_val,_nameTex)
 	self.__div = self.mDiv
 	self.__unm = self.mNeg
 	--self.__tostring = self.Print
-	local val = {}
-	for i=1,#_val do
-		val[i] = {_val[i]}
+	if _val ~= nil then
+		local val = {}
+		for i=1,#_val do
+			val[i] = {_val[i]}
+		end
+		
+		ret.val = tMat.CheckTable(val)
+	else
+		ret.val = nil
 	end
-	
-	ret.val = tMat.CheckTable(val)
 
 	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
 	ret.eqNum = ret:pFormatVal()

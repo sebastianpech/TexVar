@@ -5,20 +5,6 @@
 \usepackage{amssymb}
 %
 \begin{document}
-	Introducing the \emph{EasyInput} function.\\
-	You can send multiple \emph{EasyInput} styled commands to the interpret function.\\\\
-	\verb|#Some text| $\rightarrow$ \verb|tex.print("Somet ext")|\\
-	\verb|a_k_1_0:=10| $\rightarrow$  \verb|a_k_1_0=tVar:New(10,"a_{k,1}^0")|\\
-	(Also possible with vectors and matrices)\\
-	\verb|--Some comment| $\rightarrow$  \verb|--Some comment|\\
-	\verb|everything else| $\rightarrow$  \verb|everything else| \\
-	
-	The String hast to be passed as multiline string to the tVar function:
-	\begin{verbatim}
-	tVar.intString([===[
-		EasyInput Code
-	]===])
-	\end{verbatim}
 \begin{luacode}
 require("tVar/init.lua")
 tVar.intString([===[

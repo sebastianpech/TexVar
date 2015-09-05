@@ -20,7 +20,7 @@ function tMat.mAdd(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = tVar.matrix.add(a.val,b.val)
+    ans.val = tMat.CheckTable(tVar.matrix.add(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -53,7 +53,7 @@ function tMat.mSub(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = tVar.matrix.sub(a.val,b.val)
+    ans.val = tMat.CheckTable(tVar.matrix.sub(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -94,11 +94,11 @@ function tMat.mMul(_a,_b)
 		if a:size(1) ~= b:size(2) then error ("Matrix dimension does not match") end
 	end
     
-	ans.val = tVar.matrix.mul(a.val,b.val)
+	ans.val = tMat.CheckTable(tVar.matrix.mul(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tMat) then
+    if (getmetatable(a) == tMat or getmetatable(a) == tVec) then
       mat = a
       scale = b
     else
@@ -106,7 +106,7 @@ function tMat.mMul(_a,_b)
       scale = a
     end
 
-    ans.val = tVar.matrix.mulnum(mat.val,scale.val)
+    ans.val = tMat.CheckTable(tVar.matrix.mulnum(tMat.converttVartoNumber(mat.val),scale.val))
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
@@ -140,7 +140,7 @@ function tMat.mDiv(_a,_b)
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
-    if (getmetatable(a) == tMat) then
+    if (getmetatable(a) == tMat or getmetatable(a) == tVec) then
       mat = a
       scale = b
     else
@@ -148,7 +148,7 @@ function tMat.mDiv(_a,_b)
       scale = a
     end
 
-    ans.val = tVar.matrix.divnum(mat.val,scale.val)
+    ans.val = tMat.CheckTable(tVar.matrix.divnum(tMat.converttVartoNumber(mat.val),scale.val))
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
