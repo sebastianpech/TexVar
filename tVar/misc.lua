@@ -19,12 +19,12 @@ end
 -- @param path path to easy input file
 function tVar.intFile(path)
 	local file = assert(io.open(path, "r"))
+	local str = ""
 	for line in file:lines() do
-
-		local interpLine = tVar.interpretEasyInputLine(line)
+		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 		-- run string command
-		assert(loadstring(interpLine))()
 	end
+	assert(loadstring(str))()
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script
@@ -35,11 +35,11 @@ end
 --
 -- @param _string path to easy input file
 function tVar.intString(_string)
+	local str = ""
 	for line in string.gmatch(_string, "([^\n]+)") do
-		local interpLine = tVar.interpretEasyInputLine(line)
-		-- run string command
-		assert(loadstring(interpLine))()
+		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
+	assert(loadstring(str))()
 end
 
 --- Interpret Easy Input definitions
@@ -54,7 +54,23 @@ function tVar.interpretEasyInputLine(line)
 	if string.sub(line,1,1) == "#" then -- check if line is comment e.g starts with #
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
-		return "tVar.q(\"" .. line .. "\")"
+		local overLoad = string.gmatch(line,"([^:=]+)")
+		local varName = overLoad()
+		local value = overLoad()
+		local value_n = tonumber(value)
+		
+		local commands = ""
+		local com = overLoad()
+		while com do
+			commands = commands .. ":" .. com
+			com = overLoad()
+		end
+
+		if value_n or string.sub(value,1,1) == "{" then 
+			return "tVar.q(\"" .. line .. "\")"
+		else
+			return string.gsub(varName,"\\","").."=("..value.."):setName(\"" .. tVar.formatVarName(varName) .. "\")" .. commands
+		end
 	else -- calculation
 		return line
 	end

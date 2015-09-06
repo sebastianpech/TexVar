@@ -200,20 +200,7 @@ function tVar.q(_)
 		local overLoad = string.gmatch(_string,"([^:=]+)")
 		local varName = overLoad()
 	
-		local nameTex = string.gsub(varName,"_",",") -- replace _ with ,
-		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
-
-		local _, count = string.gsub(nameTex, ",", "") -- counter remaining ,
-		local _, count2 = string.gsub(nameTex, "{", "") -- counter remaining ,
-		if count > 1 then 
-			nameTex = string.gsub(nameTex,",","}^") -- replace all , with }^
-		else
-			if count2 > 0 then
-				nameTex = nameTex .. "}"
-			end
-		end
-
-		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
+		local nameTex = tVar.formatVarName(varName)
 
 		local value = overLoad()
 		-- remove special chars from Varname
@@ -235,4 +222,25 @@ function tVar.q(_)
 			_G[varName]:outRES()
 		end
 	end
+end
+--- formats a value with underscores to a latex subscript
+--
+-- @param _string with underscore format
+-- @param (string) latex subscript
+function tVar.formatVarName(_string)
+		local nameTex = string.gsub(_string,"_",",") -- replace _ with ,
+		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
+
+		local _, count = string.gsub(nameTex, ",", "") -- counter remaining ,
+		local _, count2 = string.gsub(nameTex, "{", "") -- counter remaining ,
+		if count > 1 then 
+			nameTex = string.gsub(nameTex,",","}^") -- replace all , with }^
+		else
+			if count2 > 0 then
+				nameTex = nameTex .. "}"
+			end
+		end
+
+		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
+		return nameTex
 end
