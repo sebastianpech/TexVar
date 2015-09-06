@@ -73,15 +73,17 @@ function tVar:print()
 		outString = self:printVar()
 	elseif self.outputMode == "RES_EQ" then
 		outString = self:printHalf() 
-	else 
+	elseif self.outputMode == "RES_EQ_N" then 
 		outString = self:printFull()
+	else
+		return self
 	end
 
 	if env == "" then
-	  tex.print(outString)
+		tex.print(outString)
 	else
-	if not self.numeration then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
+		if not self.numeration then env = env .. "*" end
+		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
 	end
 	return self
 end

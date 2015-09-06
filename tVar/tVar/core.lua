@@ -21,6 +21,7 @@
 -- @param history_fun stores the tVar function for the result
 -- @param history_arg stores the arguments used with history_fun
 -- @param qOutput controls the output for q function
+-- @param disableOutput disables all output
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -36,7 +37,8 @@ tVar = {
 	calcPrecision = 10,
 	history_fun = nil,
 	history_arg = {},
-	qOutput = false
+	qOutput = false,
+	disableOutput = false
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables

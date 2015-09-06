@@ -1,16 +1,7 @@
 # DESCRIPTION
 Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
 TexVar is fully compatible with LaTeX.
-Project Website [projzoo.at](http://www.projzoo.at/?page_id=36)
-
-# LATEST VERSION
-Download:
-[zip](https://gitlab.com/Specht08/TexVar/repository/archive.zip?ref=1.2.3)
-|
-[tar.gz](https://gitlab.com/Specht08/TexVar/repository/archive.tar.gz?ref=1.2.3)
-
-[What's new](CHANGELOG)
-
+Project Website [projectzoo.at](http://www.projectzoo.at/texvar/)
 
 See details in doc or CheatSheet
 # DEPENDENCIES
@@ -25,9 +16,7 @@ See details in doc or CheatSheet
 Just download the folders and copy lib and tVar into the folder your *.tex script is.
 
 # GETTING STARTED
-Start with the examples (found in Examples folder) and at the [wiki](https://gitlab.com/Specht08/TexVar/wikis/home).
-
-For further information download the [docu](doc) or have a look at the [Cheatsheet](Examples/CheatSheet/tVar.pdf).
+Start with the examples (found in Examples folder) or read the Blogposts at www.projectzoo.at.
 
 # LICENSE
 TexVar is a free software distributed under the terms of the MIT license.

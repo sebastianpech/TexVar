@@ -11,10 +11,12 @@
 ------------------------------------
 local oldPrint = tex.print
 tex.print = function (_string)
-	if tVar.debugMode == "on" then
-		oldPrint("{\\tiny \\verb|" .. _string .. "|}\\\\")
-	else
-		oldPrint(_string)
+	if not tVar.disableOutput then 
+		if tVar.debugMode == "on" then
+			oldPrint("{\\tiny \\verb|" .. _string .. "|}\\\\")
+		else
+			oldPrint(_string)
+		end
 	end
 end
 --- sets the name of tVar object
