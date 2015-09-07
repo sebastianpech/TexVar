@@ -1,3 +1,8 @@
+Version 1.3
+	* EasyInput mode now replaces the QuickInput function completely
+	* tVar.q is deprecated
+	* EasyInput mode now more stable (bugfixes)
+	* Changed EasyInput formatting
 Version 1.2.4
 	* EasyInput Mode
 		* Use custom functions

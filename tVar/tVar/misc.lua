@@ -192,9 +192,10 @@ function tVar:roundValToPrec()
 	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
 end
 --- quick input mode converts a string to a variable
--- a_sdf_g_h becomes a_{sdf,g,h}
+-- Deprecated
 --
 function tVar.q(_)
+
 	if type(_) ~= "table" then
 		_={_}
 	end
@@ -220,29 +221,25 @@ function tVar.q(_)
 			_G[varName]=tVar:New(value,nameTex)
 		end
 
+		if commands and commands ~= "" then 
+			tex.print(commands)
+			assert(loadstring(varname..commands))()
+		end
+
 		if tVar.qOutput then
 			_G[varName]:outRES()
 		end
 	end
 end
 --- formats a value with underscores to a latex subscript
---
+-- first _ ist subscript first __ is exponent rest gets ,
 -- @param _string with underscore format
--- @param (string) latex subscript
+-- @return (string) latex subscript
 function tVar.formatVarName(_string)
-		local nameTex = string.gsub(_string,"_",",") -- replace _ with ,
-		nameTex = string.gsub(nameTex,",","_{",1) -- replace first , with _{
+		local nameTex = "{".. _string .."}"
+		nameTex = string.gsub(nameTex,"__","}^{",1)
+		nameTex = string.gsub(nameTex,"_",",") 
+		nameTex = string.gsub(nameTex,",","}_{",1)
 
-		local _, count = string.gsub(nameTex, ",", "") -- counter remaining ,
-		local _, count2 = string.gsub(nameTex, "{", "") -- counter remaining ,
-		if count > 1 then 
-			nameTex = string.gsub(nameTex,",","}^") -- replace all , with }^
-		else
-			if count2 > 0 then
-				nameTex = nameTex .. "}"
-			end
-		end
-
-		nameTex = string.gsub(nameTex,"}^",",",count-1) -- replace remaining }^ except last
 		return nameTex
 end

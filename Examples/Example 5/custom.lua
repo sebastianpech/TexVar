@@ -9,4 +9,4 @@ function tVec.normNumber(a)
 	return a
 end
 
-tVec.norm = tVar.link(tVec.normNumber,"|","|",tVec)
+tVec.norm = tVar.link(tVec.normNumber,"norm(",")",tVec)

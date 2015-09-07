@@ -54,24 +54,68 @@ function tVar.interpretEasyInputLine(line)
 	if string.sub(line,1,1) == "#" then -- check if line is comment e.g starts with #
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
-		local overLoad = string.gmatch(line,"([^:=]+)")
-		local varName = overLoad()
-		local value = overLoad()
+		local overLoad = string.split(line,":=")
+		local varName = overLoad[1]
+
+		local valueAndCommands = string.split(overLoad[2],":")
+
+		local value = valueAndCommands[1]
 		local value_n = tonumber(value)
 		
 		local commands = ""
-		local com = overLoad()
-		while com do
-			commands = commands .. ":" .. com
-			com = overLoad()
+		for i=2, #valueAndCommands do
+			commands = commands .. ":" .. valueAndCommands[i]
 		end
 
-		if value_n or string.sub(value,1,1) == "{" then 
-			return "tVar.q(\"" .. line .. "\")"
+		local stripValue = string.gsub(string.gsub(value,"(","")," ","")
+		local _, count0 = string.gsub(line, ":print()", "")
+		local withPrint = count0 > 0
+
+		if value_n or string.sub(stripValue,1,1) == "{" then 
+			local newcommand = ""
+				-- check if value is number matrix or vector
+			if string.sub(stripValue,1,2) == "{{" then --matrix
+				newcommand = "tMat"
+			elseif string.sub(value,1,1) == "{" then -- vector
+				newcommand = "tVec"
+			else -- number
+				newcommand = "tVar"
+			end
+			newcommand = newcommand .. ":New("..value..",\""..  tVar.formatVarName(varName) .."\")"
+			
+			return string.gsub(varName,"\\","").."="..newcommand..commands	
 		else
-			return string.gsub(varName,"\\","").."=("..value.."):setName(\"" .. tVar.formatVarName(varName) .. "\")" .. commands
+			if withPrint then
+				return string.gsub(varName,"\\","").."="..string.gsub(overLoad[2],":print",":setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+			else
+				return string.gsub(varName,"\\","").."=".. overLoad[2] .. ":setName(\"" .. tVar.formatVarName(varName) .. "\")"
+			end
+
 		end
 	else -- calculation
 		return line
 	end
+end
+--- String Split
+--
+--@param str string to split
+--@param pat pattern
+--@return table
+function string.split(str, pat)
+   local t = {}  -- NOTE: use {n = 0} in Lua-5.0
+   local fpat = "(.-)" .. pat
+   local last_end = 1
+   local s, e, cap = str:find(fpat, 1)
+   while s do
+      if s ~= 1 or cap ~= "" then
+	 table.insert(t,cap)
+      end
+      last_end = e+1
+      s, e, cap = str:find(fpat, last_end)
+   end
+   if last_end <= #str then
+      cap = str:sub(last_end)
+      table.insert(t, cap)
+   end
+   return t
 end
