@@ -86,9 +86,9 @@ function tVar.interpretEasyInputLine(line)
 			return string.gsub(varName,"\\","").."="..newcommand..commands	
 		else
 			if withPrint then
-				return string.gsub(varName,"\\","").."="..string.gsub(overLoad[2],":print",":setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+				return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
 			else
-				return string.gsub(varName,"\\","").."=".. overLoad[2] .. ":setName(\"" .. tVar.formatVarName(varName) .. "\")"
+				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):setName(\"" .. tVar.formatVarName(varName) .. "\")"
 			end
 
 		end
