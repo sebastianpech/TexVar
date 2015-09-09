@@ -24,4 +24,4 @@ require "tVar.misc"
 -- luamatrix
 tVar.matrix = require "lib.matrix"
 
-tVar.Version = "1.3"
+tVar.Version = "1.3.1"

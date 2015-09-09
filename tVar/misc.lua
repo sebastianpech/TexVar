@@ -52,6 +52,9 @@ function tVar.interpretEasyInputLine(line)
 		line = string.sub(line,2,-1)
 	end
 	if string.sub(line,1,1) == "#" then -- check if line is comment e.g starts with #
+		--try to find variable Names in text sourroundet by %varname%
+		line = tVar.formatStringVariables(line)
+		line = tVar.formatStringVariablesValue(line)
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
 		local overLoad = string.split(line,":=")
@@ -118,4 +121,40 @@ function string.split(str, pat)
       table.insert(t, cap)
    end
    return t
+end
+--- String reformat %varname% to "..varname.."
+--
+--@param line input stirng
+--@retrun string 
+function tVar.formatStringVariables(line)
+	local splitLine = string.split(line,"%%%%")
+	if #splitLine < 2 then return line end
+	local retString = ""
+	for i=1,#splitLine do
+		if i%2==0 then
+			retString = retString .. splitLine[i] .. "..\""
+		else
+			if i==#splitLine then return retString .. splitLine[i] end
+			retString = retString .. splitLine[i] .. "\".."
+		end
+	end
+	return retString
+end
+--- String reformat $$varname$$ to $"..varname:pformatVal().."$
+--
+--@param line input stirng
+--@return string 
+function tVar.formatStringVariablesValue(line)
+	local splitLine = string.split(line,"%$%$")
+	if #splitLine < 2 then return line end
+	local retString = ""
+	for i=1,#splitLine do
+		if i%2==0 then
+			retString = retString .. splitLine[i] .. ":pFormatVal()..\"$"
+		else
+			if i==#splitLine then return retString .. splitLine[i] end
+			retString = retString .. splitLine[i] .. "$\".."
+		end
+	end
+	return retString
 end
