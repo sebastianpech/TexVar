@@ -60,6 +60,7 @@ function tVar:New(_val,_nameTex)
 	self.__eq = self.Equal
 	self.__lt = self.LowerT
 	self.__le = self.LowerTE
+	self.__concat = self.concatnameTex
 	ret.val = _val
 	ret.nameTex = _nameTex
 	ret.eqNum = ret:pFormatVal()

@@ -24,6 +24,8 @@ function tVec:New(_val,_nameTex)
 	self.__mul = self.mMul
 	self.__div = self.mDiv
 	self.__unm = self.mNeg
+	self.__concat = self.concatnameTex
+	
 	--self.__tostring = self.Print
 	if _val ~= nil then
 		local val = {}

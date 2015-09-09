@@ -26,7 +26,8 @@ function tMat:New(_val,_nameTex)
 	self.__mul = self.mMul
 	self.__div = self.mDiv
 	self.__unm = self.mNeg
-
+	self.__concat = self.concatnameTex
+	
 	-- convert values to tVar objects
 	ret.val = tMat.CheckTable(_val)
 	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"

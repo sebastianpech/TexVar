@@ -145,3 +145,18 @@ function tVar:out()
 	tex.print(self:pFormatVal())
 	return self
 end
+
+function tVar.concatnameTex(_a,_b)
+	local a,b
+	if getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec then
+		a = "$".._a.nameTex.."$"
+	else
+		a = _a
+	end
+	if getmetatable(_b) == tVar or getmetatable(_b) == tMat or getmetatable(_b) == tVec then
+		b = "$".._b.nameTex.."$"
+	else
+		b = _b
+	end
+	return a..b
+end
