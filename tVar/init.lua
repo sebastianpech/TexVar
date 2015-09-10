@@ -25,3 +25,7 @@ require "tVar.misc"
 tVar.matrix = require "lib.matrix"
 
 tVar.Version = "1.3.1"
+
+if _VERSION ~= "Lua 5.1" then
+	loadstring = load
+end
