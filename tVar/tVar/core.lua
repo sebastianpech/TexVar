@@ -66,15 +66,3 @@ function tVar:New(_val,_nameTex)
 	ret.eqNum = ret:pFormatVal()
 	return ret
 end
---- calculate result of history
---
--- @return result
-function tVar:solve()
-	
-	if self.val ~= nil then return self end
-	for i=1,#self.history_arg do
-		self.history_arg[i]:solve()
-	end
-	self.val = self.history_fun(table.unpack(self.history_arg))
-	return self
-end

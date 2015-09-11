@@ -19,6 +19,8 @@ require "tVar.tVec.calc"
 require "tVar.constants"
 require "tVar.misc"
 
+require "tVar.plot"
+
 --- Load external
 --
 -- luamatrix

@@ -346,3 +346,15 @@ tVar.deg = tVar.link(math.deg,"deg(",")")
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
 tVar.atan2 = tVar.link(math.atan2,"atan2(",")")
+--- calculate result of history
+--
+-- @return result
+function tVar:solve()
+  
+  if self.val ~= nil then return self end
+  for i=1,#self.history_arg do
+    self.history_arg[i]:solve()
+  end
+  self.val = self.history_fun(unpack(self.history_arg))
+  return self
+end

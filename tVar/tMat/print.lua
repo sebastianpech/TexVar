@@ -27,7 +27,11 @@ function tMat:pFormatnameTex()
   for j=1, self:size(1) do
     local row = {}
     for i=1, self:size(2) do
-      row[i] = self.val[j][i].nameTex
+      if self.val[j][i].val and self.val[j][i].nameTex == "nil" then
+        row[i] = self.val[j][i].nameTex
+      else
+        row[i] = "{\\color{red} undef}"
+      end 
     end
     ret[j] = table.concat(row,"&")
   end
