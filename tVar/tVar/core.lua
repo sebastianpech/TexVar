@@ -38,7 +38,8 @@ tVar = {
 	history_fun = nil,
 	history_arg = {},
 	qOutput = false,
-	disableOutput = false
+	disableOutput = false,
+	coloredOuput = false,
 }
 --- create new tVar object. tVar has all properties, functions and
 -- metatables

@@ -21,7 +21,11 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 	local simpleFormat = ""
 	if val == nil then
 		--output with value
-		simpleFormat = "{\\color{red} undef}"
+		if tVar.coloredOuput then
+			simpleFormat = "{\\color{red} undef}"
+		else
+			simpleFormat = "undef"
+		end
 	else
 		simpleFormat = string.format(numFormat,val)
 		local simpleFormatNumber = tonumber(simpleFormat)
