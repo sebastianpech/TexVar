@@ -191,6 +191,13 @@ end
 function tVar:roundValToPrec()
 	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
 end
+--- rounds result to internal precision
+--
+-- @param (number)
+-- @return (number) val of tVar roundet to calcPrecision
+function tVar.roundNumToPrec(val)
+	return math.floor(val * 10^tVar.calcPrecision + 0.5)/10^tVar.calcPrecision
+end
 --- quick input mode converts a string to a variable
 -- Deprecated
 --

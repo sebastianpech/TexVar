@@ -22,6 +22,7 @@
 -- @param history_arg stores the arguments used with history_fun
 -- @param qOutput controls the output for q function
 -- @param disableOutput disables all output
+-- @param coloredOuput enables disables printing nil variables in red
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -41,6 +42,18 @@ tVar = {
 	disableOutput = false,
 	coloredOuput = false,
 }
+mt={}
+
+--- maps intString to call metamethode
+--
+--@param _ table
+--@param _string
+function  mt.__call(_,_string)
+	tVar.intString(_string)
+end
+
+setmetatable(tVar, mt)
+
 --- create new tVar object. tVar has all properties, functions and
 -- metatables
 -- 
@@ -57,6 +70,7 @@ function tVar:New(_val,_nameTex)
 	self.__div = self.Div
 	self.__pow = self.Pow
 	self.__unm = self.Neg
+	self.__call = self.intCall
 	--self.__tostring = self.print
 	self.__eq = self.Equal
 	self.__lt = self.LowerT

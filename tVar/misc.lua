@@ -41,7 +41,6 @@ function tVar.intString(_string)
 	end
 	assert(loadstring(str))()
 end
-
 --- Interpret Easy Input definitions
 --
 -- @param line easy input formatted line

@@ -1,9 +1,11 @@
 tPlot = {
 	--gnuplot_library=[[""D:\Meine Dateien/Software_Programme/gnuplot/bin/gnuplot.exe"]]
 	gnuplot_library="gnuplot",
-	terminal = "eps"
+	terminal = "eps",
+	conf = {},
 }
 
+tPlot.steps = 0.1
 tPlot.stack = {}
 tPlot.stack.add = function(elem)
 	tPlot.stack[#tPlot.stack+1] = elem
@@ -22,9 +24,10 @@ function tPlot:New(present)
 
 	ret.conf.xrange.min = 0
 	ret.conf.xrange.max = 10
-	ret.conf.steps = 0.1
 
 	ret.conf.present = present
+
+	ret.size = "14cm,8cm"
 
 	self.__index = self
 	self.__newindex = self.forwardCommand
@@ -49,9 +52,9 @@ function tPlot:plot()
 	local execState = self.gnuplot_library
 	local gnuplotTerminal = io.popen(execState,"w")
 
-	local temp = "tmp_"..tPlot.stack.add(self) .. "." .. self.terminal
+	local temp = "tmp_"..tPlot.stack.add(self) .. "." .. self.FileExtension
 
-	gnuplotTerminal:write("set terminal "..self.terminal .. "\n")
+	gnuplotTerminal:write("set terminal "..self.terminal .. " size " .. self.size .. "\n")
 	gnuplotTerminal:write("set output '" .. temp .. "'\n")
 
 	-- check for present commands
@@ -76,8 +79,17 @@ function tPlot:plot()
 	end
 
 	for i,v in ipairs(self.fn) do
-		for j=self.conf.xrange.min,self.conf.xrange.max,self.conf.steps do
-			gnuplotTerminal:write("\n" .. j .. " " .. tVar.Check(v[1](j)).val )
+		if type(v[1]) == "function" then
+			for j=self.conf.xrange.min,self.conf.xrange.max,self.steps do
+				local funValue = v[1](tVar.roundNumToPrec(j))  
+				if tonumber(funValue) then
+					gnuplotTerminal:write("\n" .. j .. " " .. tVar.Check(funValue).val )
+				end
+			end
+		elseif type(v[1]) == "table" then
+			for j,w in ipairs(v[1]) do
+				gnuplotTerminal:write("\n" .. tVar.Check(w[1]).val .. " " .. tVar.Check(w[2]).val )
+			end
 		end
 		gnuplotTerminal:write("\ne")
 	end
@@ -87,10 +99,7 @@ function tPlot:plot()
 end
 
 function tPlot.imgFormat(path)
-		tex.print("\\begin{figure}[ht]")
-		tex.print("\\centering")
   		tex.print("\\includegraphics{" .. path .. "}")
-		tex.print("\\end{figure}")
 end
 
 function tPlot.forwardCommand(table,key,value)

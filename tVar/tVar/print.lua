@@ -19,7 +19,7 @@ end
 -- @param decimalSeparator (string) "." gets replaced by decimalSeparator
 function tVar.formatValue(numFormat,val,decimalSeparator)
 	local simpleFormat = ""
-	if val == nil then
+	if not tonumber(val) then
 		--output with value
 		if tVar.coloredOuput then
 			simpleFormat = "{\\color{red} undef}"
@@ -30,8 +30,10 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		simpleFormat = string.format(numFormat,val)
 		local simpleFormatNumber = tonumber(simpleFormat)
 		-- check for unary int and surround with brackets
-		if simpleFormatNumber < 0 then
-			simpleFormat = "(" .. simpleFormat .. ")"
+		if simpleFormatNumber then
+			if simpleFormatNumber < 0 then
+				simpleFormat = "(" .. simpleFormat .. ")"
+			end
 		end
 	end
 	-- decimal seperator
