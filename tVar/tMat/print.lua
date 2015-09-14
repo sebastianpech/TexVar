@@ -27,7 +27,7 @@ function tMat:pFormatnameTex()
   for j=1, self:size(1) do
     local row = {}
     for i=1, self:size(2) do
-      if self.val[j][i].val and self.val[j][i].nameTex == "nil" then
+      if not (self.val[j][i].val and self.val[j][i].nameTex == "nil") then
         row[i] = self.val[j][i].nameTex
       else
         if tVar.coloredOuput then

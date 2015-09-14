@@ -10,14 +10,12 @@ Rotating a vector in R2 \\\\
 	-- load tVar library
 	require("tVar/init.lua")
 	
-	tex.print(_VERSION)
 	tVar.outputMode = "RES_EQ_N"
 	tMat.eqTexAsMatrix = true
 	
-	tex.print("Rotation angle in degree.\\\\ Assigned with quick input \\verb|tVar.q('\\\\theta=90',true)|")
-	tVar.q("\\theta=45",true)
-	theta = tVar.rad(theta):setName("\\theta"):print():clean()
-	
+	tex.print("Rotation angle in degree")
+	tVar.intString([[\\theta:=tVar.rad(45):print()]])
+
 	tex.print("Rotation matrix in R2")
 	A = tMat:New({{tVar.cos(theta),-tVar.sin(theta)},{tVar.sin(theta),tVar.cos(theta)}},"A"):outRES_EQ()
 	e_x = tVec:New({1,0},"e_x"):outRES()

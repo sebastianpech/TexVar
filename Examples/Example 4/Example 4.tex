@@ -7,7 +7,7 @@
 \begin{document}
 \begin{luacode}
 require("tVar/init.lua")
-tVar.intString([===[
+tVar[[
 
 #Vector matrix multiplication
 -- Global Definitions
@@ -21,12 +21,12 @@ M:={{1,12,23},{421,5,6},{733,81,9}}
 v:={4,5,6}
 
 -- Calculations
-d=(M*v):setName("d"):print():clean()
+d:=(M*v):print():clean()
 
 #Calculate inverse
 
-ans=(M:Inv()*d):setName(""):print()
+ans:=(M:Inv()*d):print()
 
-]===])	
+]]	
 \end{luacode}
 \end{document}
