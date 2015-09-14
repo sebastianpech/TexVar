@@ -123,8 +123,8 @@ function string.split(str, pat)
 end
 --- String reformat %varname% to "..varname.."
 --
---@param line input stirng
---@retrun string 
+--@param line input string
+--@return string 
 function tVar.formatStringVariables(line)
 	local splitLine = string.split(line,"%%%%")
 	if #splitLine < 2 then return line end
