@@ -1,3 +1,9 @@
+----------------------------------------------------------------------------
+-- Plot functionality
+-- contains all the functions and tables for plotting
+--
+----------------------------------------------------------------------------
+
 tPlot = {
 	--gnuplot_library=[[""D:\Meine Dateien/Software_Programme/gnuplot/bin/gnuplot.exe"]]
 	gnuplot_library="gnuplot",
@@ -17,7 +23,7 @@ end
 --- Create New PLot
 --
 -- @param present (optional) you can pass a previously created plot as template. Set values are overrideable
--- @retun new Plot
+-- @return new Plot
 function tPlot:New(present)
 	local ret = {}
 
