@@ -27,19 +27,25 @@ end
 function tPlot:New(present)
 	local ret = {}
 
-	ret.commands = {
-		
-	}
+	ret.commands = {}
 	ret.fn = {}
 	ret.conf = {}
 	ret.conf.xrange = {}
 
-	ret.conf.xrange.min = 0
-	ret.conf.xrange.max = 10
+	if present then
+		ret.conf.xrange.min = present.conf.xrange.min
+		ret.conf.xrange.max = present.conf.xrange.max
+
+		ret.conf.size = present.conf.size
+		ret.commands = present.commands
+	else
+		ret.conf.xrange.min = 0
+		ret.conf.xrange.max = 10
+
+		ret.conf.size = "14cm,8cm"
+	end
 
 	ret.conf.present = present
-
-	ret.size = "14cm,8cm"
 
 	self.__index = self
 	self.__newindex = self.forwardCommand
@@ -75,15 +81,8 @@ function tPlot:plot()
 	local temp = "tmp_"..tPlot.stack.add(self) .. "." .. self.FileExtension
 
 	-- set terminal and outputpath
-	gnuplotTerminal:write("set terminal "..self.terminal .. " size " .. self.size .. "\n")
+	gnuplotTerminal:write("set terminal "..self.terminal .. " size " .. self.conf.size .. "\n")
 	gnuplotTerminal:write("set output '" .. temp .. "'\n")
-
-	-- check for present tPlot objects and load the commands
-	if self.conf.presen then
-		for i,v in ipairs(self.present.commands) do
-			gnuplotTerminal:write(v .. "\n")
-		end
-	end
 
 	-- write own commands to gnuplot terminal
 	for i,v in ipairs(self.commands) do
@@ -106,10 +105,14 @@ function tPlot:plot()
 	for i,v in ipairs(self.fn) do
 		if type(v[1]) == "function" then
 			for j=self.conf.xrange.min,self.conf.xrange.max,self.steps do
-				local funValue = v[1](tVar.roundNumToPrec(j))  
-				if tonumber(funValue) then
-					gnuplotTerminal:write("\n" .. j .. " " .. tVar.Check(funValue).val )
+				local funValue = tVar.Check(v[1](tVar.Check(tVar.roundNumToPrec(j))))  
+				if tonumber(funValue.val) then
+					gnuplotTerminal:write("\n" .. j .. " " .. funValue.val )
 				end
+			end
+			funValue = tVar.Check(v[1](tVar.Check(tVar.roundNumToPrec(self.conf.xrange.max))))  
+			if tonumber(funValue.val) then
+				gnuplotTerminal:write("\n" .. self.conf.xrange.max .. " " .. funValue.val )
 			end
 		elseif type(v[1]) == "table" then
 			for j,w in ipairs(v[1]) do

@@ -4,7 +4,7 @@
 \usepackage[fleqn]{amsmath}
 %needed for inserting pictures
 \usepackage{graphicx}
-%with geometry package, plot picture is actiually centered
+%with geometry package, plot picture is actually centered
 \RequirePackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2cm,includeheadfoot]{geometry}
 %
 \begin{document} 
@@ -28,7 +28,7 @@ tVec.texStyle = "vec"
 tPlot.steps = 0.01
 
 function safe(x)
-return math.sqrt((1-x^2))
+return tVar.sqrt((1-x^2))
 end
 
 -- Initialize Gnuplot
@@ -43,7 +43,7 @@ plot1.xtics = "0.1"
 plot1.xrange = "[0:1.1]"
 plot1.yrange = "[0:1.1]"
 
-plot1.size = "14cm,8cm"
+plot1.conf.size = "14cm,8cm"
 -- assign functions to plot
 plot1:add(safe,"First","with lines")
 

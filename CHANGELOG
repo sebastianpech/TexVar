@@ -1,3 +1,6 @@
+Version 1.4.1
+	* Bugfixes
+	* tPlot: size now in conf.size
 Version 1.4.0
 	* tVar can now be used as function for passing strings to interpret
 	* Plotting with Gnuplot currently only 2D
