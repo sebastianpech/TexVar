@@ -131,10 +131,10 @@ function tVar.formatStringVariables(line)
 	local retString = ""
 	for i=1,#splitLine do
 		if i%2==0 then
-			retString = retString .. splitLine[i] .. "..\"$"
+			retString = retString .. splitLine[i] .. "..\""
 		else
 			if i==#splitLine then return retString .. splitLine[i] end
-			retString = retString .. splitLine[i] .. "$\".."
+			retString = retString .. splitLine[i] .. "\".."
 		end
 	end
 	return retString
