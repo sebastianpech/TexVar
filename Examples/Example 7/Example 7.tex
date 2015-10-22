@@ -18,11 +18,11 @@ tVar[[
 	-- global Definitions
 	tVar.outputMode = "RES_EQ_N"
 	tVar.numFormat = "%.2f"
-	tVar.numeration = true
+	tVar.numeration = false
 		
 	-- define variables
 	#\\noindent Resistance of surface
-	R_se:=0.04:setUnit("\\msKpW"):outRES()
+	R_se_1:=0.04:setUnit("\\msKpW"):outRES()
 	R_si:=0.13:setUnit("\\msKpW"):outRES()
 	
 	#Parameters for elements
@@ -33,7 +33,7 @@ tVar[[
 	\\lambda_2:=0.5:setUnit("\\WpmK"):outRES()
 	
 	#Calculate thermal resistance
-	R:=(R_se + d_1/lambda_1 + d_2/lambda_2 + R_si):setUnit("\\msKpW"):print():clean()
+	R:=(R_se_1 + d_1/lambda_1 + d_2/lambda_2 + R_si):setUnit("asd"):print():clean()
 	
 	#Calculate U-Value
 	U:=(1/R):setUnit("\\WpmsK"):print()

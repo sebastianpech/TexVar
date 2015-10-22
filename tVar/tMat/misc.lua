@@ -36,11 +36,15 @@ end
 -- eq number 17 is return as tVar:New(17,"17.0")
 --
 -- @param _a (tVar,tMat,tVec,number) param to be cecked
+-- @param _nameTex (optonal,String) new nameTex for passed number 
 -- @return (tVar) _a as tVar
-function tMat.Check(_a)
+function tMat.Check(_a,_nameTex)
   if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
   ret = tVar:New(_a*1,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
   ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
+  if _nameTex then
+  	ret.nameTex = _nameTex
+  end
   return ret
 end
 --- converts every number in a table to tVar

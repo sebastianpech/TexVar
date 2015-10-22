@@ -25,6 +25,11 @@ function tVar.intFile(path)
 		-- run string command
 	end
 	assert(loadstring(str))()
+	if tVar.log then
+		logfile = io.open ("tVarLog.log","a+")
+		logfile:write(str.."\n")
+		logfile:close()
+	end
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script
@@ -40,6 +45,11 @@ function tVar.intString(_string)
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
 	assert(loadstring(str))()
+	if tVar.log then
+		logfile = io.open ("tVarLog.log","a+")
+		logfile:write(str.."\n")
+		logfile:close()
+	end
 end
 --- Interpret Easy Input definitions
 --
@@ -62,7 +72,16 @@ function tVar.interpretEasyInputLine(line)
 		local valueAndCommands = string.split(overLoad[2],":")
 
 		local value = valueAndCommands[1]
-		local value_n = tonumber(value)
+
+		local value_n_test = loadstring("return " .. value)
+
+		local value_n = nil
+
+		if value_n_test then
+			_,value_n = pcall(function () return tonumber(value_n_test()) end)
+
+			if not _ then value_n = nil end
+		end
 		
 		local commands = ""
 		for i=2, #valueAndCommands do
@@ -73,7 +92,35 @@ function tVar.interpretEasyInputLine(line)
 		local _, count0 = string.gsub(line, ":print()", "")
 		local withPrint = count0 > 0
 
-		if value_n or string.sub(stripValue,1,1) == "{" then 
+		if string.find(varName,"%(.*%)")~=nil then
+			local attrib_str = string.sub(varName,string.find(varName,"%(")+1,-2)
+			local attrib_str_format = ""
+						local attrib_str_format_n = ""
+			local attribs = string.split(attrib_str,",")
+
+			-- remove Latex format
+			attrib_str = string.gsub(attrib_str,"\\","")
+
+			local funName = string.sub(varName,1,string.find(varName,"%(")-1)
+
+			local functionString = "function " .. string.gsub(funName,"\\","") .. " (".. attrib_str .. ")"
+
+			for i,att in ipairs(attribs) do
+				functionString = functionString .. "\n" .. string.gsub(att,"\\","") .. "=tMat.Check(" .. string.gsub(att,"\\","") .. ",\"".. tVar.formatVarName(att) .."\")"
+				attrib_str_format_n = attrib_str_format_n .. string.gsub(att,"\\","") .. ":pFormatVal()" .. "..\",\".."
+				attrib_str_format = attrib_str_format .. tVar.formatVarName(att) .. ","
+			end
+
+			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(overLoad[2],"\\","")
+			functionString = functionString .. "\n" .. "ans.nameTex = \"" .. tVar.formatVarName(funName).. " (\"..".. string.sub(attrib_str_format_n,1,-8) .. "..\")\""
+			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
+			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
+			functionString = functionString .. "\n" .. "return ans \nend"
+
+			print(functionString)
+
+			return functionString
+		elseif value_n or string.sub(stripValue,1,1) == "{" or value == "nil" then 
 			local newcommand = ""
 				-- check if value is number matrix or vector
 			if string.sub(stripValue,1,2) == "{{" then --matrix
@@ -87,10 +134,11 @@ function tVar.interpretEasyInputLine(line)
 			
 			return string.gsub(varName,"\\","").."="..newcommand..commands	
 		else
+
 			if withPrint then
-				return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+				return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
 			else
-				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):setName(\"" .. tVar.formatVarName(varName) .. "\")"
+				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
 			end
 
 		end

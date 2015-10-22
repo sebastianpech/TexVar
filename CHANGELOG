@@ -1,3 +1,11 @@
+Version 1.5
+    * Logging interpreted commands with tVar.log (true/false) 
+    * Interprete functions f(x,y):=x^2+y^2
+    * removed Bug with command a:=b setting b.nameTex to a
+    * steps for plotting can now be set for every individual plot with [tPlot].steps
+    * tMat.Check has an extra argument _nameTex. If not nil and checked variable is not a tVar object the newly generated object gets the name _nameTex
+    * new param tVar.autocutZero removes zeros on right side of number (e.g. 10.0200 -> 10.02)
+    * new print command [tVar]:outEQ() only prints the varname and the equation
 Version 1.4.1
 	* Bugfixes
 	* tPlot: size now in conf.size

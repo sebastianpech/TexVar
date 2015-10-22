@@ -28,6 +28,14 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		end
 	else
 		simpleFormat = string.format(numFormat,val)
+		--remove zeros at right end
+		if tVar.autocutZero then
+			simpleFormat = string.gsub(simpleFormat,"[0]*$","")
+			-- in case everything except the last . ist cut add a zero element
+			if string.sub(simpleFormat,-1,-1) == "." then
+				simpleFormat = simpleFormat .. "0"
+			end
+		end
 		local simpleFormatNumber = tonumber(simpleFormat)
 		-- check for unary int and surround with brackets
 		if simpleFormatNumber then
@@ -61,6 +69,13 @@ end
 function tVar:printHalf()
 	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+end
+--- create string with Name, Equation
+-- 
+-- @return (string) complete formula
+function tVar:printEQ()
+	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
+	return self.nameTex .. "=" .. self.eqTex 
 end
 --- create string with Name, Result and Unit
 -- 
@@ -125,6 +140,23 @@ function tVar:outRES_EQ(numbering,enviroment)
 	else
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
+	end
+	return self
+end
+--- use tex.print to print tVar with Name, and Equation
+
+-- @param numbering (boolean, optional) show numbering besides formula
+-- @param enviroment (boolean, optional) use math enviroment
+-- @return (tVar) self for concatination
+function tVar:outEQ(numbering,enviroment)
+	if numbering == nil then numbering = self.numeration end 
+	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
+	local env = self.mathEnviroment
+	if not enviroment then
+	  tex.print(self:printHalf())
+	else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printEQ() .. "\\end{"..env.."}")
 	end
 	return self
 end

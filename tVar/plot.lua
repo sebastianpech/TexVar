@@ -37,6 +37,7 @@ function tPlot:New(present)
 		ret.conf.xrange.max = present.conf.xrange.max
 
 		ret.conf.size = present.conf.size
+		ret.conf.steps = present.conf.steps
 		ret.commands = present.commands
 	else
 		ret.conf.xrange.min = 0
@@ -104,7 +105,7 @@ function tPlot:plot()
 	-- write datapoints or functions
 	for i,v in ipairs(self.fn) do
 		if type(v[1]) == "function" then
-			for j=self.conf.xrange.min,self.conf.xrange.max,self.steps do
+			for j=self.conf.xrange.min,self.conf.xrange.max,(self.conf.steps or self.steps) do
 				local funValue = tVar.Check(v[1](tVar.Check(tVar.roundNumToPrec(j))))  
 				if tonumber(funValue.val) then
 					gnuplotTerminal:write("\n" .. j .. " " .. funValue.val )
@@ -143,6 +144,9 @@ function tPlot.forwardCommand(table,key,value)
 		local slt = string.split(value,":")
 		table.conf.xrange.min = string.sub(slt[1],2)
 		table.conf.xrange.max = string.sub(slt[2],1,-2)
+	elseif key == "steps" then
+		table.conf.steps = value
+		return nil
 	end
 	if tonumber(value) or (string.sub(value,1,1) == "[" and string.sub(value,-1,-1) == "]") then
 		table:push("set " .. key .. " " .. value .. "")

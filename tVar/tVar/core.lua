@@ -23,6 +23,8 @@
 -- @param qOutput controls the output for q function
 -- @param disableOutput disables all output
 -- @param coloredOuput enables disables printing nil variables in red
+-- @param autocutZero (boolean) remove zeros after last decimal number
+-- @param log (boolean) log interpreted files
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -41,6 +43,8 @@ tVar = {
 	qOutput = false,
 	disableOutput = false,
 	coloredOuput = false,
+	autocutZero = false,
+	log = false
 }
 mt={}
 
@@ -78,6 +82,7 @@ function tVar:New(_val,_nameTex)
 	self.__concat = self.concatnameTex
 	ret.val = _val
 	ret.nameTex = _nameTex
+	ret.eqTex = tostring(_val)
 	ret.eqNum = ret:pFormatVal()
 	return ret
 end
