@@ -24,7 +24,9 @@
 -- @param disableOutput disables all output
 -- @param coloredOuput enables disables printing nil variables in red
 -- @param autocutZero (boolean) remove zeros after last decimal number
+-- @param autoprint (boolean) automatically print all operations
 -- @param log (boolean) log interpreted files
+-- @param outputFunction (table, string) all possible output functions as string 
 tVar = {
 	val = nil,
 	nameTex = "",
@@ -34,7 +36,7 @@ tVar = {
 	numFormat = "%.3f",
 	mathEnviroment = "align",
 	debugMode = "off",
-	outputMode = "RES",
+	outputMode = "RES_EQ_N",
 	numeration = true,
 	decimalSeparator = ".",
 	calcPrecision = 10,
@@ -43,8 +45,10 @@ tVar = {
 	qOutput = false,
 	disableOutput = false,
 	coloredOuput = false,
-	autocutZero = false,
-	log = false
+	autocutZero = true,
+	autoprint = true,
+	log = false,
+	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"}
 }
 mt={}
 

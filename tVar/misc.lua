@@ -66,33 +66,54 @@ function tVar.interpretEasyInputLine(line)
 		line = tVar.formatStringVariablesValue(line)
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
+		-- extract varname, value and commands from input string
 		local overLoad = string.split(line,":=")
 		local varName = overLoad[1]
-
 		local valueAndCommands = string.split(overLoad[2],":")
-
 		local value = valueAndCommands[1]
 
+		-- load the value as return this way e.g 1+3 gets 4 and can be converted to number 
 		local value_n_test = loadstring("return " .. value)
 
 		local value_n = nil
 
+		-- in case loadstring fails (means no numbers or function) value_n remains nil
 		if value_n_test then
+			-- try to convert value_n_test to a number in safe space.
 			_,value_n = pcall(function () return tonumber(value_n_test()) end)
-
+			-- if function call raises an error set value_n to nil
 			if not _ then value_n = nil end
 		end
 		
+		-- extract the commands
 		local commands = ""
 		for i=2, #valueAndCommands do
 			commands = commands .. ":" .. valueAndCommands[i]
 		end
 
+		-- strip value removs trailing () to get the first brackets of a matrix {{
 		local stripValue = string.gsub(string.gsub(value,"(","")," ","")
+		-- check if a print command was used in case it was setName has to occoure before
 		local _, count0 = string.gsub(line, ":print()", "")
 		local withPrint = count0 > 0
 
+		local user_outputFunction = false
+			if tVar.autoprint then
+				-- check if user used output functions
+				
+				for _,outf in ipairs(tVar.outputFunction) do
+					if string.find(overLoad[2],outf) then
+						user_outputFunction = true
+						break
+					end
+				end
+			end
+
 		if string.find(varName,"%(.*%)")~=nil then
+			----------------
+			-- FUNCTION ----
+			----------------
+
 			local attrib_str = string.sub(varName,string.find(varName,"%(")+1,-2)
 			local attrib_str_format = ""
 						local attrib_str_format_n = ""
@@ -117,10 +138,21 @@ function tVar.interpretEasyInputLine(line)
 			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
 			functionString = functionString .. "\n" .. "return ans \nend"
 
-			print(functionString)
+
+			if tVar.autoprint then
+				local attribNew = ""
+				for i,att in ipairs(attribs) do
+					attribNew = attribNew .. "tVar:New(nil,\""..att.."\"),"
+				end
+				functionString = functionString .. "\n" .. string.gsub(funName,"\\","") .. "(" .. string.sub(attribNew,1,-2)  .. "):outEQ()"
+			end
 
 			return functionString
 		elseif value_n or string.sub(stripValue,1,1) == "{" or value == "nil" then 
+			----------------
+			-- NEW VAR -----
+			----------------
+
 			local newcommand = ""
 				-- check if value is number matrix or vector
 			if string.sub(stripValue,1,2) == "{{" then --matrix
@@ -132,15 +164,25 @@ function tVar.interpretEasyInputLine(line)
 			end
 			newcommand = newcommand .. ":New("..value..",\""..  tVar.formatVarName(varName) .."\")"
 			
-			return string.gsub(varName,"\\","").."="..newcommand..commands	
-		else
-
-			if withPrint then
-				return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+			if user_outputFunction == false and tVar.autoprint then
+				return string.gsub(varName,"\\","").."="..newcommand..commands..":outRES()"	
 			else
-				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
+				return string.gsub(varName,"\\","").."="..newcommand..commands
 			end
-
+		else
+			----------------
+			-- CALCULATION -
+			----------------
+			if user_outputFunction == false and tVar.autoprint then
+				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
+			else
+				if not user_outputFunction then
+					return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+				else
+					return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
+				end
+			end
+		
 		end
 	else -- calculation
 		return line

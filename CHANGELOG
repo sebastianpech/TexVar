@@ -1,3 +1,7 @@
+Version 1.5.1
+	* auto print and clean every calculation. tVar.autoprint = (true/false)
+	* default print mode set to RES_EQ_N
+	* removed bug: tVar.sqrt can't handle nil values
 Version 1.5
     * Logging interpreted commands with tVar.log (true/false) 
     * Interprete functions f(x,y):=x^2+y^2

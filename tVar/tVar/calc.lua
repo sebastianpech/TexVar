@@ -182,8 +182,8 @@ function tVar.Pow(_a,_b)
     ans.val = a.val^b.val
   end
 
-  ans.eqTex = a.nameTex.."^{".. b.nameTex .."}"
-  ans.eqNum = a.eqNum.."^{".. b.eqNum .."}"
+  ans.eqTex = "{"..a.nameTex.."}^{".. b.nameTex .."}"
+  ans.eqNum = "{"..a.eqNum.."}^{".. b.eqNum .."}"
   ans.nameTex = ans.eqTex
   
   -- history
@@ -232,18 +232,32 @@ function tVar.LowerTe(a,b)
 end
 --- calculates root of tVar object
 --
--- @param a (tVar) calculate root of this object
--- @param n (number,optional) default=2 nth root
+-- @param _a (tVar) calculate root of this object
+-- @param _n (number,optional) default=2 nth root
 -- @return (tVar) self
-function tVar.sqrt(a,n)
-	n = n or 2
-	local ans = tVar:New(math.pow(a.val,1/n),"ANS")
+function tVar.sqrt(_a,_n)
+	_n = _n or 2
+	local a,n = tVar.Check(_a),tVar.Check(_n)
+	local ans = tVar:New(nil,"ANS")
+  
+	if a.val ~= nil and n.val ~= nil then 
+		ans.val = math.pow(a.val,1/n.val)
+	end
+
 	local grad = ""
-	if n > 2 then grad = "[" .. n .. "]" end
+	if n.val > 2 then grad = "[" .. n .. "]" end
 	ans.eqTex = "\\sqrt".. grad .. "{" .. a.nameTex .. "}"
 	ans.eqNum = "\\sqrt".. grad .. "{" .. a.eqNum .. "}"
 	ans.nameTex = ans.eqTex
 	return ans
+end
+--- Sqrt nummeric
+--
+-- @param _a (tVar)
+-- @param _n (tVar)
+-- @return number
+function tVar.sqrt_N(_a,_n)
+	return math.pow(_a.val,1/_n)
 end
 --- calculates mimimum of tVars
 -- 
