@@ -25,7 +25,7 @@ function tVar.intFile(path)
 		-- run string command
 	end
 	assert(loadstring(str))()
-	if tVar.log then
+	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
@@ -45,7 +45,7 @@ function tVar.intString(_string)
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
 	assert(loadstring(str))()
-	if tVar.log then
+	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()

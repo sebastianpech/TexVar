@@ -25,7 +25,7 @@
 -- @param coloredOuput enables disables printing nil variables in red
 -- @param autocutZero (boolean) remove zeros after last decimal number
 -- @param autoprint (boolean) automatically print all operations
--- @param log (boolean) log interpreted files
+-- @param logInterp (boolean) log interpreted files
 -- @param outputFunction (table, string) all possible output functions as string 
 tVar = {
 	val = nil,
@@ -47,8 +47,8 @@ tVar = {
 	coloredOuput = false,
 	autocutZero = true,
 	autoprint = true,
-	log = false,
-	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"}
+	logInterp = false,
+	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},
 }
 mt={}
 

@@ -24,12 +24,10 @@ require "tVar.plot"
 --- Load external
 --
 -- luamatrix
-tVar.matrix = require "lib.matrix"
+tVar.matrix = require "tVar.lib.matrix"
 
-tVar.Version = "1.5.1"
+tVar.Version = "1.5.2"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
 end
-
-dofile("tVar/.config")

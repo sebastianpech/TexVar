@@ -1,3 +1,8 @@
+Version 1.5.2
+	* Removed .config File. Changes can now be made through global parameters (See Doc)
+    * Integrated lib folder into tVar folder
+    * Changed parameter tVar.log to tVar.logInterp
+    * Added Latex Package Version 0.1.0
 Version 1.5.1
 	* auto print and clean every calculation. tVar.autoprint = (true/false)
 	* default print mode set to RES_EQ_N

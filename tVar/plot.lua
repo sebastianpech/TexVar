@@ -10,6 +10,14 @@ tPlot = {
 	terminal = "eps",
 	conf = {},
 }
+-- Path to gnuplot install
+-- For paths with spaces use [[""C:\Program Files (x86)\gnuplot\bin\gnuplot.exe"]] 
+--tPlot.gnuplot_library=[[""C:\Program Files (x86)\gnuplot\bin\gnuplot.exe"]] 
+tPlot.gnuplot_library="gnuplot"
+
+-- gnuplot output terminal
+tPlot.terminal = "pdf enhanced color font 'Helvetica,12'"
+tPlot.FileExtension = "pdf"
 --- Initialize tPlot table
 --
 -- @param steps (number) Resolution, steps between xmin and xmax
