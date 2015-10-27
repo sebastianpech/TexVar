@@ -3,10 +3,10 @@
 -- Load required modules
 ----------------------------------------------------------------------------
 
-require "tVar.tVar.core"
-require "tVar.tVar.misc"
-require "tVar.tVar.calc"
-require "tVar.tVar.print"
+require "tVar.tVar_sub.core"
+require "tVar.tVar_sub.misc"
+require "tVar.tVar_sub.calc"
+require "tVar.tVar_sub.print"
 
 require "tVar.tMat.core"
 require "tVar.tMat.misc"
@@ -26,7 +26,7 @@ require "tVar.plot"
 -- luamatrix
 tVar.matrix = require "tVar.lib.matrix"
 
-tVar.Version = "1.5.2"
+tVar.Version = "1.5.3"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
