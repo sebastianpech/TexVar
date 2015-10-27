@@ -15,6 +15,7 @@ require "tVar.tMat.print"
 
 require "tVar.tVec.core"
 require "tVar.tVec.calc"
+require "tVar.tVec.misc"
 
 require "tVar.constants"
 require "tVar.misc"
@@ -26,7 +27,7 @@ require "tVar.plot"
 -- luamatrix
 tVar.matrix = require "tVar.lib.matrix"
 
-tVar.Version = "1.5.3"
+tVar.Version = "1.5.4"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load

@@ -1,3 +1,5 @@
+Version 1.5.4
+	* Bugfix: Vector calculus always result in creation of a matrix
 Version 1.5.3
 	* Removed Bug: When using tVar on a global LaTeX Path on Windows tVar/misc.lua wasn't found because tVar/tVar/misc.lua was identified as the same name. So I renamed the folder tVar/tVar to tVar/tVar_sub
 Version 1.5.2

@@ -16,12 +16,19 @@ end
 --
 -- @return (tMat) copy
 function tMat:copy()
-  local ret = tMat:New(self.val,self.nameTex)
+  local ret = tMat:New({},self.nameTex)
+  for i=1,self:size(1) do
+  	ret.val[i] = {}
+  	for j=1,self:size(2) do
+	  	ret.val[i][j] = self.val[i][j]:copy()
+	end
+  end
   ret.eqNum = self.eqNum
   ret.eqMat = self.eqMat
   ret.eqTex = self.eqTex
   return ret
 end
+
 --- returns the size of the matrix
 --
 -- @param rc (1 or 2) 1 is for row count 2 if for collumn count
