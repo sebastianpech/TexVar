@@ -49,6 +49,7 @@ tVar = {
 	autoprint = true,
 	logInterp = false,
 	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},
+	ignoreInterpFunctions = {"tVar.makeGlobal","tVar.makeGlobalFun"},
 }
 mt={}
 

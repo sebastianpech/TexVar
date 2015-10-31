@@ -60,6 +60,14 @@ function tVar.interpretEasyInputLine(line)
 	while string.sub(line,1,1) == "\t" do
 		line = string.sub(line,2,-1)
 	end
+
+	--check if function from ignoreInterpFunctions is used
+	for i,v in ipairs(tVar.ignoreInterpFunctions) do
+		if string.find(line,v) ~= nil then
+			return line
+		end
+	end
+
 	if string.sub(line,1,1) == "#" then -- check if line is comment e.g starts with #
 		--try to find variable Names in text sourroundet by %varname%
 		line = tVar.formatStringVariables(line)
@@ -246,4 +254,92 @@ function tVar.formatStringVariablesValue(line)
 		end
 	end
 	return retString
+end
+
+function tVar.makeGlobal(...)
+	local arg = table.pack(...)
+	for i,v in ipairs(arg)do
+		tVar.globalFile:write(tVar.Global(v,tVar.iterateGlobal(v)))
+	end
+end
+
+function tVar.makeGlobalFun(...)
+	local safeAutoprint = tVar.autoprint
+	tVar.autoprint = false
+	local arg = table.pack(...)
+	for i,v in ipairs(arg)do
+		tVar.globalFile:write("--Generate Function:\n")
+		tVar.globalFile:write("--BGDATA\n")
+		tVar.globalFile:write(tVar.interpretEasyInputLine(v))
+		tVar.globalFile:write("\n--ENDATA\n")
+	end
+	tVar.autoprint = safeAutoprint
+end
+
+function tVar.iterateGlobal(variable)
+	for i,v in pairs(_G) do
+		if v == variable then
+			return i
+		end
+	end
+end
+
+function tVar.Global(variable,varName)
+	local genString = ""
+	if getmetatable(variable) == tVar or getmetatable(variable) == tVec or getmetatable(variable) == tMat then
+		local newCommand = "tVar"
+		if getmetatable(variable) == tVec then 
+			newCommand = "tVec"
+		elseif getmetatable(variable) == tMat then
+			newCommand = "tMat"
+		end
+
+		genString = "--Generate Variable " .. varName .. ":\n"
+		genString = genString .. varName .. "="..newCommand..":New(nil,\"\")\n"
+		genString = genString .. "--BGDATA\n"
+		for i,v in pairs(variable) do
+			genString = genString .. varName .. "['"..i.."']="..tVar.dataTypeFormat(v) .. "\n"
+		end
+		genString = genString .. "--ENDATA\n"
+	end 
+	return genString
+end
+
+function tVar.dataTypeFormat(value)
+	if type(value) == "string" then
+		return "\"" .. value .. "\""
+	elseif type(value) == "boolean" then
+		return tostring(value)
+	elseif type(value) == "table" then
+		local genStringTable = "{"
+		for r=1,#value do
+			genStringTable = genStringTable .. "{"
+			for c=1,#value[r] do
+				genStringTable = genStringTable .. value[r][c].val .. ","
+			end
+			genStringTable = string.sub(genStringTable,1,-2)
+			genStringTable = genStringTable .. "},"
+		end
+		genStringTable = string.sub(genStringTable,1,-2) .. "}"
+		return genStringTable
+	else
+		return value
+	end
+end
+
+function tVar.clearGlobal()
+	tVar.globalFile = io.open("tvarglobal.data","w")
+	tVar.closeGlobal()
+end
+
+function tVar.initGlobal()
+	tVar.globalFile = io.open("tvarglobal.data","+a")
+end
+
+function tVar.loadGlobal()
+	dofile("tvarglobal.data")
+end
+
+function tVar.closeGlobal()
+	tVar.globalFile:close()
 end
