@@ -184,8 +184,13 @@ function tVar.interpretEasyInputLine(line)
 			if user_outputFunction == false and tVar.autoprint then
 				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
 			else
-				if not user_outputFunction then
-					return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],":print","):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print")
+				if user_outputFunction then
+					local retString = ""
+					for _,outf in ipairs(tVar.outputFunction) do
+						if string.find(overLoad[2],outf) then
+							return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],outf,"):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")".. outf)
+						end
+					end
 				else
 					return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
 				end

@@ -334,11 +334,11 @@ tVar.floor = tVar.link(math.floor,"floor(",")")
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.exp = tVar.link(math.exp,"e^{","}")
---- log
+--- ln
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.log = tVar.link(math.log,"log(",")")
+tVar.ln = tVar.link(math.log,"ln(",")")
 --- log10
 -- 
 -- @param (tVar,number) values
@@ -360,9 +360,27 @@ tVar.deg = tVar.link(math.deg,"deg(",")")
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
 tVar.atan2 = tVar.link(math.atan2,"atan2(",")")
+--- link factorial
+-- 
+-- @param opposite (tVar,number) values
+-- @param adjacent (tVar,number) values
+-- @return (tVar) 
+tVar.fakt = tVar.link(function (n)
+	return tVar.calcFactorial(n)
+end,"","!")
+--- calc factorial
+-- 
+-- @param opposite (tVar,number) values
+-- @param adjacent (tVar,number) values
+-- @return (tVar) 
+
 --- calculate result of history
 --
 -- @return result
+function tVar.calcFactorial(n)
+	if n<=1 then return 1 end
+	return n*tVar.calcFactorial(n-1)
+end
 function tVar:solve()
   
   if self.val ~= nil then return self end

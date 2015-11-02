@@ -59,3 +59,23 @@ function tMat:printHalf()
 	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
+
+--- create string with Name, Result, Equation and Unit
+-- 
+-- @return (string) complete formula
+function tMat:printEQ()
+  local eqTexOutput = self.eqTex
+  if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
+  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput  end
+  return self.nameTex .. "=" .. eqTexOutput
+end
+
+--- create string with Name, Result, Equation and Unit
+-- 
+-- @return (string) complete formula
+function tMat:printN()
+  local eqTexOutput = self.eqTex
+  if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
+  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. "~" .. self.unit end
+  return self.nameTex .. "=" .. self:pFormatVal() .. "~" .. self.unit
+end

@@ -84,6 +84,13 @@ function tVar:printVar()
 	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
 	return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
+--- create string with Name, Result, Equation, Numbers and Unit
+-- 
+-- @return (string) complete formula
+function tVar:printN()
+	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
+	return self.nameTex .. "=" .. self:pFormatVal() .. "~" .. self.unit
+end
 --- use tex.print to print tVar depending on global definitions
 --
 -- @return (tVar) self for concatination
@@ -184,7 +191,23 @@ function tVar:out()
 	tex.print(self:pFormatVal())
 	return self
 end
-
+--- use tex.print to print tVar with Name, Result, Equation, Numbers and Unit
+--
+-- @param numbering (boolean, optional) show numbering besides formula
+-- @param enviroment (boolean, optional) use math enviroment
+-- @return (tVar) self for concatination
+function tVar:outN(numbering,enviroment)
+	if numbering == nil then numbering = self.numeration end 
+	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
+	local env = self.mathEnviroment
+	if not enviroment then
+	  tex.print(self:printN())
+	else
+	  if not numbering then env = env .. "*" end
+	tex.print("\\begin{"..env.."}&" .. self:printN() .. "\\end{"..env.."}")
+	end
+	return self
+end
 function tVar.concatnameTex(_a,_b)
 	local a,b
 	if getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec then
