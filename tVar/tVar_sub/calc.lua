@@ -365,7 +365,7 @@ tVar.atan2 = tVar.link(math.atan2,"atan2(",")")
 -- @param opposite (tVar,number) values
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
-tVar.fakt = tVar.link(function (n)
+tVar.fact = tVar.link(function (n)
 	return tVar.calcFactorial(n)
 end,"","!")
 --- calc factorial

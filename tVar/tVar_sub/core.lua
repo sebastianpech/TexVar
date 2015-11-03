@@ -49,7 +49,7 @@ tVar = {
 	autoprint = true,
 	logInterp = false,
 	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},
-	ignoreInterpFunctions = {"tVar.makeGlobal","tVar.makeGlobalFun"},
+	ignoreInterpFunctions = {},
 }
 mt={}
 
@@ -86,8 +86,16 @@ function tVar:New(_val,_nameTex)
 	self.__le = self.LowerTE
 	self.__concat = self.concatnameTex
 	ret.val = _val
-	ret.nameTex = _nameTex
-	ret.eqTex = tostring(_val)
+
+
+	if _nameTex ~= nil then
+		ret.nameTex = _nameTex
+		ret.eqTex = _nameTex
+	else
+		ret.nameTex = tostring(_val)
+		ret.eqTex = tostring(_val)
+	end
+
 	ret.eqNum = ret:pFormatVal()
 	return ret
 end

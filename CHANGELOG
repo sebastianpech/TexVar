@@ -1,3 +1,16 @@
+Version 1.5.5
+	* New global parameter: ignoreInterpFunctions functions listed in this table are directly forwared to lua
+	* Removed Bug: 
+		- Only checking for print in interpret function now checking for all output functions
+		- Creating a new vector and adding a space after := results in error
+	* Remove tVar.autoPrint
+	* New functions:
+		- printN
+		- renamed log to ln
+		- factorial
+		- Now possible to add ; at the end of a line to suppress printing
+		- Access and set matrix values with Matlab like syntax
+		- CRLF_EQ and CRLFb_EQ
 Version 1.5.4
 	* Bugfix: Vector calculus always result in creation of a matrix
 Version 1.5.3

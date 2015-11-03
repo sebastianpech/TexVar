@@ -101,6 +101,30 @@ function tVar:CRLFb(symb)
   ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
   return ret
 end
+--- adds linebreak in eqTex after tVar
+-- 
+-- @param symb (string,optional) Symbol is added before and after linebreak
+-- return (tVar) with brackets
+function tVar:CRLF_EQ(symb)
+	symb = symb or ""
+	local ret = getmetatable(self):New(self.val,self.nameTex,false)
+	ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
+	ret.nameTex = ret.eqTex
+	ret.eqNum = self.eqNum
+	return ret
+end
+--- adds linebreak in eqTex before tVar
+-- 
+-- @param symb (string,optional) Symbol is added before and after linebreak
+-- @return (tVar) with brackets
+function tVar:CRLFb_EQ(symb)
+  symb = symb or ""
+  local ret = getmetatable(self):New(self.val,self.nameTex,false)
+	ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
+		ret.nameTex = ret.eqTex
+  ret.eqNum = self.eqNum
+  return ret
+end
 --- Checks if overloaded param is tVar or not
 -- if not for calculation purposes the overloaded param 
 -- is converted to tVar an returned

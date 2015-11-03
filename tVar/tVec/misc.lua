@@ -10,8 +10,10 @@
 function tVec:copy()
   local ret = tVec:New({},self.nameTex)
   for i=1,self:size(1) do
-  	ret.val[i] = {}
-  	ret.val[i][1] = self.val[i][1]:copy()
+  	  	ret.val[i] = {}
+  	for j=1,self:size(2) do
+  		ret.val[i][j] = self.val[i][j]:copy()
+  	end
   end
   ret.eqNum = self.eqNum
   ret.eqMat = self.eqMat

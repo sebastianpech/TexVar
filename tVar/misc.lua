@@ -74,7 +74,14 @@ function tVar.interpretEasyInputLine(line)
 		line = tVar.formatStringVariablesValue(line)
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
+		-- if ; is at the end of line then dont print
+		local autoPrint = string.find(line,";%s*$") == nil
+		-- remove ;
+		if not autoPrint then line = string.gsub(line,";%s*$","") end
+
+
 		-- extract varname, value and commands from input string
+	    line = string.gsub(line,"%s*:=%s*",":=")
 		local overLoad = string.split(line,":=")
 		local varName = overLoad[1]
 		local valueAndCommands = string.split(overLoad[2],":")
@@ -105,18 +112,21 @@ function tVar.interpretEasyInputLine(line)
 		local _, count0 = string.gsub(line, ":print()", "")
 		local withPrint = count0 > 0
 
+			
 		local user_outputFunction = false
-			if tVar.autoprint then
-				-- check if user used output functions
-				
-				for _,outf in ipairs(tVar.outputFunction) do
-					if string.find(overLoad[2],outf) then
-						user_outputFunction = true
-						break
-					end
+		if autoPrint then
+			-- check if user used output functions
+			
+			for _,outf in ipairs(tVar.outputFunction) do
+				if string.find(overLoad[2],outf) then
+					user_outputFunction = true
+					break
 				end
 			end
 
+		end
+
+		
 		if string.find(varName,"%(.*%)")~=nil then
 			----------------
 			-- FUNCTION ----
@@ -147,7 +157,7 @@ function tVar.interpretEasyInputLine(line)
 			functionString = functionString .. "\n" .. "return ans \nend"
 
 
-			if tVar.autoprint then
+			if autoPrint then
 				local attribNew = ""
 				for i,att in ipairs(attribs) do
 					attribNew = attribNew .. "tVar:New(nil,\""..att.."\"),"
@@ -156,6 +166,9 @@ function tVar.interpretEasyInputLine(line)
 			end
 
 			return functionString
+		elseif string.find(varName,"%[.*%]")~=nil then
+				--return string.gsub(string.gsub(string.gsub(line,"%[","[\""),"%]","\"]"),":=","=")
+				return string.gsub(line,":=","=")
 		elseif value_n or string.sub(stripValue,1,1) == "{" or value == "nil" then 
 			----------------
 			-- NEW VAR -----
@@ -172,7 +185,7 @@ function tVar.interpretEasyInputLine(line)
 			end
 			newcommand = newcommand .. ":New("..value..",\""..  tVar.formatVarName(varName) .."\")"
 			
-			if user_outputFunction == false and tVar.autoprint then
+			if user_outputFunction == false and autoPrint then
 				return string.gsub(varName,"\\","").."="..newcommand..commands..":outRES()"	
 			else
 				return string.gsub(varName,"\\","").."="..newcommand..commands
@@ -181,7 +194,7 @@ function tVar.interpretEasyInputLine(line)
 			----------------
 			-- CALCULATION -
 			----------------
-			if user_outputFunction == false and tVar.autoprint then
+			if user_outputFunction == false and autoPrint then
 				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
 			else
 				if user_outputFunction then
@@ -259,55 +272,6 @@ function tVar.formatStringVariablesValue(line)
 		end
 	end
 	return retString
-end
-
-function tVar.makeGlobal(...)
-	local arg = table.pack(...)
-	for i,v in ipairs(arg)do
-		tVar.globalFile:write(tVar.Global(v,tVar.iterateGlobal(v)))
-	end
-end
-
-function tVar.makeGlobalFun(...)
-	local safeAutoprint = tVar.autoprint
-	tVar.autoprint = false
-	local arg = table.pack(...)
-	for i,v in ipairs(arg)do
-		tVar.globalFile:write("--Generate Function:\n")
-		tVar.globalFile:write("--BGDATA\n")
-		tVar.globalFile:write(tVar.interpretEasyInputLine(v))
-		tVar.globalFile:write("\n--ENDATA\n")
-	end
-	tVar.autoprint = safeAutoprint
-end
-
-function tVar.iterateGlobal(variable)
-	for i,v in pairs(_G) do
-		if v == variable then
-			return i
-		end
-	end
-end
-
-function tVar.Global(variable,varName)
-	local genString = ""
-	if getmetatable(variable) == tVar or getmetatable(variable) == tVec or getmetatable(variable) == tMat then
-		local newCommand = "tVar"
-		if getmetatable(variable) == tVec then 
-			newCommand = "tVec"
-		elseif getmetatable(variable) == tMat then
-			newCommand = "tMat"
-		end
-
-		genString = "--Generate Variable " .. varName .. ":\n"
-		genString = genString .. varName .. "="..newCommand..":New(nil,\"\")\n"
-		genString = genString .. "--BGDATA\n"
-		for i,v in pairs(variable) do
-			genString = genString .. varName .. "['"..i.."']="..tVar.dataTypeFormat(v) .. "\n"
-		end
-		genString = genString .. "--ENDATA\n"
-	end 
-	return genString
 end
 
 function tVar.dataTypeFormat(value)
