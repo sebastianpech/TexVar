@@ -151,8 +151,8 @@ function tVar.Neg(_a)
     ans.val = -a.val
   end
   
-  ans.eqTex = "({-"..a.nameTex.."})"
-  ans.eqNum = "({-"..a.eqNum.."})"
+  ans.eqTex = "\\left({-"..a.nameTex.."}\\right)"
+  ans.eqNum = "\\left({-"..a.eqNum.."}\\right)"
   ans.nameTex = ans.eqTex
   
   -- history
@@ -263,72 +263,72 @@ end
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with min Value
-tVar.min = tVar.link(math.min,"min(",")")
+tVar.min = tVar.link(math.min,"min\\left(","\\right)")
 --- calculates maximum of tVars
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.max = tVar.link(math.max,"max(",")")
+tVar.max = tVar.link(math.max,"max\\left(","\\right)")
 --- calculates absolute val
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.abs = tVar.link(math.abs,"abs(",")")
+tVar.abs = tVar.link(math.abs,"abs\\left(","\\right)")
 --- calculates inverse cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.acos = tVar.link(math.acos,"acos(",")")
+tVar.acos = tVar.link(math.acos,"acos\\left(","\\right)")
 --- calculates cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cos = tVar.link(math.cos,"cos(",")")
+tVar.cos = tVar.link(math.cos,"cos\\left(","\\right)")
 --- calculates cosine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cosh = tVar.link(math.cosh,"cosh(",")")
+tVar.cosh = tVar.link(math.cosh,"cosh\\left(","\\right)")
 --- calculates inverse sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.asin = tVar.link(math.asin,"asin(",")")
+tVar.asin = tVar.link(math.asin,"asin\\left(","\\right)")
 --- calculates sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sin = tVar.link(math.sin,"sin(",")")
+tVar.sin = tVar.link(math.sin,"sin\\left(","\\right)")
 --- calculates sine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sinh = tVar.link(math.sinh,"sinh(",")")
+tVar.sinh = tVar.link(math.sinh,"sinh\\left(","\\right)")
 --- calculates inverse tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.atan = tVar.link(math.atan,"atan(",")")
+tVar.atan = tVar.link(math.atan,"atan\\left(","\\right)")
 --- calculates tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tan = tVar.link(math.tan,"tan(",")")
+tVar.tan = tVar.link(math.tan,"tan\\left(","\\right)")
 --- calculates tangent hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tanh = tVar.link(math.tanh,"tanh(",")")
+tVar.tanh = tVar.link(math.tanh,"tanh\\left(","\\right)")
 --- round up 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ceil = tVar.link(math.ceil,"ceil(",")")
+tVar.ceil = tVar.link(math.ceil,"ceil\\left(","\\right)")
 --- round down
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.floor = tVar.link(math.floor,"floor(",")")
+tVar.floor = tVar.link(math.floor,"floor\\left(","\\right)")
 --- euler function
 -- 
 -- @param (tVar,number) values
@@ -338,28 +338,28 @@ tVar.exp = tVar.link(math.exp,"e^{","}")
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ln = tVar.link(math.log,"ln(",")")
+tVar.ln = tVar.link(math.log,"ln\\left(","\\right)")
 --- log10
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.log10 = tVar.link(math.log10,"log10(",")")
+tVar.log10 = tVar.link(math.log10,"log10\\left(","\\right)")
 --- convert to rad
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.rad = tVar.link(math.rad,"rad(",")")
+tVar.rad = tVar.link(math.rad,"rad\\left(","\\right)")
 --- convert to deg
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.deg = tVar.link(math.deg,"deg(",")")
+tVar.deg = tVar.link(math.deg,"deg\\left(","\\right)")
 --- calculates inverse tangens with with appr. quadrant
 -- 
 -- @param opposite (tVar,number) values
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
-tVar.atan2 = tVar.link(math.atan2,"atan2(",")")
+tVar.atan2 = tVar.link(math.atan2,"atan2\\left(","\\right)")
 --- link factorial
 -- 
 -- @param opposite (tVar,number) values
