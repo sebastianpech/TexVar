@@ -9,7 +9,7 @@
 -- @param _nameTex (string) LaTeX representation
 -- @return self 
 function tMat:setName(_nameTex)
-	self.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+	self.nameTex = tMat.pFormatnameTexOutp("\\" .. self.texStyle .. "{" .. _nameTex .. "}")
 	return self
 end
 --- create a copy of a matrix to remove pointers on table

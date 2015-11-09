@@ -263,111 +263,109 @@ end
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with min Value
-tVar.min = tVar.link(math.min,"min\\left(","\\right)")
+tVar.min = tVar.link(math.min,"\\text{min}\\left(","\\right)")
 --- calculates maximum of tVars
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.max = tVar.link(math.max,"max\\left(","\\right)")
+tVar.max = tVar.link(math.max,"\\text{max}\\left(","\\right)")
 --- calculates absolute val
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.abs = tVar.link(math.abs,"abs\\left(","\\right)")
+tVar.abs = tVar.link(math.abs,"\\text{abs}\\left(","\\right)")
 --- calculates inverse cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.acos = tVar.link(math.acos,"acos\\left(","\\right)")
+tVar.acos = tVar.link(math.acos,"\\text{acos}\\left(","\\right)")
 --- calculates cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cos = tVar.link(math.cos,"cos\\left(","\\right)")
+tVar.cos = tVar.link(math.cos,"\\text{cos}\\left(","\\right)")
 --- calculates cosine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cosh = tVar.link(math.cosh,"cosh\\left(","\\right)")
+tVar.cosh = tVar.link(math.cosh,"\\text{cosh}\\left(","\\right)")
 --- calculates inverse sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.asin = tVar.link(math.asin,"asin\\left(","\\right)")
+tVar.asin = tVar.link(math.asin,"\\text{asin}\\left(","\\right)")
 --- calculates sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sin = tVar.link(math.sin,"sin\\left(","\\right)")
+tVar.sin = tVar.link(math.sin,"\\text{sin}\\left(","\\right)")
 --- calculates sine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sinh = tVar.link(math.sinh,"sinh\\left(","\\right)")
+tVar.sinh = tVar.link(math.sinh,"\\text{sinh}\\left(","\\right)")
 --- calculates inverse tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.atan = tVar.link(math.atan,"atan\\left(","\\right)")
+tVar.atan = tVar.link(math.atan,"\\text{atan}\\left(","\\right)")
 --- calculates tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tan = tVar.link(math.tan,"tan\\left(","\\right)")
+tVar.tan = tVar.link(math.tan,"\\text{tan}\\left(","\\right)")
 --- calculates tangent hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tanh = tVar.link(math.tanh,"tanh\\left(","\\right)")
+tVar.tanh = tVar.link(math.tanh,"\\text{tanh}\\left(","\\right)")
 --- round up 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ceil = tVar.link(math.ceil,"ceil\\left(","\\right)")
+tVar.ceil = tVar.link(math.ceil,"\\text{ceil}\\left(","\\right)")
 --- round down
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.floor = tVar.link(math.floor,"floor\\left(","\\right)")
+tVar.floor = tVar.link(math.floor,"\\text{floor}\\left(","\\right)")
 --- euler function
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.exp = tVar.link(math.exp,"e^{","}")
+tVar.exp = tVar.link(math.exp,"\\text{e}^{","}")
 --- ln
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ln = tVar.link(math.log,"ln\\left(","\\right)")
+tVar.ln = tVar.link(math.log,"\\text{ln}\\left(","\\right)")
 --- log10
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.log10 = tVar.link(math.log10,"log10\\left(","\\right)")
+tVar.log10 = tVar.link(math.log10,"\\text{log10}\\left(","\\right)")
 --- convert to rad
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.rad = tVar.link(math.rad,"rad\\left(","\\right)")
+tVar.rad = tVar.link(math.rad,"\\text{rad}\\left(","\\right)")
 --- convert to deg
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.deg = tVar.link(math.deg,"deg\\left(","\\right)")
+tVar.deg = tVar.link(math.deg,"\\text{deg}\\left(","\\right)")
 --- calculates inverse tangens with with appr. quadrant
 -- 
 -- @param opposite (tVar,number) values
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
-tVar.atan2 = tVar.link(math.atan2,"atan2\\left(","\\right)")
+tVar.atan2 = tVar.link(math.atan2,"\\text{atan2}\\left(","\\right)")
 --- link factorial
 -- 
 -- @param opposite (tVar,number) values
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
-tVar.fact = tVar.link(function (n)
-	return tVar.calcFactorial(n)
-end,"","!")
+tVar.fact = tVar.link(tVar.calcFactorial,"","!")
 --- calc factorial
 -- 
 -- @param opposite (tVar,number) values

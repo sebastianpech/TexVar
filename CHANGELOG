@@ -3,6 +3,7 @@ Version 1.5.5
 	* Removed Bug: 
 		- Only checking for print in interpret function now checking for all output functions
 		- Creating a new vector and adding a space after := results in error
+		- Vector and matrix display now only invokes the variable name except sub and super script. 
 	* Remove tVar.autoPrint
 	* New functions:
 		- printN

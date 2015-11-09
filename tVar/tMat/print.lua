@@ -19,6 +19,26 @@ function tMat:pFormatVal()
   end
   return "\\begin{pmatrix} ".. table.concat(ret,"\\\\") .. " \\end{pmatrix}"
 end
+
+function tMat.pFormatnameTexOutp(name)
+  local loc_underline = string.find(name,"_")
+  local loc_dunderline = string.find(name,"%^")
+
+  if not loc_underline and not loc_dunderline then 
+    return name
+  end 
+  if not loc_dunderline then
+    name = string.gsub(name,"_","}_{")
+  elseif not loc_underline then
+    name = string.gsub(name,"%^","}^{")
+  elseif loc_underline <= loc_dunderline then
+      name = string.gsub(name,"_","}_{")
+  else
+      name = string.gsub(name,"%^","}^{")
+  end
+  return name
+end
+
 --- like pFormatVal but return varNames instead of values
 --
 -- @return (String) formatted with matrix enviroment
