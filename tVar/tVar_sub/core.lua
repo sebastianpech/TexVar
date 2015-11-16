@@ -50,6 +50,8 @@ tVar = {
 	logInterp = false,
 	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},
 	ignoreInterpFunctions = {},
+	firstInGroup = false,
+	plainGroup = false
 }
 mt={}
 

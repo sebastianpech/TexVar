@@ -95,7 +95,7 @@ end
 --
 -- @return (tVar) self for concatination
 function tVar:print()
-	local env = self.mathEnviroment
+	local env = tVar.mathEnviroment
 	--RES, RES_EQ, RES_EQ_N,
 	local outString = ""
 	if self.outputMode == "RES" then
@@ -109,7 +109,16 @@ function tVar:print()
 	end
 
 	if env == "" then
-		tex.print(outString)
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+		if tVar.plainGroup then
+			tex.print(outString)
+		else
+			tex.print(newline .. "&"..outString)
+		end
 	else
 		if not self.numeration then env = env .. "*" end
 		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
@@ -123,10 +132,20 @@ end
 -- @return (tVar) self for concatination
 function tVar:outRES_EQ_N(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
-	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-	local env = self.mathEnviroment
+	if enviroment == nil and tVar.mathEnviroment ~= "" then enviroment = true end 
+	local env = tVar.mathEnviroment
 	if not enviroment then
-	  tex.print(self:printFull())
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+		if tVar.plainGroup then
+			tex.print(self:printFull())
+		else
+			tex.print(newline .. "&"..self:printFull())
+		end
+	  
 	else
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
@@ -140,10 +159,19 @@ end
 -- @return (tVar) self for concatination
 function tVar:outRES_EQ(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
-	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-	local env = self.mathEnviroment
+	if enviroment == nil and tVar.mathEnviroment ~= "" then enviroment = true end 
+	local env = tVar.mathEnviroment
 	if not enviroment then
-	  tex.print(self:printHalf())
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+		if tVar.plainGroup then
+			tex.print(self:printHalf())
+		else
+			tex.print(newline .. "&"..self:printHalf())
+		end
 	else
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
@@ -157,10 +185,19 @@ end
 -- @return (tVar) self for concatination
 function tVar:outEQ(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
-	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-	local env = self.mathEnviroment
+	if enviroment == nil and tVar.mathEnviroment ~= "" then enviroment = true end 
+	local env = tVar.mathEnviroment
 	if not enviroment then
-	  tex.print(self:printHalf())
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+		if tVar.plainGroup then
+			tex.print(self:printEQ())
+		else
+			tex.print(newline .. "&"..self:printEQ())
+		end
 	else
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printEQ() .. "\\end{"..env.."}")
@@ -174,10 +211,19 @@ end
 -- @return (tVar) self for concatination
 function tVar:outRES(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
-	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-	local env = self.mathEnviroment
+	if enviroment == nil and tVar.mathEnviroment ~= "" then enviroment = true end 
+	local env = tVar.mathEnviroment
 	if not enviroment then
-	  tex.print(self:printVar())
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+		if tVar.plainGroup then
+			tex.print(self:printVar())
+		else
+			tex.print(newline .. "&"..self:printVar())
+		end
 	else
 	  if not numbering then env = env .. "*" end
 	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
@@ -198,10 +244,19 @@ end
 -- @return (tVar) self for concatination
 function tVar:outN(numbering,enviroment)
 	if numbering == nil then numbering = self.numeration end 
-	if enviroment == nil and self.mathEnviroment ~= "" then enviroment = true end 
-	local env = self.mathEnviroment
+	if enviroment == nil and tVar.mathEnviroment ~= "" then enviroment = true end 
+	local env = tVar.mathEnviroment
 	if not enviroment then
-	  tex.print(self:printN())
+		local newline = "\\\\"
+		if tVar.firstInGroup then
+			newline = ""
+			tVar.firstInGroup = false
+		end
+			if tVar.plainGroup then
+			tex.print(self:printN())
+		else
+			tex.print(newline .. "&"..self:printN())
+		end
 	else
 	  if not numbering then env = env .. "*" end
 	tex.print("\\begin{"..env.."}&" .. self:printN() .. "\\end{"..env.."}")

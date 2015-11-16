@@ -1,3 +1,5 @@
+Version 1.5.6
+	* Group multiple equations into one math environment.
 Version 1.5.5
 	* New global parameter: ignoreInterpFunctions functions listed in this table are directly forwared to lua
 	* Removed Bug: 

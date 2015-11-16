@@ -27,7 +27,7 @@ require "tVar.plot"
 -- luamatrix
 tVar.matrix = require "tVar.lib.matrix"
 
-tVar.Version = "1.5.5"
+tVar.Version = "1.5.6"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load

@@ -22,7 +22,6 @@ function tVar.intFile(path)
 	local str = ""
 	for line in file:lines() do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
-		-- run string command
 	end
 	assert(loadstring(str))()
 	if tVar.logInterp then
@@ -55,6 +54,7 @@ end
 --
 -- @param line easy input formatted line
 -- @return translated command
+tVar.openGroup = false
 function tVar.interpretEasyInputLine(line)
 	--remove leading \t from file
 	while string.sub(line,1,1) == "\t" do
@@ -68,11 +68,37 @@ function tVar.interpretEasyInputLine(line)
 		end
 	end
 
+	local beginEnv = "\\begin{" .. tVar.mathEnviroment .. "}"
+	local endEnv = "\\end{" .. tVar.mathEnviroment .. "}"
+
 	if string.sub(line,1,1) == "#" then -- check if line is comment e.g starts with #
 		--try to find variable Names in text sourroundet by %varname%
 		line = tVar.formatStringVariables(line)
 		line = tVar.formatStringVariablesValue(line)
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
+	elseif string.sub(line,1,1) == "{" and string.find(line,":=") == nil then
+		if tVar.openGroup then
+			error("Can't create a group inside another group")
+		else
+			tVar.openGroup = true
+			local plain = "false"
+			if string.sub(line,2,6) == "plain" then plain = "true" end
+			local outStr =  "tex.print(\"\\\\begin{\" .. tVar.mathEnviroment .. \"}\")\n"
+			outStr = outStr .. "tVar.firstInGroup = true\n"
+			outStr = outStr .. "TVAR_TEMPENVSAVE = tVar.mathEnviroment\n"
+			outStr = outStr .. "tVar.mathEnviroment = \"\"\n"
+			outStr = outStr .. "tVar.plainGroup = ".. plain .."\n"
+			return outStr
+		end
+	elseif string.sub(line,1,1) == "}" and string.find(line,":=") == nil then
+		if not tVar.openGroup then
+			error("No group to close")
+		else
+			tVar.openGroup = false
+			local outStr = "tex.print(\"\\\\end{\" .. TVAR_TEMPENVSAVE .. \"}\")\n"
+			outStr = outStr .. "tVar.mathEnviroment = TVAR_TEMPENVSAVE\n"
+			return outStr
+		end
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
 		-- if ; is at the end of line then dont print
 		local autoPrint = string.find(line,";%s*$") == nil
