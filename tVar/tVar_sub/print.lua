@@ -33,7 +33,11 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 			simpleFormat = string.gsub(simpleFormat,"[0]*$","")
 			-- in case everything except the last . ist cut add a zero element
 			if string.sub(simpleFormat,-1,-1) == "." then
-				simpleFormat = simpleFormat .. "0"
+				if tVar.autocutDecimalSep then
+					simpleFormat = string.sub(simpleFormat,1,-2)
+				else
+					simpleFormat = simpleFormat .. "0"
+				end
 			end
 		end
 		local simpleFormatNumber = tonumber(simpleFormat)

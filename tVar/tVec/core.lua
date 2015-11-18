@@ -43,6 +43,10 @@ function tVec:New(_val,_nameTex)
 		ret.val = nil
 	end
 
+	if _nameTex == nil then
+		_nameTex = ret:pFormatVal()
+	end
+
 	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
 	ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
 	ret.eqNum = ret:pFormatVal()

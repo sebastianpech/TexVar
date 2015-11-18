@@ -31,6 +31,12 @@ function tMat:New(_val,_nameTex)
 	
 	-- convert values to tVar objects
 	ret.val = tMat.CheckTable(_val)
+
+	if _nameTex == nil then
+		_nameTex = ret:pFormatVal()
+	end
+
+
 	ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
 	ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
 	ret.eqNum = ret:pFormatVal()
