@@ -18,7 +18,8 @@ function tVec:New(_val,_nameTex)
 	local ret = {}
 
 	setmetatable(ret,self)
-	self.__index = self
+	self.__index = tMat.getMatrixVal
+	self.__newindex = tMat.setMatrixVal
 	self.__add = self.mAdd
 	self.__sub = self.mSub
 	self.__mul = self.mMul
@@ -28,12 +29,16 @@ function tVec:New(_val,_nameTex)
 	
 	--self.__tostring = self.Print
 	if _val ~= nil then
-		local val = {}
-		for i=1,#_val do
-			val[i] = {_val[i]}
+		if type(_val[1]) == "table" then
+			ret.val = tMat.CheckTable(_val)
+		else
+			local val = {}
+			for i=1,#_val do
+				val[i] = {_val[i]}
+			end
+			ret.val = tMat.CheckTable(val)
 		end
 		
-		ret.val = tMat.CheckTable(val)
 	else
 		ret.val = nil
 	end

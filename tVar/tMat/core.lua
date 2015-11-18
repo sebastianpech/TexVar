@@ -46,7 +46,7 @@ end
 -- @param value
 function tMat.setMatrixVal(table,key,value)
 	if type(key) == "string" then
-		if key:find("[0-9:(end)]+,[0-9:(end)]+") then
+		if key:find("^[0-9:(end)]+,[0-9:(end)]+$") or key:find("^[0-9:(end)]+$") then
 			local r_start,r_end,c_start,c_end = tMat.getRange(table,key)
 
 			if getmetatable(value) == tMat or getmetatable(value) == tVec then
@@ -83,10 +83,9 @@ end
 -- @param value
 function tMat.getMatrixVal(table,key)
 	if type(key) == "string" then
-		if key:find("[0-9:(end)]+,[0-9:(end)]+") then
+		if key:find("^[0-9:(end)]+,[0-9:(end)]+$") or key:find("^[0-9:(end)]+$") then
 
 		local r_start,r_end,c_start,c_end = tMat.getRange(table,key)
-
 		-- create new matrix return element
 		local val = {}
 		
@@ -110,16 +109,21 @@ function tMat.getMatrixVal(table,key)
 			return tMat:New(val,table.nameTex .. "[\\text{" .. string.gsub(string.gsub(key,"\"",""),"'","") .. "}]")
 		end
 	else
-		return tMat[key]
+
+		return getmetatable(table)[key]
 	end
 	else
-		return tMat[key]
+		return getmetatable(table)[key]
 	end
 end
 
 function tMat.getRange(table,key)
 	local max_r = table:size(1)
 	local max_c = table:size(2)
+
+	if key:match(".+,") == nil and getmetatable(table) == tVec then
+		return key,key,1,1
+	end
 
 	-- split at , remove , substitute end with max val
 	local accespam_r = ((key:match(".+,")):sub(1,-2)):gsub("end",max_r)

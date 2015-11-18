@@ -18,8 +18,21 @@ function tVec.mMul(_a,_b)
   if (getmetatable(a) == tVec and getmetatable(b) == tVec) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
-    if(a:size(1) ~= b:size(1)) then error ("Vector Dimensions do not match") end
-    ans = tVar:New((tVar.matrix.mul(tVar.matrix.transpose(tMat.converttVartoNumber(a.val)),tMat.converttVartoNumber(b.val)))[1][1],"ANS")
+
+    if(a:size(1) ~= b:size(1)) then 
+      -- trying normal matrix multiplikation
+      ans = tVar:New(tVar.matrix.mul(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val))[1][1],"ANS")
+    else
+      ans = tVar:New((tVar.matrix.mul(tVar.matrix.transpose(tMat.converttVartoNumber(a.val)),tMat.converttVartoNumber(b.val)))[1][1],"ANS")
+    end
+  elseif ((getmetatable(a) == tVec or getmetatable(a) == tMat) and (getmetatable(b) == tVec or getmetatable(b) == tMat)) then
+    local calcVal = (tVar.matrix.mul(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)));
+    ans = tMat:New(calcVal,"ANS")
+    if ans:size(1) == 1 and ans:size(2) == 1 then
+      ans = tVar:New(calcVal,"ANS")
+    elseif ans:size(1) == 1 or ans:size(2) == 1 then
+      ans = tVec:New(calcVal,"ANS")
+    end
   else
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")

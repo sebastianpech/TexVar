@@ -79,6 +79,7 @@ end
 -- @param _b (tMat,number)
 -- @return (tMat)
 function tMat.mMul(_a,_b)
+
   local ans = tMat:New({},"ANS")
   ans.nameTex = ""
   local a, b = tMat.Check(_a),tMat.Check(_b)

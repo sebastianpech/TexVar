@@ -65,37 +65,49 @@ end
 -- 
 -- @return (string) complete formula
 function tMat:printFull()
+  local eqSign = "&="
+  if tVar.plainGroup then eqSign = "=" end
+
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
 	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. "=" .. eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
+	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
 --- create string with Name, Result, Equation and Unit
 -- 
 -- @return (string) complete formula
 function tMat:printHalf()
+  local eqSign = "&="
+  if tVar.plainGroup then eqSign = "=" end
+
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
 	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. "=" .. eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit
+	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 
 --- create string with Name, Result, Equation and Unit
 -- 
 -- @return (string) complete formula
 function tMat:printEQ()
+  local eqSign = "&="
+  if tVar.plainGroup then eqSign = "=" end
+
   local eqTexOutput = self.eqTex
   if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
   if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput  end
-  return self.nameTex .. "=" .. eqTexOutput
+  return self.nameTex .. eqSign .. eqTexOutput
 end
 
 --- create string with Name, Result, Equation and Unit
 -- 
 -- @return (string) complete formula
 function tMat:printN()
+  local eqSign = "&="
+  if tVar.plainGroup then eqSign = "=" end
+  
   local eqTexOutput = self.eqTex
   if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
   if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. "~" .. self.unit end
-  return self.nameTex .. "=" .. self:pFormatVal() .. "~" .. self.unit
+  return self.nameTex .. eqSign .. self:pFormatVal() .. "~" .. self.unit
 end

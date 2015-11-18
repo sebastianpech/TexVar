@@ -60,36 +60,51 @@ end
 -- 
 -- @return (string) complete formula
 function tVar:printFull()
+	local eqSign = "&="
+	if tVar.plainGroup then eqSign = "=" end
+	
 	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. "=" .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
 end
 --- create string with Name, Result, Equation and Unit
 -- 
 -- @return (string) complete formula
 function tVar:printHalf()
+	local eqSign = "&="
+	if tVar.plainGroup then eqSign = "=" end
+
 	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. "=" .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
 end
 --- create string with Name, Equation
 -- 
 -- @return (string) complete formula
 function tVar:printEQ()
+	local eqSign = "&="
+	if tVar.plainGroup then eqSign = "=" end
+
 	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. "=" .. self.eqTex 
+	return self.nameTex .. eqSign .. self.eqTex 
 end
 --- create string with Name, Result and Unit
 -- 
 -- @return (string) complete formula
 function tVar:printVar()
+	local eqSign = "&="
+	if tVar.plainGroup then eqSign = "=" end
+
 	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+	return self.nameTex .. eqSign .. self:pFormatVal().. "~" .. self.unit
 end
 --- create string with Name, Result, Equation, Numbers and Unit
 -- 
 -- @return (string) complete formula
 function tVar:printN()
+	local eqSign = "&="
+	if tVar.plainGroup then eqSign = "=" end
+
 	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. "=" .. self:pFormatVal() .. "~" .. self.unit
+	return self.nameTex .. eqSign .. self:pFormatVal() .. "~" .. self.unit
 end
 --- use tex.print to print tVar depending on global definitions
 --
@@ -117,11 +132,11 @@ function tVar:print()
 		if tVar.plainGroup then
 			tex.print(outString)
 		else
-			tex.print(newline .. "&"..outString)
+			tex.print(newline ..outString)
 		end
 	else
 		if not self.numeration then env = env .. "*" end
-		tex.print("\\begin{"..env.."}&" .. outString .. "\\end{"..env.."}")
+		tex.print("\\begin{"..env.."}" .. outString .. "\\end{"..env.."}")
 	end
 	return self
 end
@@ -143,12 +158,12 @@ function tVar:outRES_EQ_N(numbering,enviroment)
 		if tVar.plainGroup then
 			tex.print(self:printFull())
 		else
-			tex.print(newline .. "&"..self:printFull())
+			tex.print(newline .. self:printFull())
 		end
 	  
 	else
 	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printFull() .. "\\end{"..env.."}")
+	tex.print("\\begin{"..env.."}" .. self:printFull() .. "\\end{"..env.."}")
 	end
 	return self
 end
@@ -170,11 +185,11 @@ function tVar:outRES_EQ(numbering,enviroment)
 		if tVar.plainGroup then
 			tex.print(self:printHalf())
 		else
-			tex.print(newline .. "&"..self:printHalf())
+			tex.print(newline ..self:printHalf())
 		end
 	else
 	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printHalf() .. "\\end{"..env.."}")
+	tex.print("\\begin{"..env.."}" .. self:printHalf() .. "\\end{"..env.."}")
 	end
 	return self
 end
@@ -196,11 +211,11 @@ function tVar:outEQ(numbering,enviroment)
 		if tVar.plainGroup then
 			tex.print(self:printEQ())
 		else
-			tex.print(newline .. "&"..self:printEQ())
+			tex.print(newline ..self:printEQ())
 		end
 	else
 	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printEQ() .. "\\end{"..env.."}")
+	tex.print("\\begin{"..env.."}" .. self:printEQ() .. "\\end{"..env.."}")
 	end
 	return self
 end
@@ -222,11 +237,11 @@ function tVar:outRES(numbering,enviroment)
 		if tVar.plainGroup then
 			tex.print(self:printVar())
 		else
-			tex.print(newline .. "&"..self:printVar())
+			tex.print(newline ..self:printVar())
 		end
 	else
 	  if not numbering then env = env .. "*" end
-	  tex.print("\\begin{"..env.."}&" .. self:printVar() .. "\\end{"..env.."}")
+	  tex.print("\\begin{"..env.."}" .. self:printVar() .. "\\end{"..env.."}")
 	end
 	return self
 end
@@ -255,11 +270,11 @@ function tVar:outN(numbering,enviroment)
 			if tVar.plainGroup then
 			tex.print(self:printN())
 		else
-			tex.print(newline .. "&"..self:printN())
+			tex.print(newline ..self:printN())
 		end
 	else
 	  if not numbering then env = env .. "*" end
-	tex.print("\\begin{"..env.."}&" .. self:printN() .. "\\end{"..env.."}")
+	tex.print("\\begin{"..env.."}" .. self:printN() .. "\\end{"..env.."}")
 	end
 	return self
 end

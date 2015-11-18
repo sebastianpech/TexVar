@@ -1,3 +1,7 @@
+Version 1.5.7
+	* Index Vectors
+	* Added align char before =. In Plainmode align char is removed
+	* Removed Bug vec^T*vec not possible
 Version 1.5.6
 	* Group multiple equations into one math environment.
 Version 1.5.5
