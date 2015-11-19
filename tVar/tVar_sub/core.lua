@@ -46,6 +46,7 @@ tVar = {
 	disableOutput = false,
 	coloredOuput = false,
 	autocutZero = true,
+	autocutDecimalSep = true,
 	autoprint = true,
 	logInterp = false,
 	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},

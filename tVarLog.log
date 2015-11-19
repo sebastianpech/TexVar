@@ -1,0 +1,235 @@
+
+tVar.logInterp = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)*1):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+tVar.autocutDecimalSep = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+tVar.autocutDecimalSep = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+tVar.autocutDecimalSep = false
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+tVar.autocutDecimalSep = true
+function f (x)
+x=tMat.Check(x,"{x}")
+local ans=2*x^2
+ans.nameTex = "{f} ("..x:pFormatVal()..")"
+ans.eqTex = ans.nameTex
+return ans 
+end
+f(tVar:New(nil,"x")):outEQ()
+f_1=(f(2)):copy():setName("{f}_{1}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+tex.print("Acces something")
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+tex.print("Access something")
+r=(v["1"]):copy():setName("{r}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+tex.print("Access something")
+r=(v["1"]*4):copy():setName("{r}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=(tMat:New({{1,2,3},{4,5,2},{3,2,1}})):copy():setName("{A}"):print():clean()
+v=(tVec:New({1,2,3})):copy():setName("{v}"):print():clean()
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}"):print():clean()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}")
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}")
+v=tVec:New({1,2,3},"{v}")
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}")
+A["1,1:end"]:outRES()
+
+tVar.logInterp = true
+a=tVar:New(10,"{a}"):outRES()
+A=tMat:New({{1,2,3},{4,5,2},{3,2,1}},"{A}"):outRES()
+v=tVec:New({1,2,3},"{v}"):outRES()
+tex.print("Access something")
+r=(v["1"]*4*A["1,2"]):copy():setName("{r}"):print():clean()
+A["1,1:end"]:outRES()
