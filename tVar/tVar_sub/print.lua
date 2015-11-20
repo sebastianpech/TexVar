@@ -117,9 +117,9 @@ function tVar:print()
 	local env = tVar.mathEnviroment
 	--RES, RES_EQ, RES_EQ_N,
 	local outString = ""
-	if self.outputMode == "RES" then
+	if self.outputMode == "RES" or self:pFormatVal() == self.eqNum or self:pFormatVal() == self.eqTex then
 		outString = self:printVar()
-	elseif self.outputMode == "RES_EQ" then
+	elseif self.outputMode == "RES_EQ" or self.eqTex == self.eqNum or self.eqTex == self.eqNum  then
 		outString = self:printHalf() 
 	elseif self.outputMode == "RES_EQ_N" then 
 		outString = self:printFull()
