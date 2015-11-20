@@ -163,7 +163,7 @@ function tVar.interpretEasyInputLine(line)
 
 			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(overLoad[2],"\\","")
 			functionString = functionString .. "\n" .. "ans.nameTex = \"" .. tVar.formatVarName(funName).. " (\"..".. string.sub(attrib_str_format_n,1,-8) .. "..\")\""
-			functionString = functionString .. "\n" .. "ans.eqTex = ans.nameTex"
+			--functionString = functionString .. "\n" .. "ans.eqTex = ans.nameTex"
 			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
 			functionString = functionString .. "\n" .. "return ans \nend"
 
@@ -219,7 +219,7 @@ function tVar.interpretEasyInputLine(line)
 		return line
 	end
 end
---- String reformat %varname% to "..varname.."
+--- String reformat %%varname%% to "..varname.."
 --
 --@param line input string
 --@return string 
@@ -247,7 +247,7 @@ function tVar.formatStringVariablesValue(line)
 	local retString = ""
 	for i=1,#splitLine do
 		if i%2==0 then
-			retString = retString .. splitLine[i] .. ":pFormatVal()..\"$"
+			retString = retString .. splitLine[i] .. ":pFormatVal() .. \"~\" .. " .. splitLine[i] .. ".unit .. \"$"
 		else
 			if i==#splitLine then return retString .. splitLine[i] end
 			retString = retString .. splitLine[i] .. "$\".."
