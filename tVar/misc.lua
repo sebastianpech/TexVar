@@ -23,12 +23,13 @@ function tVar.intFile(path)
 	for line in file:lines() do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	assert(loadstring(str))()
+	
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
 	end
+	assert(loadstring(str))()
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script
@@ -43,12 +44,13 @@ function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	assert(loadstring(str))()
+	print(str)
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
 	end
+	assert(loadstring(str))()
 end
 
 function tVar.dataTypeFormat(value)
@@ -88,4 +90,27 @@ end
 
 function tVar.closeGlobal()
 	tVar.globalFile:close()
+end
+--- String Split
+--
+--@param str string to split
+--@param pat pattern
+--@return table
+function string.split(str, pat)
+   local t = {}  -- NOTE: use {n = 0} in Lua-5.0
+   local fpat = "(.-)" .. pat
+   local last_end = 1
+   local s, e, cap = str:find(fpat, 1)
+   while s do
+      if s ~= 1 or cap ~= "" then
+	 table.insert(t,cap)
+      end
+      last_end = e+1
+      s, e, cap = str:find(fpat, last_end)
+   end
+   if last_end <= #str then
+      cap = str:sub(last_end)
+      table.insert(t, cap)
+   end
+   return t
 end

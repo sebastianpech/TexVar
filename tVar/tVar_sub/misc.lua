@@ -69,8 +69,26 @@ end
 --
 -- @return (tVar) self
 function tVar:bracR()
-	self.eqTex = self.encapuslate(self.eqTex,"\\left(","\\right)")
-	self.eqNum = self.encapuslate(self.eqNum,"\\left(","\\right)")
+	return self:brac("\\left(","\\right)")
+end
+--- sourrounds the tVar objects eqTex and eqNum with round brackets
+--
+-- @return (tVar) self
+function tVar:bracB()
+	return self:brac("\\left[","\\right]")
+end
+--- sourrounds the tVar objects eqTex and eqNum with round brackets
+--
+-- @return (tVar) self
+function tVar:bracC()
+	return self:brac("\\left\\lbrace","\\right\\rbrace")
+end
+--- sourrounds the tVar objects eqTex and eqNum with any bracket
+--
+-- @return (tVar) self
+function tVar:brac(left,right)
+	self.eqTex = self.encapuslate(self.eqTex,left,right)
+	self.eqNum = self.encapuslate(self.eqNum,left,right)
 
 	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
 	self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
