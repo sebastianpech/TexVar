@@ -31,7 +31,9 @@ function tVar.interpretEasyInputLine(line)
 			tVar.openGroup = true
 			local plain = "false"
 			if string.sub(line,2,6) == "plain" then plain = "true" end
-			local outStr =  "tex.print(\"\\\\begin{\" .. tVar.mathEnviroment .. \"}\")\n"
+			local outStr = "realMathenv = tVar.mathEnviroment\n"
+			outStr = outStr .. "if not tVar.numeration then realMathenv = realMathenv .. \"*\" end\n"
+			outStr = outStr .. "tex.print(\"\\\\begin{\" .. realMathenv .. \"}\")\n"
 			outStr = outStr .. "tVar.firstInGroup = true\n"
 			outStr = outStr .. "TVAR_TEMPENVSAVE = tVar.mathEnviroment\n"
 			outStr = outStr .. "tVar.mathEnviroment = \"\"\n"
@@ -45,36 +47,46 @@ function tVar.interpretEasyInputLine(line)
 			tVar.openGroup = false
 			local outStr = "tex.print(\"\\\\end{\" .. TVAR_TEMPENVSAVE .. \"}\")\n"
 			outStr = outStr .. "tVar.mathEnviroment = TVAR_TEMPENVSAVE\n"
+			outStr = outStr .. "tVar.plainGroup = false\n"
 			return outStr
 		end
 	elseif string.find(line,":=") ~= nil then -- check if it is a quick input command
-		
-		-- --------------------------------------------------
-		-- --- New REPLACE Functions for Vectors and Matrices
-		-- --------------------------------------------------
 
-		-- line = string.gsub(line, "%b{}", function(char) 
-		-- 	local _,count = char:gsub("{","{")
+		--------------------------------------------------
+		--- New REPLACE Functions for Vectors and Matrices
+		--------------------------------------------------
 
-		-- 	if count == 1 then
-		-- 		--vector
-		-- 		return "tVec:New("..char..")"
-		-- 	else
-		-- 		--matrix
-		-- 		return "tMat:New("..char..")"
-		-- 	end
- 	-- 	end)
+		-- get all Vec and Mat in Strings
+		local strings = {}
+		line = string.gsub(line, "%b\"\"", function(char) 
+			strings[#strings+1] = char
+ 		end)
 
- 	-- 	--------------------------------------------------
-		-- --- New REPLACE Functions for Vector and Matrix Indices
-		-- --------------------------------------------------
 
-		-- line = string.gsub(line, "%b[]", function(char) 
-		-- 	return char:gsub("%[","[\""):gsub("%]","\"]")
- 		--- 	end)
+		line = string.gsub(line, "%b{}", function(char) 
+			local _,count = char:gsub("{","{")
+
+			if count == 1 then
+				--vector
+				return "tVec:New("..char..")"
+			else
+				--matrix
+				return "tMat:New("..char..")"
+			end
+ 		end)
+
+		-- rereplace strings
+
+ 		local index = 0
+		line = string.gsub(line, "%b\"\"", function(char) 
+			print(strings[index])
+			index = index + 1
+			return strings[index]	
+ 		end)
 
 		-- if ; is at the end of line then dont print
 		local autoPrint = string.find(line,";%s*$") == nil
+
 		-- remove ;
 		if not autoPrint then line = string.gsub(line,";%s*$","") end
 
@@ -168,20 +180,13 @@ function tVar.interpretEasyInputLine(line)
 		elseif string.find(varName,"%[.*%]")~=nil then
 				--return string.gsub(string.gsub(string.gsub(line,"%[","[\""),"%]","\"]"),":=","=")
 				return string.gsub(line,":=","=")
-		elseif value_n or string.sub(stripValue,1,1) == "{" or value == "nil" then 
+		elseif value_n or value == "nil" then 
 			----------------
 			-- NEW VAR -----
 			----------------
-			print(user_outputFunction)
-			local newcommand = ""
-				-- check if value is number matrix or vector
-			if string.sub(stripValue,1,2) == "{{" then --matrix
-				newcommand = "tMat"
-			elseif string.sub(value,1,1) == "{" then -- vector
-				newcommand = "tVec"
-			else -- number
-				newcommand = "tVar"
-			end
+		
+			newcommand = "tVar"
+			
 			newcommand = newcommand .. ":New("..value..",\""..  tVar.formatVarName(varName) .."\")"
 			
 			if user_outputFunction == false and autoPrint then
@@ -210,6 +215,7 @@ function tVar.interpretEasyInputLine(line)
 		
 		end
 	else -- calculation
+
 		return line
 	end
 end

@@ -23,12 +23,13 @@ function tVar.intFile(path)
 	for line in file:lines() do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	assert(loadstring(str))()
+	
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
 	end
+	assert(loadstring(str))()
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script
@@ -43,12 +44,13 @@ function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	assert(loadstring(str))()
+	print(str)
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
 	end
+	assert(loadstring(str))()
 end
 
 function tVar.dataTypeFormat(value)
