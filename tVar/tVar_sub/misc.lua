@@ -111,9 +111,10 @@ end
 -- return (tVar) with brackets
 function tVar:CRLF(symb)
 	symb = symb or ""
-	local ret = getmetatable(self):New(self.val,self.nameTex,false)
+	local ret = self:copy()
 	--ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
 	ret.eqNum = self.eqNum .. symb .. " \\nonumber\\\\& "
+
 	return ret
 end
 --- adds linebreak in eqNum before tVar
@@ -122,7 +123,7 @@ end
 -- @return (tVar) with brackets
 function tVar:CRLFb(symb)
   symb = symb or ""
-  local ret = getmetatable(self):New(self.val,self.nameTex,false)
+  local ret = self:copy()
   ret.eqTex = self.eqTex
   ret.eqNum = " \\nonumber\\\\& " .. symb .. self.eqNum
   return ret
@@ -133,7 +134,7 @@ end
 -- return (tVar) with brackets
 function tVar:CRLF_EQ(symb)
 	symb = symb or ""
-	local ret = getmetatable(self):New(self.val,self.nameTex,false)
+	local ret = self:copy()
 	ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
 	ret.nameTex = ret.eqTex
 	ret.eqNum = self.eqNum
@@ -145,9 +146,9 @@ end
 -- @return (tVar) with brackets
 function tVar:CRLFb_EQ(symb)
   symb = symb or ""
-  local ret = getmetatable(self):New(self.val,self.nameTex,false)
+  local ret = self:copy()
 	ret.eqTex = " \\nonumber\\\\& " .. symb .. self.eqTex
-		ret.nameTex = ret.eqTex
+	ret.nameTex = ret.eqTex
   ret.eqNum = self.eqNum
   return ret
 end
@@ -193,8 +194,8 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype)
 		local arg = table.pack(...)
 		return originalFunction(table.unpack(tVar.valuesFromtVar(arg)))
 	end
-	
 	return function (...)
+
 		local arg = table.pack(...)
 
 		-- cheack every element in arg table in case one is a number

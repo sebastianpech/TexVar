@@ -1,3 +1,8 @@
+Version 1.5.10
+	* Fixed Bug: CRLFb_EQ insertet der line break afterwards
+	* Fixed Bug: Sometimes double arrows on vectors occoured
+    * Fixed Bug: CRLF - functions didn't work properly with matrices
+    * tVar.abs function is now represented with ||
 Version 1.5.9
 	* New function [tVar]:setFormat([string]). Used to set the number format for a tVar object.
     * Exponential number formats: E is replaced with \cdot 10

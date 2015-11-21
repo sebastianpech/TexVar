@@ -35,10 +35,15 @@ function tMat:New(_val,_nameTex)
 	if _nameTex == nil then
 		ret.nameTex = ret:pFormatVal()
 	else
-		ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+		local _,count = _nameTex:gsub("\\\\" .. self.texStyle .. "{.*}","")
+		if counter == 0 then 
+			ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" 
+		else
+			ret.nameTex = _nameTex
+		end
 	end
 
-	ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
+	--ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
 	ret.eqNum = ret:pFormatVal()
 	ret.eqTex = ret.eqNum
 	ret.eqMat = ret:pFormatnameTex()

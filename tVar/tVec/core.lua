@@ -29,16 +29,17 @@ function tVec:New(_val,_nameTex)
 	
 	--self.__tostring = self.Print
 	if _val ~= nil then
-		if type(_val[1]) == "table" then
-			ret.val = tMat.CheckTable(_val)
-		else
-			local val = {}
-			for i=1,#_val do
-				val[i] = {_val[i]}
+		local val = {}
+		for i=1,#_val do
+			if type(val[i]) == "table" then
+				if #val[i] ~= 0 then 
+					break
+				end
 			end
-			ret.val = tMat.CheckTable(val)
+			val[i] = {_val[i]}
 		end
-		
+		ret.val = tMat.CheckTable(val)
+
 	else
 		ret.val = nil
 	end
@@ -46,10 +47,17 @@ function tVec:New(_val,_nameTex)
 	if _nameTex == nil then
 		ret.nameTex = ret:pFormatVal()
 	else
-		ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}"
+		local _,count = _nameTex:gsub("\\\\" .. self.texStyle .. "{.*}","")
+		if counter == 0 then 
+			ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" 
+		else
+			ret.nameTex = _nameTex
+		end
 	end
 
-		ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
+
+
+	--ret.nameTex = tMat.pFormatnameTexOutp(ret.nameTex)
 	ret.eqNum = ret:pFormatVal()
 	ret.eqTex = ret.eqNum
 	ret.eqMat = ret:pFormatnameTex()

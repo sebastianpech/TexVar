@@ -38,15 +38,18 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 			simpleFormat = simpleFormat:gsub("E.*$","")
 			else
 				value = value:sub(2,-1)
-				if tonumber(value) ~= 0 then 
+				if tonumber(value) ~= 0 and  math.abs(tonumber(value)) < tVar.calcPrecision then 
 					--if tonumber(value) == 1 then 
 					--	expTen = " \\cdot 10"
 					--else
 						value = tVar.formatValue("%f",tonumber(value),".")
 						expTen = " \\cdot 10^{" .. value:gsub("%(",""):gsub("%)","") .. "}"
 					--end
+				elseif math.abs(tonumber(value)) > tVar.calcPrecision then
+					simpleFormat = "0.0"
 				end
 				simpleFormat = simpleFormat:gsub("E.*","")
+				
 			end
 		end
 
@@ -66,7 +69,7 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		-- check for unary int and surround with brackets
 		if simpleFormatNumber then
 			-- if number is not equal zero but output is zero print with calc precision
-			if simpleFormatNumber == 0 and tVar.roundNumToPrec(tonumber(val)) ~= 0then
+			if simpleFormatNumber == 0 and tVar.roundNumToPrec(tonumber(val)) ~= 0 then
 				simpleFormat = tVar.formatValue("%.3E",val,decimalSeparator)
 			end
 			if simpleFormatNumber < 0 then

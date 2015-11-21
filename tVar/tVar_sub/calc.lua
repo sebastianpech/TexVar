@@ -273,7 +273,7 @@ tVar.max = tVar.link(math.max,"\\text{max}\\left(","\\right)")
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.abs = tVar.link(math.abs,"\\text{abs}\\left(","\\right)")
+tVar.abs = tVar.link(math.abs,"\\left|","\\right|")
 --- calculates inverse cosine
 -- 
 -- @param (tVar,number) values
@@ -360,6 +360,14 @@ tVar.deg = tVar.link(math.deg,"\\text{deg}\\left(","\\right)")
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
 tVar.atan2 = tVar.link(math.atan2,"\\text{atan2}\\left(","\\right)")
+--- calculate result of history
+--
+-- @return result
+function tVar.calcFactorial(n)
+  if n<=1 then return 1 end
+  return n*tVar.calcFactorial(n-1)
+end
+
 --- link factorial
 -- 
 -- @param opposite (tVar,number) values
@@ -372,13 +380,8 @@ tVar.fact = tVar.link(tVar.calcFactorial,"","!")
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
 
---- calculate result of history
---
--- @return result
-function tVar.calcFactorial(n)
-	if n<=1 then return 1 end
-	return n*tVar.calcFactorial(n-1)
-end
+
+
 function tVar:solve()
   
   if self.val ~= nil then return self end
