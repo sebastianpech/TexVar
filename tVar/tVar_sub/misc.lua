@@ -27,6 +27,14 @@ function tVar:setName(_nameTex)
 	self.nameTex = _nameTex
 	return self
 end
+--- sets the numberformat of tVar object
+-- 
+-- @param numformat (string) Lua numberformat
+-- @return (tVar) self
+function tVar:setFormat(_numformat)
+	self.numFormat = _numformat
+	return self
+end
 --- removes all calculation steps from tVar object.align
 --
 -- @param _nameTex (string, optional) LaTeX representation

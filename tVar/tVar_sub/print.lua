@@ -19,6 +19,7 @@ end
 -- @param decimalSeparator (string) "." gets replaced by decimalSeparator
 function tVar.formatValue(numFormat,val,decimalSeparator)
 	local simpleFormat = ""
+	local expTen = ""
 	if not tonumber(val) then
 		--output with value
 		if tVar.coloredOuput then
@@ -28,6 +29,27 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		end
 	else
 		simpleFormat = string.format(numFormat,val)
+
+		--if scientific numformat E-1 change to 10^-1
+		local value = simpleFormat:gmatch("E.*")()
+		
+		if value ~= nil then
+			if #value == 2 then
+			simpleFormat = simpleFormat:gsub("E.*$","")
+			else
+				value = value:sub(2,-1)
+				if tonumber(value) ~= 0 then 
+					if tonumber(value) == 1 then 
+						expTen = " \\cdot 10"
+					else
+						value = tVar.formatValue("%f",tonumber(value),".")
+						expTen = " \\cdot 10^{" .. value:gsub("%(",""):gsub("%)","") .. "}"
+					end
+				end
+				simpleFormat = simpleFormat:gsub("E.*","")
+			end
+		end
+
 		--remove zeros at right end
 		if tVar.autocutZero then
 			simpleFormat = string.gsub(simpleFormat,"[0]*$","")
@@ -43,13 +65,21 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		local simpleFormatNumber = tonumber(simpleFormat)
 		-- check for unary int and surround with brackets
 		if simpleFormatNumber then
+			-- if number is not equal zero but output is zero print with calc precision
+			if simpleFormatNumber == 0 and tVar.roundNumToPrec(tonumber(val)) ~= 0then
+				simpleFormat = tVar.formatValue("%.3E",val,decimalSeparator)
+			end
 			if simpleFormatNumber < 0 then
 				simpleFormat = "(" .. simpleFormat .. ")"
 			end
 		end
 	end
+	
 	-- decimal seperator
-	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}")
+	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}") .. expTen
+
+	
+
 	return simpleFormat
 end
 --- Enxapsulate a String with _open and _close used for brackets

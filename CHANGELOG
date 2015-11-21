@@ -1,3 +1,6 @@
+Version 1.5.9
+	* New function [tVar]:setFormat([string]). Used to set the number format for a tVar object.
+    * Exponential number formats: E is replaced with \cdot 10
 Version  1.5.8
 	* Added curly and boxed brackets
 	* Matrices and Vectors can now be created inside equations

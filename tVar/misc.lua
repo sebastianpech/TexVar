@@ -44,7 +44,7 @@ function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	print(str)
+	--print(str)
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
