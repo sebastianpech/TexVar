@@ -146,7 +146,7 @@ end
 function tVar:CRLFb_EQ(symb)
   symb = symb or ""
   local ret = getmetatable(self):New(self.val,self.nameTex,false)
-	ret.eqTex = self.eqTex .. symb .. " \\nonumber\\\\& "
+	ret.eqTex = " \\nonumber\\\\& " .. symb .. self.eqTex
 		ret.nameTex = ret.eqTex
   ret.eqNum = self.eqNum
   return ret

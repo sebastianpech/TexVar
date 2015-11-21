@@ -39,12 +39,12 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 			else
 				value = value:sub(2,-1)
 				if tonumber(value) ~= 0 then 
-					if tonumber(value) == 1 then 
-						expTen = " \\cdot 10"
-					else
+					--if tonumber(value) == 1 then 
+					--	expTen = " \\cdot 10"
+					--else
 						value = tVar.formatValue("%f",tonumber(value),".")
 						expTen = " \\cdot 10^{" .. value:gsub("%(",""):gsub("%)","") .. "}"
-					end
+					--end
 				end
 				simpleFormat = simpleFormat:gsub("E.*","")
 			end
