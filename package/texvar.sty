@@ -1,5 +1,5 @@
 % LaTeX Package for TexVar - LaTeX math calculations
-% Version 0.1.0
+% Version 0.2.0
 %
 % This work may be distributed and/or modified under the
 % terms of the MIT license.
@@ -51,3 +51,15 @@
 %
 % Declare Enviroment
 \newenvironment {tVar} {\tVar@begin\CatcodeTableOther tVar[[}  {}
+%
+% Declare ShortCommand
+\newcommand{\tv}[1]{
+$\luaexec{
+TVAR_TEMPENVSAVE = tVar.mathEnviroment
+tVar.plainGroup = true
+tVar.mathEnviroment = ""
+#1
+tVar.mathEnviroment = TVAR_TEMPENVSAVE
+tVar.plainGroup = false
+}$
+}
