@@ -55,6 +55,13 @@ function tVar:setUnit(_unit)
 	self.unit = _unit
 	return self
 end
+--- gets unit of tVar object
+--
+-- @returns string
+function tVar:getUnit()
+	if self.unit == "" then return "" end
+	return "~" .. self.unit
+end
 --- copy tVar to get rid of references
 --
 -- @return (tVar) copied

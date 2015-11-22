@@ -100,8 +100,8 @@ function tVar:printFull()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 	
-	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
+	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit()
 end
 --- create string with Name, Result, Equation and Unit
 -- 
@@ -110,8 +110,8 @@ function tVar:printHalf()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit
+	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. self:getUnit() end
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal().. self:getUnit()
 end
 --- create string with Name, Equation
 -- 
@@ -120,7 +120,7 @@ function tVar:printEQ()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. "~" .. self.unit end
+	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. self:getUnit() end
 	return self.nameTex .. eqSign .. self.eqTex 
 end
 --- create string with Name, Result and Unit
@@ -130,8 +130,8 @@ function tVar:printVar()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. eqSign .. self:pFormatVal().. "~" .. self.unit
+	if self.nameTex == "" then return self:pFormatVal().. self:getUnit() end
+	return self.nameTex .. eqSign .. self:pFormatVal().. self:getUnit()
 end
 --- create string with Name, Result, Equation, Numbers and Unit
 -- 
@@ -140,8 +140,8 @@ function tVar:printN()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. eqSign .. self:pFormatVal() .. "~" .. self.unit
+	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
+	return self.nameTex .. eqSign .. self:pFormatVal() .. self:getUnit()
 end
 --- use tex.print to print tVar depending on global definitions
 --

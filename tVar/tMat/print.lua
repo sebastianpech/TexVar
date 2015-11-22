@@ -70,8 +70,8 @@ function tMat:printFull()
 
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit end
-	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. "~" .. self.unit
+	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
+	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit()
 end
 --- create string with Name, Result, Equation and Unit
 -- 
@@ -82,8 +82,8 @@ function tMat:printHalf()
 
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit end
-	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self:pFormatVal().. "~" .. self.unit
+	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. self:getUnit() end
+	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self:pFormatVal().. self:getUnit()
 end
 
 --- create string with Name, Result, Equation and Unit
@@ -108,6 +108,6 @@ function tMat:printN()
   
   local eqTexOutput = self.eqTex
   if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. "~" .. self.unit end
-  return self.nameTex .. eqSign .. self:pFormatVal() .. "~" .. self.unit
+  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. self:getUnit() end
+  return self.nameTex .. eqSign .. self:pFormatVal() .. self:getUnit()
 end
