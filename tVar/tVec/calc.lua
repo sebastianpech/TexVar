@@ -48,7 +48,6 @@ function tVec.mMul(_a,_b)
     ans.val = tMat.CheckTable(tVar.matrix.mulnum(tMat.converttVartoNumber(mat.val),scale.val))
   end
 
-
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
   ans.eqNum = a.eqNum .. " \\cdot " .. b.eqNum
   ans.eqMat = (a.eqMat or a.nameTex) .. " \\cdot " .. (b.eqMat or b.nameTex)

@@ -29,7 +29,11 @@ function tVar.intFile(path)
 		logfile:write(str.."\n")
 		logfile:close()
 	end
-	assert(loadstring(str))()
+	local status, err = pcall(function () assert(loadstring(str))() end )
+	
+	if not status then
+		getErrorReport(err,str)
+	end
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script
@@ -44,13 +48,60 @@ function tVar.intString(_string)
 	for line in string.gmatch(_string, "([^\n]+)") do
 		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
 	end
-	print(str)
+
 	if tVar.logInterp then
 		logfile = io.open ("tVarLog.log","a+")
 		logfile:write(str.."\n")
 		logfile:close()
 	end
-	assert(loadstring(str))()
+
+	local status, err = pcall(function () assert(loadstring(str))() end )
+	
+	if not status then
+		getErrorReport(err,str)
+	end
+end
+
+function getErrorReport(err,_string)
+	local maxPlaces = 70
+	tex.print("\\begin{verbatim}")
+	tex.print("------------------------")
+	tex.print("| ERROR                |")
+	tex.print("------------------------")
+	if #err > maxPlaces then
+		local countBegin = 1
+		while countBegin < #err do
+			local lenPlaces = maxPlaces
+			if countBegin+maxPlaces > #err then lenPlaces = #err-countBegin end
+			tex.print(err:sub(countBegin,countBegin+lenPlaces))
+			countBegin = countBegin+lenPlaces+1
+		end
+	else
+		tex.print(err)
+	end
+	tex.print("------------------------")
+	tex.print("| IN CODE              |")
+	tex.print("------------------------")
+	local counter = 1
+	for line in string.gmatch(_string, "([^\n]+)") do
+		if #line > maxPlaces then
+			local countBegin = 1
+			while countBegin < #line do
+				local lenPlaces = maxPlaces
+				if countBegin+maxPlaces > #line then lenPlaces = #line-countBegin end
+				if countBegin == 1 then
+					tex.print(counter .. ": " .. line:sub(countBegin,countBegin+lenPlaces))
+				else
+					tex.print(line:sub(countBegin,countBegin+lenPlaces))
+				end
+				countBegin = countBegin+lenPlaces+1
+			end
+		else
+			tex.print(counter .. ": " .. line)
+		end
+		counter = counter + 1
+	end
+	tex.print("\\end{verbatim}")
 end
 
 function tVar.dataTypeFormat(value)

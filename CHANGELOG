@@ -1,3 +1,7 @@
+Version 1.5.11
+	* Fixed Bug: No row vectors possible
+	* Shortcode for inline TexVar call \tv{}
+	* Fixed Bug: printing ~ at end of reuslt when no unit is set
 Version 1.5.10
 	* Fixed Bug: CRLFb_EQ insertet der line break afterwards
 	* Fixed Bug: Sometimes double arrows on vectors occoured

@@ -31,12 +31,21 @@ function tVec:New(_val,_nameTex)
 	if _val ~= nil then
 		local val = {}
 		for i=1,#_val do
-			if type(val[i]) == "table" then
-				if #val[i] ~= 0 then 
-					break
+			if type(_val[i]) == "table" then
+				if #_val[i] ~= 0 then 
+					--matrice
+					val[i] = {}
+					for j=1,#_val[i] do
+						val[i][j] = _val[i][j]
+					end
+				else
+					--tvarobj
+					val[i] = {_val[i]}
 				end
+			else
+				--number
+				val[i] = {_val[i]}
 			end
-			val[i] = {_val[i]}
 		end
 		ret.val = tMat.CheckTable(val)
 
