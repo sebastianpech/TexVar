@@ -155,15 +155,19 @@ function tVar.interpretEasyInputLine(line)
 
 			local functionString = "function " .. string.gsub(funName,"\\","") .. " (".. attrib_str .. ")"
 
+			functionString = functionString .. "\n" .. "local anynil = false"
+
 			for i,att in ipairs(attribs) do
 				functionString = functionString .. "\n" .. string.gsub(att,"\\","") .. "=tMat.Check(" .. string.gsub(att,"\\","") .. ",\"".. tVar.formatVarName(att) .."\")"
 				attrib_str_format_n = attrib_str_format_n .. string.gsub(att,"\\","") .. ":pFormatVal()" .. "..\",\".."
 				attrib_str_format = attrib_str_format .. tVar.formatVarName(att) .. ","
+				functionString = functionString .. "\n if " .. string.gsub(att,"\\","") .. ".val == nil then anynil = true end"
 			end
 
 			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(overLoad[2],"\\","")
 			functionString = functionString .. "\n" .. "ans.nameTex = \"" .. tVar.formatVarName(funName).. " (\"..".. string.sub(attrib_str_format_n,1,-8) .. "..\")\""
-			functionString = functionString .. "\n" .. "ans.eqTex = ans.nameTex"
+			
+			functionString = functionString .. "\n if not anynil then " .. "ans.eqTex = ans.nameTex end"
 			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
 			functionString = functionString .. "\n" .. "return ans \nend"
 
