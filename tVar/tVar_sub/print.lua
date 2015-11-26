@@ -315,6 +315,11 @@ function tVar:outN(numbering,enviroment)
 	end
 	return self
 end
+--- concate to tVar objects as string with there nameTex variable
+--
+-- @param _a (tVar) first obj
+-- @param _b (tVar) second obj
+-- @return (string)
 function tVar.concatnameTex(_a,_b)
 	local a,b
 	if getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec then
