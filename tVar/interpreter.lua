@@ -163,7 +163,7 @@ function tVar.interpretEasyInputLine(line)
 
 			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(overLoad[2],"\\","")
 			functionString = functionString .. "\n" .. "ans.nameTex = \"" .. tVar.formatVarName(funName).. " (\"..".. string.sub(attrib_str_format_n,1,-8) .. "..\")\""
-			--functionString = functionString .. "\n" .. "ans.eqTex = ans.nameTex"
+			functionString = functionString .. "\n" .. "ans.eqTex = ans.nameTex"
 			--functionString = functionString .. "\n" .. "ans.eqTex = \"" .. tVar.formatVarName(funName).. " (".. string.sub(attrib_str_format,1,-2) .. ")\""
 			functionString = functionString .. "\n" .. "return ans \nend"
 

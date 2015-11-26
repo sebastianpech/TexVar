@@ -80,9 +80,6 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 	
 	-- decimal seperator
 	simpleFormat = string.gsub(simpleFormat,"%.","{"..decimalSeparator.."}") .. expTen
-
-	
-
 	return simpleFormat
 end
 --- Enxapsulate a String with _open and _close used for brackets
