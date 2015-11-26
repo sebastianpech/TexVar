@@ -4,8 +4,8 @@
 -- @return translated command
 tVar.openGroup = false
 function tVar.interpretEasyInputLine(line)
-	--remove leading \t from file
-	while string.sub(line,1,1) == "\t" do
+	--remove leading \t and \s from file
+	while string.sub(line,1,1) == "\t" or string.sub(line,1,1) == " " do
 		line = string.sub(line,2,-1)
 	end
 
