@@ -1,5 +1,6 @@
 Version 1.5.13
 	* Fixed Bug: outN() wrong output
+	* Fixed Bug: Function Output
 Version 1.5.12
 	* Fixed Bug: Leading spaces produce errors when creating groups
 Version 1.5.11
