@@ -88,7 +88,7 @@ function tMat.mMul(_a,_b)
     --falls beide Matrizen oder vektoren
     --kontrolle ob gleiche anzahl zeilen und spalten
     if getmetatable(a) == tMat and getmetatable(b) == tMat then
-		if a:size(1) ~= b:size(1) and a:size(2) ~= b:size(2) then error ("Matrix dimensions do not match") end
+		if a:size(1) ~= b:size(2) and a:size(2) ~= b:size(1) then error ("Matrix dimensions do not match") end
 	elseif getmetatable(a) == tMat and getmetatable(b) == tVec then
 		if a:size(2) ~= b:size(1) then error ("Vector dimension does not match " .. a:size(2) .. ", " .. b:size(1)) end
 	elseif getmetatable(a) == tVec and getmetatable(b) == tMat then 
