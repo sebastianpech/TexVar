@@ -1,11 +1,16 @@
 # DESCRIPTION
-Is a simple computer algebra system written in Lua and LuaTex for documentation purposes.
-TexVar is fully compatible with LaTeX.
+TexVar (short tVar) is a basic LaTeX math calculations tool written in Lua. For integration into LaTeX, it has to be used together with LuaLaTeX. Compared to software like Mathcad TexVar is a lot more flexible. You can fill custom designed tables with results, do calculations within text documents and print beautiful LaTeX equations. The current version also supports 2D-plotting with gnuplot.
+
+Currently the following operations are supported:
+- Basic math operators
+- Lua math library
+- Matrix and Vector calculations
+- 2D Plots with Gnuplot
+
 Project Website [projectzoo.at](http://www.projectzoo.at/texvar/)
 
-See details in doc or CheatSheet
 # DEPENDENCIES
-- LuaTex for use in LaTeX documents. Part of MikTex http://www.luatex.org/
+- LuaTeX
 - Lua Modules
 	- luamatrix
 - GnuPlot 5.0 (change path to gnuplot executable in .config file and run lualatex with --shell-escape)
@@ -19,7 +24,7 @@ See details in doc or CheatSheet
 Just download the folders and copy lib and tVar into the folder your *.tex script is.
 
 # GETTING STARTED
-Start with the examples (found in Examples folder) or read the Blogposts at www.projectzoo.at.
+The best way to start with TexVar is reading the manual.
 
 # LICENSE
 TexVar is a free software distributed under the terms of the MIT license.
