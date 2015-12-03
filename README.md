@@ -7,7 +7,7 @@ Currently the following operations are supported:
 - Matrix and Vector calculations
 - 2D Plots with Gnuplot
 
-Project Website [projectzoo.at](http://www.projectzoo.at/texvar/)
+Project Website [texvar.projectzoo.at](http://texvar.projectzoo.at)
 
 # DEPENDENCIES
 - LuaTeX
