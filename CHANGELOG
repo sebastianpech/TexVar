@@ -1,3 +1,7 @@
+Version 1.5.14
+	* Fixed Bug: Print function did not recognize output correctly
+	* Fixed Bug: Matrix multiplication wrong input check rows and collumns
+	* Changed gnuplot terminal to eps postscript
 Version 1.5.13
 	* Fixed Bug: outN() wrong output
 	* Fixed Bug: Function Output
