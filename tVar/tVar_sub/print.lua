@@ -31,24 +31,25 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 		simpleFormat = string.format(numFormat,val)
 
 		--if scientific numformat E-1 change to 10^-1
-		local value = simpleFormat:gmatch("E.*")()
+		local value = simpleFormat:gmatch("[Ee].*")()
 		
 		if value ~= nil then
 			if #value == 2 then
-			simpleFormat = simpleFormat:gsub("E.*$","")
+			simpleFormat = simpleFormat:gsub("[Ee].*$","")
 			else
 				value = value:sub(2,-1)
-				if tonumber(value) ~= 0 and  math.abs(tonumber(value)) < tVar.calcPrecision then 
+				if tonumber(value) ~= 0 and tVar.roundNumToPrec(tonumber(val)) ~= 0 then 
 					--if tonumber(value) == 1 then 
 					--	expTen = " \\cdot 10"
 					--else
 						value = tVar.formatValue("%f",tonumber(value),".")
+
 						expTen = " \\cdot 10^{" .. value:gsub("%(",""):gsub("%)","") .. "}"
 					--end
-				elseif math.abs(tonumber(value)) > tVar.calcPrecision then
+				elseif tVar.roundNumToPrec(tonumber(val)) == 0 then
 					simpleFormat = "0.0"
 				end
-				simpleFormat = simpleFormat:gsub("E.*","")
+				simpleFormat = simpleFormat:gsub("[Ee].*","")
 				
 			end
 		end
@@ -65,6 +66,7 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 				end
 			end
 		end
+
 		local simpleFormatNumber = tonumber(simpleFormat)
 		-- check for unary int and surround with brackets
 		if simpleFormatNumber then
@@ -72,6 +74,7 @@ function tVar.formatValue(numFormat,val,decimalSeparator)
 			if simpleFormatNumber == 0 and tVar.roundNumToPrec(tonumber(val)) ~= 0 then
 				simpleFormat = tVar.formatValue("%.3E",val,decimalSeparator)
 			end
+			-- add unary minus
 			if simpleFormatNumber < 0 then
 				simpleFormat = "(" .. simpleFormat .. ")"
 			end

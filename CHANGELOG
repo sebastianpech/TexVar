@@ -1,3 +1,6 @@
+Version 1.5.15
+	* Bug Fix: Bufferoverflow when viewing a number one decimal digit lower than calc precision
+	* Bug Fix: eqNum is not renewed after setFormat() call
 Version 1.5.14
 	* Fixed Bug: Print function did not recognize output correctly
 	* Fixed Bug: Matrix multiplication wrong input check rows and collumns

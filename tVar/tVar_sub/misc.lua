@@ -33,6 +33,10 @@ end
 -- @return (tVar) self
 function tVar:setFormat(_numformat)
 	self.numFormat = _numformat
+	-- in case the eqNum is equal to the result reinit eqNum concerning _numformat
+	if tonumber(self.eqNum) == tonumber(self.val) then
+		self.eqNum = self:pFormatVal()
+	end
 	return self
 end
 --- removes all calculation steps from tVar object.align
