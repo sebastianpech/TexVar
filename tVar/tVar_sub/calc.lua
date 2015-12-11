@@ -245,7 +245,7 @@ function tVar.sqrt(_a,_n)
 	end
 
 	local grad = ""
-	if n.val > 2 then grad = "[" .. n .. "]" end
+	if n.val > 2 then grad = "[" .. n:pFormatVal() .. "]" end
 	ans.eqTex = "\\sqrt".. grad .. "{" .. a.nameTex .. "}"
 	ans.eqNum = "\\sqrt".. grad .. "{" .. a.eqNum .. "}"
 	ans.nameTex = ans.eqTex
