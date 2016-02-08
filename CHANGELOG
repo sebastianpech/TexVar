@@ -1,3 +1,9 @@
+Version 1.5.17
+	* Bug Fix: Decimal separator was not used when directly creating a tVar object without a varname
+	* New Functions: New trigonometric functuons that use degree: tVar.cosd, tVar.acosd, tVar.sind, tVar.asind, tVar.tand, tVar.atand
+	* If a line starts with := the output is forwarded to the variable ans
+Version 1.5.16
+	* Bug Fix: Higher order roots cause LaTeX error
 Version 1.5.15
 	* Bug Fix: Bufferoverflow when viewing a number one decimal digit lower than calc precision
 	* Bug Fix: eqNum is not renewed after setFormat() call

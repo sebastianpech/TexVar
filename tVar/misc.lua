@@ -62,6 +62,10 @@ function tVar.intString(_string)
 	end
 end
 
+--- Print Error report
+--
+-- @param err (Number) Error Number
+-- @param _string (String) String in which the error occoured
 function getErrorReport(err,_string)
 	local maxPlaces = 70
 	tex.print("\\begin{verbatim}")
@@ -102,45 +106,6 @@ function getErrorReport(err,_string)
 		counter = counter + 1
 	end
 	tex.print("\\end{verbatim}")
-end
-
-function tVar.dataTypeFormat(value)
-	if type(value) == "string" then
-		return "\"" .. value .. "\""
-	elseif type(value) == "boolean" then
-		return tostring(value)
-	elseif type(value) == "table" then
-		local genStringTable = "{"
-		for r=1,#value do
-			genStringTable = genStringTable .. "{"
-			for c=1,#value[r] do
-				genStringTable = genStringTable .. value[r][c].val .. ","
-			end
-			genStringTable = string.sub(genStringTable,1,-2)
-			genStringTable = genStringTable .. "},"
-		end
-		genStringTable = string.sub(genStringTable,1,-2) .. "}"
-		return genStringTable
-	else
-		return value
-	end
-end
-
-function tVar.clearGlobal()
-	tVar.globalFile = io.open("tvarglobal.data","w")
-	tVar.closeGlobal()
-end
-
-function tVar.initGlobal()
-	tVar.globalFile = io.open("tvarglobal.data","+a")
-end
-
-function tVar.loadGlobal()
-	dofile("tvarglobal.data")
-end
-
-function tVar.closeGlobal()
-	tVar.globalFile:close()
 end
 --- String Split
 --

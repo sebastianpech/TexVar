@@ -95,8 +95,8 @@ function tVar:New(_val,_nameTex)
 		ret.nameTex = _nameTex
 		ret.eqTex = _nameTex
 	else
-		ret.nameTex = tostring(_val)
-		ret.eqTex = tostring(_val)
+		ret.nameTex = tVar.formatValue(tVar.numFormat,_val,tVar.decimalSeparator)
+		ret.eqTex = ret.nameTex
 	end
 
 	ret.eqNum = ret:pFormatVal()

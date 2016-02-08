@@ -40,18 +40,20 @@
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../modules/constants.html">constants</a></li>
   <li><a href="../modules/init.html">init</a></li>
+  <li><a href="../modules/interpreter.html">interpreter</a></li>
   <li><strong>misc</strong></li>
   <li><a href="../modules/plot.html">plot</a></li>
-  <li><a href="../modules/tmat.calc.html">tmat.calc</a></li>
-  <li><a href="../modules/tmat.core.html">tmat.core</a></li>
-  <li><a href="../modules/tmat.misc.html">tmat.misc</a></li>
-  <li><a href="../modules/tmat.print.html">tmat.print</a></li>
-  <li><a href="../modules/tvar.calc.html">tvar.calc</a></li>
-  <li><a href="../modules/tvar.core.html">tvar.core</a></li>
-  <li><a href="../modules/tvar.misc.html">tvar.misc</a></li>
-  <li><a href="../modules/tvar.print.html">tvar.print</a></li>
-  <li><a href="../modules/tvec.calc.html">tvec.calc</a></li>
-  <li><a href="../modules/tvec.core.html">tvec.core</a></li>
+  <li><a href="../modules/tMat.calc.html">tMat.calc</a></li>
+  <li><a href="../modules/tMat.core.html">tMat.core</a></li>
+  <li><a href="../modules/tMat.misc.html">tMat.misc</a></li>
+  <li><a href="../modules/tMat.print.html">tMat.print</a></li>
+  <li><a href="../modules/tVar_sub.calc.html">tVar_sub.calc</a></li>
+  <li><a href="../modules/tVar_sub.core.html">tVar_sub.core</a></li>
+  <li><a href="../modules/tVar_sub.misc.html">tVar_sub.misc</a></li>
+  <li><a href="../modules/tVar_sub.print.html">tVar_sub.print</a></li>
+  <li><a href="../modules/tVec.calc.html">tVec.calc</a></li>
+  <li><a href="../modules/tVec.core.html">tVec.core</a></li>
+  <li><a href="../modules/tVec.misc.html">tVec.misc</a></li>
 </ul>
 
 </div>
@@ -60,6 +62,7 @@
 
 <h1>Module <code>misc</code></h1>
 <p>global misc script
+
  contains function tend to be useed by every module</p>
 <p></p>
 
@@ -73,28 +76,38 @@
 	<tr>
 	<td class="name" nowrap><a href="#tVar.intFile">tVar.intFile (path)</a></td>
 	<td class="summary">Easy Input loads a script written in easy input format
- translates it into functions and runs the script</td>
+
+ translates it into functions and runs the script
+
+
+
+ Easy Input style:
+
+ #This is a comment --> tex.print("This is a comment")
+
+ a_1=3 --> a_1=tVar:New(3,"a_{1}")</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#tVar.intString">tVar.intString (_string)</a></td>
 	<td class="summary">Easy Input analyses a string and
- translates it into functions and runs the script</td>
+
+ translates it into functions and runs the script
+
+
+
+ Easy Input style:
+
+ #This is a comment --> tex.print("This is a comment")
+
+ a_1=3 --> a_1=tVar:New(3,"a_{1}")</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#tVar.interpretEasyInputLine">tVar.interpretEasyInputLine (line)</a></td>
-	<td class="summary">Interpret Easy Input definitions</td>
+	<td class="name" nowrap><a href="#getErrorReport">getErrorReport (err, _string)</a></td>
+	<td class="summary">Print Error report</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#string.split">string.split (str, pat)</a></td>
 	<td class="summary">String Split</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#tVar.formatStringVariables">tVar.formatStringVariables (line)</a></td>
-	<td class="summary">String reformat %varname% to "..varname.."</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#tVar.formatStringVariablesValue">tVar.formatStringVariablesValue (line)</a></td>
-	<td class="summary">String reformat $$varname$$ to $"..varname:pformatVal().."$</td>
 	</tr>
 </table>
 
@@ -125,10 +138,16 @@
     </dt>
     <dd>
     Easy Input loads a script written in easy input format
- translates it into functions and runs the script  Easy Input style:
- #This is a comment --> tex.print("This is a comment")
- a_1=3 --> a_1=tVar:New(3,"a_{1}")
 
+ translates it into functions and runs the script
+
+
+
+ Easy Input style:
+
+ #This is a comment --> tex.print("This is a comment")
+
+ a_1=3 --> a_1=tVar:New(3,"a_{1}")
 
 
     <h3>Parameters:</h3>
@@ -149,10 +168,16 @@
     </dt>
     <dd>
     Easy Input analyses a string and
- translates it into functions and runs the script  Easy Input style:
- #This is a comment --> tex.print("This is a comment")
- a_1=3 --> a_1=tVar:New(3,"a_{1}")
 
+ translates it into functions and runs the script
+
+
+
+ Easy Input style:
+
+ #This is a comment --> tex.print("This is a comment")
+
+ a_1=3 --> a_1=tVar:New(3,"a_{1}")
 
 
     <h3>Parameters:</h3>
@@ -168,25 +193,23 @@
 
 </dd>
     <dt>
-    <a name = "tVar.interpretEasyInputLine"></a>
-    <strong>tVar.interpretEasyInputLine (line)</strong>
+    <a name = "getErrorReport"></a>
+    <strong>getErrorReport (err, _string)</strong>
     </dt>
     <dd>
-    Interpret Easy Input definitions
+    Print Error report
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">line</span>
-         easy input formatted line
+        <li><span class="parameter">err</span>
+         (Number) Error Number
+        </li>
+        <li><span class="parameter">_string</span>
+         (String) String in which the error occoured
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-        translated command
-    </ol>
 
 
 
@@ -220,56 +243,6 @@
 
 
 </dd>
-    <dt>
-    <a name = "tVar.formatStringVariables"></a>
-    <strong>tVar.formatStringVariables (line)</strong>
-    </dt>
-    <dd>
-    String reformat %varname% to "..varname.."
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">line</span>
-         input string
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        string
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "tVar.formatStringVariablesValue"></a>
-    <strong>tVar.formatStringVariablesValue (line)</strong>
-    </dt>
-    <dd>
-    String reformat $$varname$$ to $"..varname:pformatVal().."$
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">line</span>
-         input stirng
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        string
-    </ol>
-
-
-
-
-</dd>
 </dl>
 
 
@@ -277,7 +250,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-10-23 16:19:39 </i>
+<i style="float:right;">Last updated 2016-02-08 11:03:37 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

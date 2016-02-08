@@ -1,8 +1,13 @@
+----------------------------------------------------------------------------
+-- Interpreter Skript
+-- contains functions for interpreting tVar code into Lua code
+--
+----------------------------------------------------------------------------
+tVar.openGroup = false
 --- Interpret Easy Input definitions
 --
 -- @param line easy input formatted line
 -- @return translated command
-tVar.openGroup = false
 function tVar.interpretEasyInputLine(line)
 	--remove leading \t and \s from file
 	while string.sub(line,1,1) == "\t" or string.sub(line,1,1) == " " do
@@ -24,7 +29,7 @@ function tVar.interpretEasyInputLine(line)
 		line = tVar.formatStringVariables(line)
 		line = tVar.formatStringVariablesValue(line)
 		return "tex.print(\"".. string.sub(line,2,-1) .. "\")"
-	elseif string.sub(line,1,1) == "{" and string.find(line,":=") == nil then
+	elseif string.sub(line,1,1) == "{" and string.find(line,":=") == nil then -- check for group openings
 		if tVar.openGroup then
 			error("Can't create a group inside another group")
 		else
@@ -40,7 +45,7 @@ function tVar.interpretEasyInputLine(line)
 			outStr = outStr .. "tVar.plainGroup = ".. plain .."\n"
 			return outStr
 		end
-	elseif string.sub(line,1,1) == "}" and string.find(line,":=") == nil then
+	elseif string.sub(line,1,1) == "}" and string.find(line,":=") == nil then -- check for group closings
 		if not tVar.openGroup then
 			error("No group to close")
 		else
@@ -93,9 +98,19 @@ function tVar.interpretEasyInputLine(line)
 
 		-- extract varname, value and commands from input string
 	    line = string.gsub(line,"%s*:=%s*",":=")
+
+	    local varName,valueAndCommands,commandString
 		local overLoad = string.split(line,":=")
-		local varName = overLoad[1]
-		local valueAndCommands = string.split(overLoad[2],":")
+		if #overLoad == 1 then
+			varName = "ans"
+			valueAndCommands = string.split(overLoad[1],":")
+			commandString = overLoad[1]
+		else
+			varName = overLoad[1]
+			valueAndCommands = string.split(overLoad[2],":")
+			commandString = overLoad[2]
+		end
+		
 		local value = valueAndCommands[1]
 
 		-- load the value as return this way e.g 1+3 gets 4 and can be converted to number 
@@ -125,18 +140,20 @@ function tVar.interpretEasyInputLine(line)
 
 			
 		local user_outputFunction = false
-		if autoPrint then
+		if autoPrint and #overLoad ~= 1 then
 			-- check if user used output functions
 			
 			for _,outf in ipairs(tVar.outputFunction) do
-				if string.find(overLoad[2],outf) then
+				if string.find(commandString,outf) then
 					user_outputFunction = true
 					break
 				end
 			end
 
 		end
-
+		if #overLoad == 1 then
+			user_outputFunction = true
+		end
 		
 		if string.find(varName,"%(.*%)")~=nil then
 			----------------
@@ -164,7 +181,7 @@ function tVar.interpretEasyInputLine(line)
 				functionString = functionString .. "\n if " .. string.gsub(att,"\\","") .. ".val == nil then anynil = true end"
 			end
 
-			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(overLoad[2],"\\","")
+			functionString = functionString .. "\n" .. "local ans=" .. string.gsub(commandString,"\\","")
 			functionString = functionString .. "\n" .. "ans.nameTex = \"" .. tVar.formatVarName(funName).. " (\"..".. string.sub(attrib_str_format_n,1,-8) .. "..\")\""
 			
 			functionString = functionString .. "\n if not anynil then " .. "ans.eqTex = ans.nameTex end"
@@ -202,22 +219,25 @@ function tVar.interpretEasyInputLine(line)
 			----------------
 			-- CALCULATION -
 			----------------
-			if user_outputFunction == false and autoPrint then
-				return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
+			if #overLoad == 1 then 
+				return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():clean()"
+			elseif user_outputFunction == false and autoPrint then
+				return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
 			else
 				if user_outputFunction then
 					local retString = ""
 					for _,outf in ipairs(tVar.outputFunction) do
-						if string.find(overLoad[2],outf) then
-							return string.gsub(varName,"\\","").."=("..string.gsub(overLoad[2],outf,"):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")".. outf)
+						if string.find(commandString,outf) then
+							return string.gsub(varName,"\\","").."=("..string.gsub(commandString,outf,"):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")".. outf)
 						end
 					end
 				else
-					return string.gsub(varName,"\\","").."=(".. overLoad[2] .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
+					return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
 				end
 			end
 		
 		end
+
 	else -- calculation
 
 		return line

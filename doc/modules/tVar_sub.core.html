@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/constants.html">constants</a></li>
+  <li><a href="../modules/init.html">init</a></li>
+  <li><a href="../modules/interpreter.html">interpreter</a></li>
+  <li><a href="../modules/misc.html">misc</a></li>
+  <li><a href="../modules/plot.html">plot</a></li>
+  <li><a href="../modules/tMat.calc.html">tMat.calc</a></li>
+  <li><a href="../modules/tMat.core.html">tMat.core</a></li>
+  <li><a href="../modules/tMat.misc.html">tMat.misc</a></li>
+  <li><a href="../modules/tMat.print.html">tMat.print</a></li>
+  <li><a href="../modules/tVar_sub.calc.html">tVar_sub.calc</a></li>
+  <li><strong>tVar_sub.core</strong></li>
+  <li><a href="../modules/tVar_sub.misc.html">tVar_sub.misc</a></li>
+  <li><a href="../modules/tVar_sub.print.html">tVar_sub.print</a></li>
+  <li><a href="../modules/tVec.calc.html">tVec.calc</a></li>
+  <li><a href="../modules/tVec.core.html">tVec.core</a></li>
+  <li><a href="../modules/tVec.misc.html">tVec.misc</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>tVar_sub.core</code></h1>
+<p>core script
+
+ creates the basic object and the New-Function</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#mt.__call">mt.__call (_, _string)</a></td>
+	<td class="summary">maps intString to call metamethode</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:New">tVar:New (_val, _nameTex)</a></td>
+	<td class="summary">create new tVar object.</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#tVar">tVar</a></td>
+	<td class="summary">Initialize tVar table</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "mt.__call"></a>
+    <strong>mt.__call (_, _string)</strong>
+    </dt>
+    <dd>
+    maps intString to call metamethode
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_</span>
+         table
+        </li>
+        <li><span class="parameter">_string</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:New"></a>
+    <strong>tVar:New (_val, _nameTex)</strong>
+    </dt>
+    <dd>
+    create new tVar object.  tVar has all properties, functions and
+
+ metatables
+
+
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_val</span>
+         (number) value of LaTeX Variable
+        </li>
+        <li><span class="parameter">_nameTex</span>
+         (string) LaTeX representation
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) Number with LaTeX representation
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "tVar"></a>
+    <strong>tVar</strong>
+    </dt>
+    <dd>
+    Initialize tVar table
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">val</span>
+         (number) value of tVar
+        </li>
+        <li><span class="parameter">nameTex</span>
+         (string) LaTeX representation
+        </li>
+        <li><span class="parameter">eqTex</span>
+         (string) equation for calculating val i.e. history
+        </li>
+        <li><span class="parameter">eqNum</span>
+         (string) equation for calculating val i.e. history with numbers
+        </li>
+        <li><span class="parameter">unit</span>
+         (string) is added after result with fixed space
+        </li>
+        <li><span class="parameter">numFormat</span>
+         (string) numberformat for displaying val
+        </li>
+        <li><span class="parameter">mathEnviroment</span>
+         (string) LaTeX math enviroment that is used for output
+        </li>
+        <li><span class="parameter">debugMode</span>
+         (string) if set to "on" every tex.print command is surrounded with \verb||
+        </li>
+        <li><span class="parameter">outputMode</span>
+         (string) can be RES for Result, RES_EQ form Result and Equation and RES_EQ_N form Result, Equation and Numbers. Controls the print() command
+        </li>
+        <li><span class="parameter">numeration</span>
+         (bool) turns equation numeration on and of. Controls the print() command
+        </li>
+        <li><span class="parameter">decimalSeparator</span>
+         (string) sets the decimalSeparatio i.e. ","
+        </li>
+        <li><span class="parameter">calcPrecision</span>
+         (number) ammount of decimal places
+        </li>
+        <li><span class="parameter">history_fun</span>
+         stores the tVar function for the result
+        </li>
+        <li><span class="parameter">history_arg</span>
+         stores the arguments used with history_fun
+        </li>
+        <li><span class="parameter">qOutput</span>
+         controls the output for q function
+        </li>
+        <li><span class="parameter">disableOutput</span>
+         disables all output
+        </li>
+        <li><span class="parameter">coloredOuput</span>
+         enables disables printing nil variables in red
+        </li>
+        <li><span class="parameter">autocutZero</span>
+         (boolean) remove zeros after last decimal number
+        </li>
+        <li><span class="parameter">autoprint</span>
+         (boolean) automatically print all operations
+        </li>
+        <li><span class="parameter">logInterp</span>
+         (boolean) log interpreted files
+        </li>
+        <li><span class="parameter">outputFunction</span>
+         (table, string) all possible output functions as string
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-02-08 11:03:37 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/constants.html">constants</a></li>
+  <li><a href="../modules/init.html">init</a></li>
+  <li><a href="../modules/interpreter.html">interpreter</a></li>
+  <li><a href="../modules/misc.html">misc</a></li>
+  <li><a href="../modules/plot.html">plot</a></li>
+  <li><a href="../modules/tMat.calc.html">tMat.calc</a></li>
+  <li><a href="../modules/tMat.core.html">tMat.core</a></li>
+  <li><a href="../modules/tMat.misc.html">tMat.misc</a></li>
+  <li><a href="../modules/tMat.print.html">tMat.print</a></li>
+  <li><a href="../modules/tVar_sub.calc.html">tVar_sub.calc</a></li>
+  <li><a href="../modules/tVar_sub.core.html">tVar_sub.core</a></li>
+  <li><strong>tVar_sub.misc</strong></li>
+  <li><a href="../modules/tVar_sub.print.html">tVar_sub.print</a></li>
+  <li><a href="../modules/tVec.calc.html">tVec.calc</a></li>
+  <li><a href="../modules/tVec.core.html">tVec.core</a></li>
+  <li><a href="../modules/tVec.misc.html">tVec.misc</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>tVar_sub.misc</code></h1>
+<p>misc script
+
+ contains function not intend to be used by users</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#tVar:setName">tVar:setName (_nameTex)</a></td>
+	<td class="summary">sets the name of tVar object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:setFormat">tVar:setFormat (_numformat)</a></td>
+	<td class="summary">sets the numberformat of tVar object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:clean">tVar:clean (_nameTex)</a></td>
+	<td class="summary">removes all calculation steps from tVar object.align</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:setUnit">tVar:setUnit (_unit)</a></td>
+	<td class="summary">sets unit of tVar object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:getUnit">tVar:getUnit ()</a></td>
+	<td class="summary">gets unit of tVar object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:copy">tVar:copy ()</a></td>
+	<td class="summary">copy tVar to get rid of references</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:bracR">tVar:bracR ()</a></td>
+	<td class="summary">sourrounds the tVar objects eqTex and eqNum with round brackets</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:bracB">tVar:bracB ()</a></td>
+	<td class="summary">sourrounds the tVar objects eqTex and eqNum with round brackets</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:bracC">tVar:bracC ()</a></td>
+	<td class="summary">sourrounds the tVar objects eqTex and eqNum with round brackets</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:brac">tVar:brac (left, right)</a></td>
+	<td class="summary">sourrounds the tVar objects eqTex and eqNum with any bracket</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:CRLF">tVar:CRLF (symb)</a></td>
+	<td class="summary">adds linebreak in eqNum after tVar</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:CRLFb">tVar:CRLFb (symb)</a></td>
+	<td class="summary">adds linebreak in eqNum before tVar</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:CRLF_EQ">tVar:CRLF_EQ (symb)</a></td>
+	<td class="summary">adds linebreak in eqTex after tVar</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:CRLFb_EQ">tVar:CRLFb_EQ (symb)</a></td>
+	<td class="summary">adds linebreak in eqTex before tVar</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.Check">tVar.Check (_a)</a></td>
+	<td class="summary">Checks if overloaded param is tVar or not
+
+ if not for calculation purposes the overloaded param
+
+ is converted to tVar an returned
+
+ eq number 17 is return as tVar:New(17,"17.0")</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.valuesFromtVar">tVar.valuesFromtVar (tVarTable)</a></td>
+	<td class="summary">function returns table of vlaues from tVar objects</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.link">tVar.link (luaFunction, texBefore, texAfter, returntype)</a></td>
+	<td class="summary">used for converting lua functions to tVar function with mathematical representation</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar:roundValToPrec">tVar:roundValToPrec ()</a></td>
+	<td class="summary">rounds result to internal precision</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.roundNumToPrec">tVar.roundNumToPrec (val)</a></td>
+	<td class="summary">rounds result to internal precision</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.q">tVar.q (_)</a></td>
+	<td class="summary">quick input mode converts a string to a variable
+
+ Deprecated</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.formatVarName">tVar.formatVarName (_string)</a></td>
+	<td class="summary">formats a value with underscores to a latex subscript
+
+ first _ ist subscript first __ is exponent rest gets ,</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "tVar:setName"></a>
+    <strong>tVar:setName (_nameTex)</strong>
+    </dt>
+    <dd>
+    sets the name of tVar object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_nameTex</span>
+         (string) LaTeX representation
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:setFormat"></a>
+    <strong>tVar:setFormat (_numformat)</strong>
+    </dt>
+    <dd>
+    sets the numberformat of tVar object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_numformat</span>
+         (string) Lua numberformat
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:clean"></a>
+    <strong>tVar:clean (_nameTex)</strong>
+    </dt>
+    <dd>
+    removes all calculation steps from tVar object.align
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_nameTex</span>
+         (string, optional) LaTeX representation
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:setUnit"></a>
+    <strong>tVar:setUnit (_unit)</strong>
+    </dt>
+    <dd>
+    sets unit of tVar object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_unit</span>
+         (string) Unit
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:getUnit"></a>
+    <strong>tVar:getUnit ()</strong>
+    </dt>
+    <dd>
+    gets unit of tVar object
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:copy"></a>
+    <strong>tVar:copy ()</strong>
+    </dt>
+    <dd>
+    copy tVar to get rid of references
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) copied
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:bracR"></a>
+    <strong>tVar:bracR ()</strong>
+    </dt>
+    <dd>
+    sourrounds the tVar objects eqTex and eqNum with round brackets
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:bracB"></a>
+    <strong>tVar:bracB ()</strong>
+    </dt>
+    <dd>
+    sourrounds the tVar objects eqTex and eqNum with round brackets
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:bracC"></a>
+    <strong>tVar:bracC ()</strong>
+    </dt>
+    <dd>
+    sourrounds the tVar objects eqTex and eqNum with round brackets
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:brac"></a>
+    <strong>tVar:brac (left, right)</strong>
+    </dt>
+    <dd>
+    sourrounds the tVar objects eqTex and eqNum with any bracket
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">left</span>
+
+        </li>
+        <li><span class="parameter">right</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:CRLF"></a>
+    <strong>tVar:CRLF (symb)</strong>
+    </dt>
+    <dd>
+    adds linebreak in eqNum after tVar
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">symb</span>
+         (string,optional) Symbol is added before and after linebreak
+
+ return (tVar) with brackets
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:CRLFb"></a>
+    <strong>tVar:CRLFb (symb)</strong>
+    </dt>
+    <dd>
+    adds linebreak in eqNum before tVar
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">symb</span>
+         (string,optional) Symbol is added before and after linebreak
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) with brackets
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:CRLF_EQ"></a>
+    <strong>tVar:CRLF_EQ (symb)</strong>
+    </dt>
+    <dd>
+    adds linebreak in eqTex after tVar
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">symb</span>
+         (string,optional) Symbol is added before and after linebreak
+
+ return (tVar) with brackets
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:CRLFb_EQ"></a>
+    <strong>tVar:CRLFb_EQ (symb)</strong>
+    </dt>
+    <dd>
+    adds linebreak in eqTex before tVar
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">symb</span>
+         (string,optional) Symbol is added before and after linebreak
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) with brackets
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.Check"></a>
+    <strong>tVar.Check (_a)</strong>
+    </dt>
+    <dd>
+    Checks if overloaded param is tVar or not
+
+ if not for calculation purposes the overloaded param
+
+ is converted to tVar an returned
+
+ eq number 17 is return as tVar:New(17,"17.0")
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_a</span>
+         (tVar,number) param to be cecked
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) _a as tVar
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.valuesFromtVar"></a>
+    <strong>tVar.valuesFromtVar (tVarTable)</strong>
+    </dt>
+    <dd>
+    function returns table of vlaues from tVar objects
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tVarTable</span>
+         (tVar table)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table of tVar.val
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.link"></a>
+    <strong>tVar.link (luaFunction, texBefore, texAfter, returntype)</strong>
+    </dt>
+    <dd>
+    used for converting lua functions to tVar function with mathematical representation
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">luaFunction</span>
+         function to be converted to tVar function
+        </li>
+        <li><span class="parameter">texBefore</span>
+         (string) text is added befor the list of tVar function names
+        </li>
+        <li><span class="parameter">texAfter</span>
+         (string) same as texBefor but after the list
+        </li>
+        <li><span class="parameter">returntype</span>
+         (tVar,tMat oder tVec) tVar is default
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (tVar) result of lua function with tVar paramters
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar:roundValToPrec"></a>
+    <strong>tVar:roundValToPrec ()</strong>
+    </dt>
+    <dd>
+    rounds result to internal precision
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (number) val of tVar roundet to calcPrecision
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.roundNumToPrec"></a>
+    <strong>tVar.roundNumToPrec (val)</strong>
+    </dt>
+    <dd>
+    rounds result to internal precision
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">val</span>
+         (number)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (number) val of tVar roundet to calcPrecision
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.q"></a>
+    <strong>tVar.q (_)</strong>
+    </dt>
+    <dd>
+    quick input mode converts a string to a variable
+
+ Deprecated
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.formatVarName"></a>
+    <strong>tVar.formatVarName (_string)</strong>
+    </dt>
+    <dd>
+    formats a value with underscores to a latex subscript
+
+ first _ ist subscript first __ is exponent rest gets ,
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_string</span>
+         with underscore format
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        (string) latex subscript
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-02-08 11:03:37 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

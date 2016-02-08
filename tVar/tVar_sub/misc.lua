@@ -29,7 +29,7 @@ function tVar:setName(_nameTex)
 end
 --- sets the numberformat of tVar object
 -- 
--- @param numformat (string) Lua numberformat
+-- @param _numformat (string) Lua numberformat
 -- @return (tVar) self
 function tVar:setFormat(_numformat)
 	self.numFormat = _numformat
@@ -61,7 +61,7 @@ function tVar:setUnit(_unit)
 end
 --- gets unit of tVar object
 --
--- @returns string
+-- @return string
 function tVar:getUnit()
 	if self.unit == "" then return "" end
 	return "~" .. self.unit
@@ -300,6 +300,7 @@ function tVar.q(_)
 		end
 	end
 end
+
 --- formats a value with underscores to a latex subscript
 -- first _ ist subscript first __ is exponent rest gets ,
 -- @param _string with underscore format

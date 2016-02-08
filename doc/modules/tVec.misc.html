@@ -51,33 +51,26 @@
   <li><a href="../modules/tVar_sub.core.html">tVar_sub.core</a></li>
   <li><a href="../modules/tVar_sub.misc.html">tVar_sub.misc</a></li>
   <li><a href="../modules/tVar_sub.print.html">tVar_sub.print</a></li>
-  <li><strong>tVec.calc</strong></li>
+  <li><a href="../modules/tVec.calc.html">tVec.calc</a></li>
   <li><a href="../modules/tVec.core.html">tVec.core</a></li>
-  <li><a href="../modules/tVec.misc.html">tVec.misc</a></li>
+  <li><strong>tVec.misc</strong></li>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Module <code>tVec.calc</code></h1>
-<p>calculation script
-
- Contains Metatables and Functions for calculation</p>
+<h1>Module <code>tVec.misc</code></h1>
+<p>misc script
+ contains function not intend to be used by users</p>
 <p></p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#tVec.mMul">tVec.mMul (_a, _b)</a></td>
-	<td class="summary">Multiplikation
-
- Metatable</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#tVec:crossP">tVec:crossP (_b)</a></td>
-	<td class="summary">Crossproduct</td>
+	<td class="name" nowrap><a href="#tVec:copy">tVec:copy ()</a></td>
+	<td class="summary">create a copy of a vector to remove pointers on table</td>
 	</tr>
 </table>
 
@@ -89,54 +82,18 @@
 
     <dl class="function">
     <dt>
-    <a name = "tVec.mMul"></a>
-    <strong>tVec.mMul (_a, _b)</strong>
+    <a name = "tVec:copy"></a>
+    <strong>tVec:copy ()</strong>
     </dt>
     <dd>
-    Multiplikation
-
- Metatable
+    create a copy of a vector to remove pointers on table
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_a</span>
-         (tMat,number)
-        </li>
-        <li><span class="parameter">_b</span>
-         (tMat,number)
-        </li>
-    </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        (tMat)
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "tVec:crossP"></a>
-    <strong>tVec:crossP (_b)</strong>
-    </dt>
-    <dd>
-    Crossproduct
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_b</span>
-         (tVec)
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        (tVec)
+        (tVec) copy
     </ol>
 
 

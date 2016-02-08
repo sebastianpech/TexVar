@@ -33,6 +33,7 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Functions">Functions</a></li>
+<li><a href="#Fields">Fields</a></li>
 </ul>
 
 
@@ -40,7 +41,7 @@
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../modules/constants.html">constants</a></li>
   <li><a href="../modules/init.html">init</a></li>
-  <li><a href="../modules/interpreter.html">interpreter</a></li>
+  <li><strong>interpreter</strong></li>
   <li><a href="../modules/misc.html">misc</a></li>
   <li><a href="../modules/plot.html">plot</a></li>
   <li><a href="../modules/tMat.calc.html">tMat.calc</a></li>
@@ -51,7 +52,7 @@
   <li><a href="../modules/tVar_sub.core.html">tVar_sub.core</a></li>
   <li><a href="../modules/tVar_sub.misc.html">tVar_sub.misc</a></li>
   <li><a href="../modules/tVar_sub.print.html">tVar_sub.print</a></li>
-  <li><strong>tVec.calc</strong></li>
+  <li><a href="../modules/tVec.calc.html">tVec.calc</a></li>
   <li><a href="../modules/tVec.core.html">tVec.core</a></li>
   <li><a href="../modules/tVec.misc.html">tVec.misc</a></li>
 </ul>
@@ -60,24 +61,33 @@
 
 <div id="content">
 
-<h1>Module <code>tVec.calc</code></h1>
-<p>calculation script
+<h1>Module <code>interpreter</code></h1>
+<p>Interpreter Skript
 
- Contains Metatables and Functions for calculation</p>
+ contains functions for interpreting tVar code into Lua code</p>
 <p></p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#tVec.mMul">tVec.mMul (_a, _b)</a></td>
-	<td class="summary">Multiplikation
-
- Metatable</td>
+	<td class="name" nowrap><a href="#tVar.interpretEasyInputLine">tVar.interpretEasyInputLine (line)</a></td>
+	<td class="summary">Interpret Easy Input definitions</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#tVec:crossP">tVec:crossP (_b)</a></td>
-	<td class="summary">Crossproduct</td>
+	<td class="name" nowrap><a href="#tVar.formatStringVariables">tVar.formatStringVariables (line)</a></td>
+	<td class="summary">String reformat %%varname%% to "..varname.."</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tVar.formatStringVariablesValue">tVar.formatStringVariablesValue (line)</a></td>
+	<td class="summary">String reformat $$varname$$ to $"..varname:pformatVal().."$</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#newcommand">newcommand</a></td>
+	<td class="summary">NEW VAR -----</td>
 	</tr>
 </table>
 
@@ -89,29 +99,24 @@
 
     <dl class="function">
     <dt>
-    <a name = "tVec.mMul"></a>
-    <strong>tVec.mMul (_a, _b)</strong>
+    <a name = "tVar.interpretEasyInputLine"></a>
+    <strong>tVar.interpretEasyInputLine (line)</strong>
     </dt>
     <dd>
-    Multiplikation
-
- Metatable
+    Interpret Easy Input definitions
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_a</span>
-         (tMat,number)
-        </li>
-        <li><span class="parameter">_b</span>
-         (tMat,number)
+        <li><span class="parameter">line</span>
+         easy input formatted line
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        (tMat)
+        translated command
     </ol>
 
 
@@ -119,25 +124,68 @@
 
 </dd>
     <dt>
-    <a name = "tVec:crossP"></a>
-    <strong>tVec:crossP (_b)</strong>
+    <a name = "tVar.formatStringVariables"></a>
+    <strong>tVar.formatStringVariables (line)</strong>
     </dt>
     <dd>
-    Crossproduct
+    String reformat %%varname%% to "..varname.."
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_b</span>
-         (tVec)
+        <li><span class="parameter">line</span>
+         input string
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        (tVec)
+        string
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tVar.formatStringVariablesValue"></a>
+    <strong>tVar.formatStringVariablesValue (line)</strong>
+    </dt>
+    <dd>
+    String reformat $$varname$$ to $"..varname:pformatVal().."$
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">line</span>
+         input stirng
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        string
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "newcommand"></a>
+    <strong>newcommand</strong>
+    </dt>
+    <dd>
+    NEW VAR -----
+
+
+
 
 
 

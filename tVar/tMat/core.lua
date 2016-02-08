@@ -88,10 +88,9 @@ function tMat.setMatrixVal(table,key,value)
 end
 --- Metamethod for __index
 --
--- can retunr indices from stringvalues
+-- can return indices from stringvalues
 -- @param table self
 -- @param key in table
--- @param value
 function tMat.getMatrixVal(table,key)
 	if type(key) == "string" then
 		if key:find("^[0-9:(end)]+,[0-9:(end)]+$") or key:find("^[0-9:(end)]+$") then
@@ -128,6 +127,14 @@ function tMat.getMatrixVal(table,key)
 	end
 end
 
+--- Konvert strig matrix key to table ranges
+--
+-- @param table
+-- @param key (string)
+-- @return r_start (number)
+-- @return r_end (number)
+-- @return c_start (number)
+-- @return c_end (number)
 function tMat.getRange(table,key)
 	local max_r = table:size(1)
 	local max_c = table:size(2)

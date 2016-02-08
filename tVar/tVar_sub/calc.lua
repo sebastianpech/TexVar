@@ -279,11 +279,25 @@ tVar.abs = tVar.link(math.abs,"\\left|","\\right|")
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.acos = tVar.link(math.acos,"\\text{acos}\\left(","\\right)")
+--- calculates inverse cosined
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.acosd = tVar.link(function(ang)
+  return math.deg(math.acos(ang))
+end,"\\text{acos}\\left(","\\right)")
 --- calculates cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.cos = tVar.link(math.cos,"\\text{cos}\\left(","\\right)")
+--- calculates cosined
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.cosd = tVar.link(function(ang)
+  return math.cos(math.rad(ang))
+end,"\\text{cos}\\left(","\\right)")
 --- calculates cosine hyperbolicus 
 -- 
 -- @param (tVar,number) values
@@ -294,11 +308,25 @@ tVar.cosh = tVar.link(math.cosh,"\\text{cosh}\\left(","\\right)")
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.asin = tVar.link(math.asin,"\\text{asin}\\left(","\\right)")
+--- calculates inverse sined
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.asind = tVar.link(function(ang)
+  return math.deg(math.asin(ang))
+end,"\\text{asin}\\left(","\\right)")
 --- calculates sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.sin = tVar.link(math.sin,"\\text{sin}\\left(","\\right)")
+--- calculates sined
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.sind = tVar.link(function(ang)
+  return math.sin(math.rad(ang))
+end,"\\text{sin}\\left(","\\right)")
 --- calculates sine hyperbolicus 
 -- 
 -- @param (tVar,number) values
@@ -309,11 +337,25 @@ tVar.sinh = tVar.link(math.sinh,"\\text{sinh}\\left(","\\right)")
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.atan = tVar.link(math.atan,"\\text{atan}\\left(","\\right)")
+--- calculates inverse tangentd
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.atand = tVar.link(function(ang)
+  return math.deg(math.atan(ang))
+end,"\\text{atan}\\left(","\\right)")
 --- calculates tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
 tVar.tan = tVar.link(math.tan,"\\text{tan}\\left(","\\right)")
+--- calculates tangentd
+-- 
+-- @param (tVar,number) values
+-- @return (tVar) 
+tVar.tand = tVar.link(function(ang)
+  return math.tan(math.rad(ang))
+end,"\\text{tan}\\left(","\\right)")
 --- calculates tangent hyperbolicus 
 -- 
 -- @param (tVar,number) values
@@ -360,27 +402,16 @@ tVar.deg = tVar.link(math.deg,"\\text{deg}\\left(","\\right)")
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
 tVar.atan2 = tVar.link(math.atan2,"\\text{atan2}\\left(","\\right)")
---- calculate result of history
---
--- @return result
+--- calc factorial
+-- 
+-- @param n (number)
+-- @return (number) 
 function tVar.calcFactorial(n)
   if n<=1 then return 1 end
   return n*tVar.calcFactorial(n-1)
 end
 
---- link factorial
--- 
--- @param opposite (tVar,number) values
--- @param adjacent (tVar,number) values
--- @return (tVar) 
 tVar.fact = tVar.link(tVar.calcFactorial,"","!")
---- calc factorial
--- 
--- @param opposite (tVar,number) values
--- @param adjacent (tVar,number) values
--- @return (tVar) 
-
-
 
 function tVar:solve()
   
