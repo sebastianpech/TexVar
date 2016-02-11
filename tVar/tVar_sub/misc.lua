@@ -56,15 +56,36 @@ end
 -- @param _unit (string) Unit
 -- @return self
 function tVar:setUnit(_unit)
-	self.unit = _unit
+	if not self.unit then
+		self.unit = tVar.LuaUnits.generateByString(_unit)
+	else
+		local factor = 1
+		self.unit,factor = self.unit:format(_unit)
+
+		self.val = self.val/factor
+	end
+	return self
+end
+--- sets unit of tVar object
+-- with focus on some units defined in _unit
+-- @param _unit ({string}) Table
+-- @return self
+function tVar:setUnitPref(_unit)
+	if not self.unit then
+		error("setUnitPref only works if the object has a unit")
+	else
+		local factor = 1
+		self.unit,factor = self.unit:formatPref(_unit)
+		self.val = self.val/factor
+	end
 	return self
 end
 --- gets unit of tVar object
 --
 -- @return string
 function tVar:getUnit()
-	if self.unit == "" then return "" end
-	return "~" .. self.unit
+	if not self.unit then return "" end
+	return "~" .. self.unitCommand .. "{" .. self.unit:generateString() .. "}"
 end
 --- copy tVar to get rid of references
 --
@@ -194,12 +215,16 @@ end
 -- @param texAfter (string) same as texBefor but after the list
 -- @param returntype (tVar,tMat oder tVec) tVar is default
 -- @return (tVar) result of lua function with tVar paramters
-function tVar.link(luaFunction,texBefore,texAfter,returntype)
+function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUnit,pipeUnit)
 	local returntype = returntype
+	local pipeUnit = pipeUnit or false
 	if returntype == nil then returntype = tVar end
 	local originalFunction = luaFunction
 	local _texBefore = texBefore
 	local _texAfter = texAfter
+	local inputUnit = inputUnit
+
+	local outputUnit = outputUnit
 	
 	local orcalcFunction = function (...)
 		local arg = table.pack(...)
@@ -209,22 +234,46 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype)
 
 		local arg = table.pack(...)
 
-		-- cheack every element in arg table in case one is a number
+		-- check every element in arg table in case one is a number
 		local anyvalNil = false
 		for i,v in ipairs(arg) do
 			arg[i] = returntype.Check(v)
 			if (arg[i].val == nil) then anyvalNil = true end
-		end
+		end 
 		local ans = returntype:New(nil,"ANS")
 		local val = nil
 
 		if anyvalNil == false then
+			-- check if all values have the correct unit and transform in case
+			if tVar.useUnits then
+			if pipeUnit then
+				inputUnit = arg[1].unit
+				outputUnit = arg[1].unit
+			elseif not inputUnit then
+				inputUnit = arg[1].unit
+			end
+				if inputUnit then
+					 
+					for i,v in ipairs(arg) do
+						
+						local isCompatible, factor = tVar.LuaUnits.compatible(inputUnit,v.unit)
+						
+						if isCompatible then 
+							arg[i].val = arg[i].val / factor
+						else
+							error("Units not compatible in link function")
+						end
+					end
+				end
+			end
+
 			val = originalFunction(table.unpack(returntype.valuesFromtVar(arg)))
 			if returntype ~= tVar then
 				val = tMat.CheckTable(val)
 			end
 		end
 		
+
 		ans.val = val
 		-- concat arg values
 		local nameStr = ""
@@ -244,6 +293,10 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype)
 		ans.history_fun = orcalcFunction
 		ans.history_arg = arg
 		
+		if tVar.useUnits then
+			ans.unit = outputUnit
+		end
+
 		return ans
 	end
 end
@@ -259,46 +312,6 @@ end
 -- @return (number) val of tVar roundet to calcPrecision
 function tVar.roundNumToPrec(val)
 	return math.floor(val * 10^tVar.calcPrecision + 0.5)/10^tVar.calcPrecision
-end
---- quick input mode converts a string to a variable
--- Deprecated
---
-function tVar.q(_)
-
-	if type(_) ~= "table" then
-		_={_}
-	end
-	for i,_string in ipairs(_) do
-		local overLoad = string.gmatch(_string,"([^:=]+)")
-		local varName = overLoad()
-	
-		local nameTex = tVar.formatVarName(varName)
-
-		local value = overLoad()
-		-- remove special chars from Varname
-		varName = string.gsub(varName,"\\","")
-		
-		-- check if value is number matrix or vector
-		if string.sub(value,1,2) == "{{" then --matrix
-			
-			local value = assert(loadstring("return " .. value))()
-			_G[varName]=tMat:New(value,nameTex)
-		elseif string.sub(value,1,1) == "{" then -- vector
-			local value = assert(loadstring("return " .. value))()
-			_G[varName]=tVec:New(value,nameTex)
-		else -- number
-			_G[varName]=tVar:New(value,nameTex)
-		end
-
-		if commands and commands ~= "" then 
-			tex.print(commands)
-			assert(loadstring(varname..commands))()
-		end
-
-		if tVar.qOutput then
-			_G[varName]:outRES()
-		end
-	end
 end
 
 --- formats a value with underscores to a latex subscript

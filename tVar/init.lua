@@ -4,6 +4,10 @@
 ----------------------------------------------------------------------------
 
 require "tVar.tVar_sub.core"
+
+tVar.LuaUnits = require "tVar.lib.LuaUnits"
+require "tVar.tUnit"
+
 require "tVar.tVar_sub.misc"
 require "tVar.tVar_sub.calc"
 require "tVar.tVar_sub.print"
@@ -23,12 +27,14 @@ require "tVar.interpreter"
 
 require "tVar.plot"
 
+
 --- Load external
 --
 -- luamatrix
 tVar.matrix = require "tVar.lib.matrix"
 
-tVar.Version = "1.5.17"
+
+tVar.Version = "1.5.18"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load

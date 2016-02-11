@@ -16,12 +16,24 @@ function tVar.Add(_a,_b)
   local ans = tVar:New(nil,"ANS")
   
   if a.val ~= nil and b.val ~= nil then 
+
+    local factor = 1
+    ans.unit,factor = tUnit.addsub(a.unit,b.unit)
+
+    local nameTex = b.nameTex
+    local eqText = b.eqTex
+    b.val = b.val * factor
+    b.nameTex = nameTex
+    b.eqTex = eqTex
+
     ans.val = a.val + b.val
   end
-  
+
   ans.eqTex = a.nameTex .. "+" .. b.nameTex
+ 
   ans.eqNum = a.eqNum .. "+" .. b.eqNum
   ans.nameTex = ans.eqTex
+
   
   -- history
   ans.history_fun = tVar.Add_N
@@ -48,7 +60,17 @@ function tVar.Sub(_a,_b)
   local ans = tVar:New(nil,"ANS")
   
   if a.val ~= nil and b.val ~= nil then 
-	ans.val = a.val - b.val
+
+    local factor = 1
+    ans.unit,factor = tUnit.addsub(a.unit,b.unit)
+
+    local nameTex = b.nameTex
+    local eqText = b.eqTex
+    b.val = b.val * factor
+    b.nameTex = nameTex
+    b.eqTex = eqTex
+
+    ans.val = a.val - b.val
   end
   
   ans.eqTex = a.nameTex .. "-" .. b.nameTex
@@ -82,7 +104,11 @@ function tVar.Mul(_a,_b)
   local ans = tVar:New(nil,"ANS")
   
   if a.val ~= nil and b.val ~= nil then 
-	ans.val = a.val*b.val
+
+    local factor = 1
+    ans.unit,factor = tUnit.mul(a.unit,b.unit)
+
+    ans.val = (a.val * b.val)/factor
   end
   
   ans.eqTex = a.nameTex .. " \\cdot " .. b.nameTex
@@ -116,7 +142,10 @@ function tVar.Div(_a,_b)
   local ans = tVar:New(nil,"ANS")
 
   if a.val ~= nil and b.val ~= nil then 
-	ans.val = a.val/b.val
+    local factor = 1
+    ans.unit,factor = tUnit.div(a.unit,b.unit)
+
+    ans.val = (a.val/ b.val)*factor
   end
   
   ans.eqTex = "\\dfrac{" .. a.nameTex .. "}{" .. b.nameTex .. "}"
@@ -179,7 +208,22 @@ function tVar.Pow(_a,_b)
   local ans = tVar:New(nil,"ANS")
   
   if a.val ~= nil and b.val ~= nil then 
-    ans.val = a.val^b.val
+    
+    local factor = 1
+    ans.unit,factor = tUnit.rootpow(a.unit,b.val)
+    -- local num,denum = tUnit.dec2frac(b.val)
+
+    -- -- power part
+    -- ans.unit = a.unit
+    -- for i=1,num-1 do
+    --   ans.unit = tUnit.mul(ans.unit,a.unit)
+    -- end
+
+    -- if denum > 1 then
+    --   ans.unit = tUnit.root(ans.unit,denum)
+    -- end
+
+    ans.val = (a.val^b.val)*factor
   end
 
   ans.eqTex = "{"..a.nameTex.."}^{".. b.nameTex .."}"
@@ -241,7 +285,9 @@ function tVar.sqrt(_a,_n)
 	local ans = tVar:New(nil,"ANS")
   
 	if a.val ~= nil and n.val ~= nil then 
-		ans.val = math.pow(a.val,1/n.val)
+    local factor = 1
+    ans.unit,factor = tUnit.rootpow(a.unit,1/n.val)
+		ans.val = math.pow(a.val,1/n.val)*factor
 	end
 
 	local grad = ""
@@ -263,145 +309,103 @@ end
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with min Value
-tVar.min = tVar.link(math.min,"\\text{min}\\left(","\\right)")
+tVar.min = tVar.link(math.min,"\\text{min}\\left(","\\right)",nil,nil,nil,true)
 --- calculates maximum of tVars
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.max = tVar.link(math.max,"\\text{max}\\left(","\\right)")
+tVar.max = tVar.link(math.max,"\\text{max}\\left(","\\right)",nil,nil,nil,true)
 --- calculates absolute val
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) with max Value
-tVar.abs = tVar.link(math.abs,"\\left|","\\right|")
+tVar.abs = tVar.link(math.abs,"\\left|","\\right|",nil,nil,nil,true)
 --- calculates inverse cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.acos = tVar.link(math.acos,"\\text{acos}\\left(","\\right)")
---- calculates inverse cosined
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.acosd = tVar.link(function(ang)
-  return math.deg(math.acos(ang))
-end,"\\text{acos}\\left(","\\right)")
+tVar.acos = tVar.link(math.acos,"\\text{acos}\\left(","\\right)",nil,nil,tUnit.units.rad)
 --- calculates cosine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cos = tVar.link(math.cos,"\\text{cos}\\left(","\\right)")
---- calculates cosined
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.cosd = tVar.link(function(ang)
-  return math.cos(math.rad(ang))
-end,"\\text{cos}\\left(","\\right)")
+tVar.cos = tVar.link(math.cos,"\\text{cos}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- calculates cosine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.cosh = tVar.link(math.cosh,"\\text{cosh}\\left(","\\right)")
+tVar.cosh = tVar.link(math.cosh,"\\text{cosh}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- calculates inverse sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.asin = tVar.link(math.asin,"\\text{asin}\\left(","\\right)")
---- calculates inverse sined
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.asind = tVar.link(function(ang)
-  return math.deg(math.asin(ang))
-end,"\\text{asin}\\left(","\\right)")
+tVar.asin = tVar.link(math.asin,"\\text{asin}\\left(","\\right)",nil,nil,tUnit.units.rad)
 --- calculates sine
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sin = tVar.link(math.sin,"\\text{sin}\\left(","\\right)")
---- calculates sined
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.sind = tVar.link(function(ang)
-  return math.sin(math.rad(ang))
-end,"\\text{sin}\\left(","\\right)")
+tVar.sin = tVar.link(math.sin,"\\text{sin}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- calculates sine hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.sinh = tVar.link(math.sinh,"\\text{sinh}\\left(","\\right)")
+tVar.sinh = tVar.link(math.sinh,"\\text{sinh}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- calculates inverse tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.atan = tVar.link(math.atan,"\\text{atan}\\left(","\\right)")
---- calculates inverse tangentd
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.atand = tVar.link(function(ang)
-  return math.deg(math.atan(ang))
-end,"\\text{atan}\\left(","\\right)")
+tVar.atan = tVar.link(math.atan,"\\text{atan}\\left(","\\right)",nil,nil,tUnit.units.rad)
 --- calculates tangent
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tan = tVar.link(math.tan,"\\text{tan}\\left(","\\right)")
---- calculates tangentd
--- 
--- @param (tVar,number) values
--- @return (tVar) 
-tVar.tand = tVar.link(function(ang)
-  return math.tan(math.rad(ang))
-end,"\\text{tan}\\left(","\\right)")
+tVar.tan = tVar.link(math.tan,"\\text{tan}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- calculates tangent hyperbolicus 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.tanh = tVar.link(math.tanh,"\\text{tanh}\\left(","\\right)")
+tVar.tanh = tVar.link(math.tanh,"\\text{tanh}\\left(","\\right)",nil,tUnit.units.rad,nil)
 --- round up 
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ceil = tVar.link(math.ceil,"\\text{ceil}\\left(","\\right)")
+tVar.ceil = tVar.link(math.ceil,"\\text{ceil}\\left(","\\right)",nil,nil,nil,true)
 --- round down
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.floor = tVar.link(math.floor,"\\text{floor}\\left(","\\right)")
+tVar.floor = tVar.link(math.floor,"\\text{floor}\\left(","\\right)",nil,nil,nil,true)
 --- euler function
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.exp = tVar.link(math.exp,"\\text{e}^{","}")
+tVar.exp = tVar.link(math.exp,"\\text{e}^{","}",nil,nil,nil,false)
 --- ln
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.ln = tVar.link(math.log,"\\text{ln}\\left(","\\right)")
+tVar.ln = tVar.link(math.log,"\\text{ln}\\left(","\\right)",nil,nil,nil,false)
 --- log10
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.log10 = tVar.link(math.log10,"\\text{log10}\\left(","\\right)")
+tVar.log10 = tVar.link(math.log10,"\\text{log10}\\left(","\\right)",nil,nil,nil,false)
 --- convert to rad
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.rad = tVar.link(math.rad,"\\text{rad}\\left(","\\right)")
+--tVar.rad = tVar.link(math.rad,"\\text{rad}\\left(","\\right)")
 --- convert to deg
 -- 
 -- @param (tVar,number) values
 -- @return (tVar) 
-tVar.deg = tVar.link(math.deg,"\\text{deg}\\left(","\\right)")
+--tVar.deg = tVar.link(math.deg,"\\text{deg}\\left(","\\right)")
 --- calculates inverse tangens with with appr. quadrant
 -- 
 -- @param opposite (tVar,number) values
 -- @param adjacent (tVar,number) values
 -- @return (tVar) 
-tVar.atan2 = tVar.link(math.atan2,"\\text{atan2}\\left(","\\right)")
+tVar.atan2 = tVar.link(math.atan2,"\\text{atan2}\\left(","\\right)",nil,tUnit.units.m,tUnit.units.rad,false)
 --- calc factorial
 -- 
 -- @param n (number)
@@ -411,7 +415,7 @@ function tVar.calcFactorial(n)
   return n*tVar.calcFactorial(n-1)
 end
 
-tVar.fact = tVar.link(tVar.calcFactorial,"","!")
+tVar.fact = tVar.link(tVar.calcFactorial,"","!",nil,nil,nil,false)
 
 function tVar:solve()
   

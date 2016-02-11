@@ -32,7 +32,7 @@ tVar = {
 	nameTex = "",
 	eqTex = "",
 	eqNum = "",
-	unit = "",
+	unit = nil,
 	numFormat = "%.3f",
 	mathEnviroment = "align",
 	debugMode = "off",
@@ -52,7 +52,10 @@ tVar = {
 	outputFunction = {":print",":outRES",":outEQ",":outRES_EQ",":outRES_EQ_N",":out"},
 	ignoreInterpFunctions = {},
 	firstInGroup = false,
-	plainGroup = false
+	plainGroup = false,
+	unitCommand = "\\si",
+	interpretedShowOutput = false,
+	useUnits = false
 }
 mt={}
 
@@ -101,4 +104,15 @@ function tVar:New(_val,_nameTex)
 
 	ret.eqNum = ret:pFormatVal()
 	return ret
+end
+
+--- returns the value in baseunit
+--
+-- @return (number) value
+function tVar:getBaseVal()
+	if self.unit then
+		return self.val * self.unit:getResultingFactor()
+	else
+		return self.val
+	end
 end

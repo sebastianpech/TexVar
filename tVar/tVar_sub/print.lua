@@ -9,6 +9,7 @@
 -- @return (String) formatted number as string
 function tVar:pFormatVal()
 	if self.val == nil then return self.nameTex end
+
 	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
 	--return string.format(self.numFormat,self.val)
 end

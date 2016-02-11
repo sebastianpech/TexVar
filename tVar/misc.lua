@@ -55,6 +55,10 @@ function tVar.intString(_string)
 		logfile:close()
 	end
 
+	if tVar.interpretedShowOutput then
+		print(str)
+	end
+
 	local status, err = pcall(function () assert(loadstring(str))() end )
 	
 	if not status then

@@ -84,7 +84,6 @@ function tVar.interpretEasyInputLine(line)
 
  		local index = 0
 		line = string.gsub(line, "%b\"\"", function(char) 
-			print(strings[index])
 			index = index + 1
 			return strings[index]	
  		end)
@@ -111,6 +110,16 @@ function tVar.interpretEasyInputLine(line)
 			commandString = overLoad[2]
 		end
 		
+		--- insert copy befor setUnit in command String
+
+		commandString, countRep = string.gsub(commandString,":setUnit%(",":copy():setUnit(")
+		commandString, countRep2 = string.gsub(commandString,":setUnitPref%(",":copy():setUnitPref(")
+
+		if countRep == 0 and countRep2 == 0 then
+			commandString = "("..commandString .. "):copy()"
+		end
+
+
 		local value = valueAndCommands[1]
 
 		-- load the value as return this way e.g 1+3 gets 4 and can be converted to number 
@@ -220,19 +229,19 @@ function tVar.interpretEasyInputLine(line)
 			-- CALCULATION -
 			----------------
 			if #overLoad == 1 then 
-				return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():clean()"
+				return string.gsub(varName,"\\","").."=(".. commandString .. "):clean()"
 			elseif user_outputFunction == false and autoPrint then
-				return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
+				return string.gsub(varName,"\\","").."=(".. commandString .. "):setName(\"" .. tVar.formatVarName(varName) .. "\"):print():clean()"
 			else
 				if user_outputFunction then
 					local retString = ""
 					for _,outf in ipairs(tVar.outputFunction) do
 						if string.find(commandString,outf) then
-							return string.gsub(varName,"\\","").."=("..string.gsub(commandString,outf,"):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")".. outf)
+							return string.gsub(varName,"\\","").."=("..string.gsub(commandString,outf,"):setName(\"" .. tVar.formatVarName(varName) .. "\")".. outf)
 						end
 					end
 				else
-					return string.gsub(varName,"\\","").."=(".. commandString .. "):copy():setName(\"" .. tVar.formatVarName(varName) .. "\")"
+					return string.gsub(varName,"\\","").."=(".. commandString .. "):setName(\"" .. tVar.formatVarName(varName) .. "\")"
 				end
 			end
 		
