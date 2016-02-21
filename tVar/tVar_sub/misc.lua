@@ -57,35 +57,34 @@ end
 -- @return self
 function tVar:setUnit(_unit)
 	if not self.unit then
-		self.unit = tVar.LuaUnits.generateByString(_unit)
+		local factor = 1
+		self.prefUnit = tVar.units.fromString(_unit)
+		self.unit,factor = self.prefUnit:simplify()
+	
+		self.val = self.val*factor
+		self.eqNum = self:pFormatVal()
 	else
 		local factor = 1
-		self.unit,factor = self.unit:format(_unit)
-
-		self.val = self.val/factor
+		self.prefUnit = tVar.units.fromString(_unit)
 	end
 	return self
 end
---- sets unit of tVar object
--- with focus on some units defined in _unit
--- @param _unit ({string}) Table
+--- sets text after unti of tVar object
+--
+-- @param _unit (string) Unit
 -- @return self
-function tVar:setUnitPref(_unit)
-	if not self.unit then
-		error("setUnitPref only works if the object has a unit")
-	else
-		local factor = 1
-		self.unit,factor = self.unit:formatPref(_unit)
-		self.val = self.val/factor
-	end
+function tVar:setUText(_text)
+	self.utext = "~" .. _text
 	return self
 end
 --- gets unit of tVar object
 --
 -- @return string
 function tVar:getUnit()
-	if not self.unit then return "" end
-	return "~" .. self.unitCommand .. "{" .. self.unit:generateString() .. "}"
+	if not self.unit then
+		return self.utext or ""
+	end
+	return "\\," .. self.unitCommand .. "{" .. self.prefUnit:toString() .. "}"
 end
 --- copy tVar to get rid of references
 --
@@ -96,7 +95,13 @@ function tVar:copy()
 
 	copy.eqTex = orig.eqTex
 	copy.eqNum = orig.eqNum
-	copy.unit = orig.unit
+	if orig.unit then
+		copy.unit = orig.unit:copy()
+		copy.prefUnit = orig.prefUnit:copy()
+	else
+		copy.unit = nil
+		copy.prefUnit = nil
+	end
 	copy.numFormat = orig.numFormat
 	copy.mathEnviroment = orig.mathEnviroment
 	copy.debugMode = orig.debugMode
@@ -256,10 +261,10 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUni
 					 
 					for i,v in ipairs(arg) do
 						
-						local isCompatible, factor = tVar.LuaUnits.compatible(inputUnit,v.unit)
+						local isCompatible = inputUnit:compatible(v.unit)
 						
 						if isCompatible then 
-							arg[i].val = arg[i].val / factor
+							arg[i].val = arg[i].val 
 						else
 							error("Units not compatible in link function")
 						end

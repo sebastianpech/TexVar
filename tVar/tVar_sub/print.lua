@@ -7,10 +7,14 @@
 --- Call the number format function according to format definitions tVar
 --
 -- @return (String) formatted number as string
-function tVar:pFormatVal()
+function tVar:pFormatVal(useUnit)
 	if self.val == nil then return self.nameTex end
-
-	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
+	useUnit = useUnit or false
+	if useUnit then
+		return tVar.formatValue(self.numFormat,self:getPrefVal(),self.decimalSeparator)
+	else
+		return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
+	end
 	--return string.format(self.numFormat,self.val)
 end
 --- Format a Number according to a number format and a decimal Separator
@@ -101,8 +105,8 @@ function tVar:printFull()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 	
-	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
-	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit()
+	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal(true) .. self:getUnit() end
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal(true) .. self:getUnit()
 end
 --- create string with Name, Result, Equation and Unit
 -- 
@@ -111,8 +115,8 @@ function tVar:printHalf()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal().. self:getUnit() end
-	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal().. self:getUnit()
+	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal(true).. self:getUnit() end
+	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal(true).. self:getUnit()
 end
 --- create string with Name, Equation
 -- 
@@ -131,8 +135,8 @@ function tVar:printVar()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self:pFormatVal().. self:getUnit() end
-	return self.nameTex .. eqSign .. self:pFormatVal().. self:getUnit()
+	if self.nameTex == "" then return self:pFormatVal(true).. self:getUnit() end
+	return self.nameTex .. eqSign .. self:pFormatVal(true).. self:getUnit()
 end
 --- create string with Name, Result, Equation, Numbers and Unit
 -- 

@@ -5,7 +5,9 @@
 
 require "tVar.tVar_sub.core"
 
-tVar.LuaUnits = require "tVar.lib.LuaUnits"
+tVar.units = require "tVar.lib.units"
+
+require("tVar.lib.unit_definitions")
 require "tVar.tUnit"
 
 require "tVar.tVar_sub.misc"

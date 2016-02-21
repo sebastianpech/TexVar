@@ -33,6 +33,8 @@ tVar = {
 	eqTex = "",
 	eqNum = "",
 	unit = nil,
+	prefUnit = nil,
+	utext = nil,
 	numFormat = "%.3f",
 	mathEnviroment = "align",
 	debugMode = "off",
@@ -55,7 +57,7 @@ tVar = {
 	plainGroup = false,
 	unitCommand = "\\si",
 	interpretedShowOutput = false,
-	useUnits = false
+	useUnits = true
 }
 mt={}
 
@@ -109,9 +111,12 @@ end
 --- returns the value in baseunit
 --
 -- @return (number) value
-function tVar:getBaseVal()
-	if self.unit then
-		return self.val * self.unit:getResultingFactor()
+function tVar:getPrefVal()
+	if self.unit and self.prefUnit then
+		local ret = self.unit:tryConvert(self.prefUnit)
+		self.prefUnit = ret.unit
+		if not ret then error("Can't convert to prefered unit") end
+		return self.val / ret.factor
 	else
 		return self.val
 	end
