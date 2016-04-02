@@ -57,7 +57,8 @@ tVar = {
 	plainGroup = false,
 	unitCommand = "\\si",
 	interpretedShowOutput = false,
-	useUnits = true
+	useUnits = true,
+	N_outputInBaseUnits = true,
 }
 mt={}
 
@@ -103,6 +104,7 @@ function tVar:New(_val,_nameTex)
 		ret.nameTex = tVar.formatValue(tVar.numFormat,_val,tVar.decimalSeparator)
 		ret.eqTex = ret.nameTex
 	end
+
 
 	ret.eqNum = ret:pFormatVal()
 	return ret

@@ -36,7 +36,7 @@ require "tVar.plot"
 tVar.matrix = require "tVar.lib.matrix"
 
 
-tVar.Version = "1.5.18"
+tVar.Version = "1.5.18 alpha"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load

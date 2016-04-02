@@ -20,11 +20,16 @@ function tVar.Add(_a,_b)
     local factor = 1
     if a.unit and not a.unit:compatible(b.unit) then
       error("Cant add two not compatible units")
+    elseif b.unit and not b.unit:compatible(a.unit) then
+      error("Cant add two not compatible units")
     end
 
 		if a.unit then
 			ans.unit = a.unit:copy()
 			ans.prefUnit = a.prefUnit:copy()
+    elseif b.unit then
+      ans.unit = b.unit:copy()
+      ans.prefUnit = b.prefUnit:copy()
 		end
 
     ans.val = a.val + b.val
@@ -65,11 +70,16 @@ function tVar.Sub(_a,_b)
     local factor = 1
     if a.unit and not a.unit:compatible(b.unit) then
       error("Cant sub two not compatible units")
+    elseif b.unit and not b.unit:compatible(a.unit) then
+      error("Cant sub two not compatible units")
     end
 		
 		if a.unit then
 			ans.unit = a.unit:copy()
 			ans.prefUnit = a.prefUnit:copy()
+    elseif b.unit then
+      ans.unit = b.unit:copy()
+      ans.prefUnit = b.prefUnit:copy()
 		end
 
     ans.val = a.val - b.val

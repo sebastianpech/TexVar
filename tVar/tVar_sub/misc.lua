@@ -56,17 +56,41 @@ end
 -- @param _unit (string) Unit
 -- @return self
 function tVar:setUnit(_unit)
-	if not self.unit then
+	if not _unit then
+		self.prefUnit = tVar.units()
+		self.unit = tVar.units()
+	elseif not self.unit then
 		local factor = 1
+		local new = self.eqNum == self:pFormatVal()
+
 		self.prefUnit = tVar.units.fromString(_unit)
 		self.unit,factor = self.prefUnit:simplify()
-	
+		
 		self.val = self.val*factor
-		self.eqNum = self:pFormatVal()
+
+		if new and tVar.N_outputInBaseUnits then
+			self.eqNum = self:pFormatVal()
+		end
 	else
 		local factor = 1
 		self.prefUnit = tVar.units.fromString(_unit)
 	end
+	return self
+end
+--- clears all unit information
+--
+-- @param _unit (String, option) converts the value to this unit and removes it afterwards
+-- @return self
+function tVar:clearUnit(_unit)
+	if _unit and self.unit then
+		local ret = self.unit:convert(tVar.units.fromString(_unit))
+		if ret.factor then
+			self.val = self.val/ret.factor
+			self.eqNum = self:pFormatVal()
+		end
+	end
+	self.prefUnit = nil
+	self.unit = nil
 	return self
 end
 --- sets text after unti of tVar object
@@ -84,7 +108,7 @@ function tVar:getUnit()
 	if not self.unit then
 		return self.utext or ""
 	end
-	return "\\," .. self.unitCommand .. "{" .. self.prefUnit:toString() .. "}"
+	return "\\," .. self.unitCommand .. "{" .. (self.prefUnit or self.unit):toString() .. "}"
 end
 --- copy tVar to get rid of references
 --
@@ -97,9 +121,12 @@ function tVar:copy()
 	copy.eqNum = orig.eqNum
 	if orig.unit then
 		copy.unit = orig.unit:copy()
-		copy.prefUnit = orig.prefUnit:copy()
 	else
 		copy.unit = nil
+	end
+	if orig.prefUnit then
+		copy.prefUnit = orig.prefUnit:copy()
+	else
 		copy.prefUnit = nil
 	end
 	copy.numFormat = orig.numFormat

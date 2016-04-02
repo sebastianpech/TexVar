@@ -583,9 +583,17 @@ do -- simplifiation
 								["factor"] = w.factor,
 								["operation"] = getOper(v.operation,w.operation)
 							})
+
 						end
 					end
-					
+          if v.factor ~= 1 then
+            table.insert(new.stack,{
+              ["unit"] = units(),
+              ["factor"] = v.factor,
+              ["operation"] = v.operation
+            })
+          end
+        
 					local new_sub = units()
 					for j,w in v.unit:iterateStack() do
 						if not (w.operation == units.operations.mul or w.operation == units.operations.div) then

@@ -10,7 +10,7 @@
 function tVar:pFormatVal(useUnit)
 	if self.val == nil then return self.nameTex end
 	useUnit = useUnit or false
-	if useUnit then
+	if useUnit or not self.N_outputInBaseUnits then
 		return tVar.formatValue(self.numFormat,self:getPrefVal(),self.decimalSeparator)
 	else
 		return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)

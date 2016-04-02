@@ -280,7 +280,7 @@ function tVar.formatStringVariablesValue(line)
 	local retString = ""
 	for i=1,#splitLine do
 		if i%2==0 then
-			retString = retString .. splitLine[i] .. ":pFormatVal() .. \"~\" .. " .. splitLine[i] .. ".unit .. \"$"
+			retString = retString .. splitLine[i] .. ":pFormatVal(true) .. \"~\" .. " .. splitLine[i] .. ":getUnit() .. \"$"
 		else
 			if i==#splitLine then return retString .. splitLine[i] end
 			retString = retString .. splitLine[i] .. "$\".."

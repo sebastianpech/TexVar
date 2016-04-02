@@ -52,7 +52,7 @@ do -- pressure
 end
 do -- temperature
 	units("K")
-	units():mul(1,units("K")):add(273.15):addUnit("C")
+	units("°C")
 end
 do -- angles
 	units(""):mul(1):addUnit("rad")

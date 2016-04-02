@@ -7,7 +7,7 @@ function tUnit.rootpow(a,b)
 	local num,denum = tUnit.dec2frac(b)
 	local newU = a:copy()
 	for i=1,num-1 do
-		newU = newU:mul(1,a):copy()
+		newU = newU:mul(1,a)
 	end
 	if denum > 1 then
 		newU = newU:root(denum):copy()
