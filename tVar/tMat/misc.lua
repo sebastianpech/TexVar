@@ -9,7 +9,7 @@
 -- @param _nameTex (string) LaTeX representation
 -- @return self 
 function tMat:setName(_nameTex)
-	self.nameTex = tMat.pFormatnameTexOutp("\\" .. self.texStyle .. "{" .. _nameTex .. "}")
+	self.nameTex = tMat.pFormatnameTexOutp("\\" .. self.texStyle() .. "{" .. _nameTex .. "}")
 	return self
 end
 --- create a copy of a matrix to remove pointers on table
@@ -37,6 +37,31 @@ function tMat:size(rc)
   if rc == 1 then return #self.val end
   return assert(#self.val[1],1)
 end
+--- sets unit of tVar object
+--
+-- @param _unit (string) Unit
+-- @return self
+function tMat:setUnit(_unit)
+	for i=1,self:size(1) do
+  	for j=1,self:size(2) do
+	  	self.val[i][j]:setUnit(_unit)
+		end
+  end
+	return self
+end
+--- sets text after unti of tVar object
+--
+-- @param _unit (string) Unit
+-- @return self
+function tMat:setUText(_text)
+	for i=1,self:size(1) do
+  	for j=1,self:size(2) do
+	  	self.val[i][j]:setUText(_text)
+		end
+  end
+	return self
+end
+
 --- Checks if overloaded param is tMat,tVec,tVar or not
 -- if not for calculation purposes the overloaded param 
 -- is converted to tVar and returned

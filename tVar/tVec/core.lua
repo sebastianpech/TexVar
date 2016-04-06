@@ -9,7 +9,9 @@
 --
 -- @param texStyle (string) defines display of matrices as variable i.e. bold
 tVec = tMat:New({},"")
-tVec.texStyle = "vec"
+tVec.texStyle = function()
+	return tVar.VECtexStyle	
+end
 --- overrides the tMat:New function with new special metatables for matrices
 --
 -- @param _val (2dim array) style {{r1c1,r1c2,r1c3},{r2c1,r2c2,r2c3}}
@@ -56,9 +58,9 @@ function tVec:New(_val,_nameTex)
 	if _nameTex == nil then
 		ret.nameTex = ret:pFormatVal()
 	else
-		local _,count = _nameTex:gsub("\\\\" .. self.texStyle .. "{.*}","")
+		local _,count = _nameTex:gsub("\\\\" .. self.texStyle() .. "{.*}","")
 		if counter == 0 then 
-			ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" 
+			ret.nameTex = "\\" .. self.texStyle() .. "{" .. _nameTex .. "}" 
 		else
 			ret.nameTex = _nameTex
 		end

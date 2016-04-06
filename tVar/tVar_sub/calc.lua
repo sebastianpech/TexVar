@@ -16,7 +16,12 @@ function tVar.Add(_a,_b)
   local ans = tVar:New(nil,"ANS")
   
   if a.val ~= nil and b.val ~= nil then 
-
+		
+		a.unit = a.unit or (b.unit and b.unit:copy())
+		a.prefUnit = a.prefUnit or (b.prefUnit and b.prefUnit:copy())
+		b.unit = b.unit or (a.unit and a.unit:copy())
+		b.prefUnit = b.prefUnit or (a.prefUnit and a.prefUnit:copy())
+		
     local factor = 1
     if a.unit and not a.unit:compatible(b.unit) then
       error("Cant add two not compatible units")
@@ -68,6 +73,12 @@ function tVar.Sub(_a,_b)
   if a.val ~= nil and b.val ~= nil then 
 
     local factor = 1
+		
+		a.unit = a.unit or (b.unit and b.unit:copy())
+		a.prefUnit = a.prefUnit or (b.prefUnit and b.prefUnit:copy())
+		b.unit = b.unit or (a.unit and a.unit:copy())
+		b.prefUnit = b.prefUnit or (a.prefUnit and a.prefUnit:copy())
+		
     if a.unit and not a.unit:compatible(b.unit) then
       error("Cant sub two not compatible units")
     elseif b.unit and not b.unit:compatible(a.unit) then
@@ -120,10 +131,13 @@ function tVar.Mul(_a,_b)
 			ans.unit = nil
 		elseif not b.unit then
 			ans.unit = a.unit:copy()
+			ans.prefUnit = a.prefUnit:copy()
 		elseif not a.unit then
 			ans.unit = b.unit:copy()
+			ans.prefUnit = b.prefUnit:copy()
 		else
 			ans.unit = a.unit:mul(1,b.unit)
+			ans.prefUnit = a.prefUnit:mul(1,b.unit)
     end
 		ans.prefUnit = ans.unit
 
@@ -245,7 +259,15 @@ function tVar.Pow(_a,_b)
   end
 
   ans.eqTex = "{"..a.nameTex.."}^{".. b.nameTex .."}"
-  ans.eqNum = "{"..a.eqNum.."}^{".. b.eqNum .."}"
+  
+	if tVar.N_outputWithUnits then
+		if a.unit or a.prefUnit then
+			ans.eqNum = "{"..a:bracR_N().eqNum.."}^{".. b.eqNum .."}"
+		end
+	else
+		ans.eqNum = "{"..a.eqNum.."}^{".. b.eqNum .."}"
+	end
+	
   ans.nameTex = ans.eqTex
   
   -- history
@@ -434,7 +456,7 @@ function tVar.calcFactorial(n)
   return n*tVar.calcFactorial(n-1)
 end
 
-tVar.fact = tVar.link(tVar.calcFactorial,"","!",nil,nil,nil,false)
+tVar.fact = tVar.link(tVar.calcFactorial,"","!",nil,nil,nil,true)
 
 function tVar:solve()
   

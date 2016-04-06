@@ -10,8 +10,13 @@
 -- @param texStyle (string) defines display of matrices as variable i.e. bold
 -- @param eqTexAsMatrix (boolean) enables ord disables equation view as matrix or as variable
 tMat = tVar:New(0,"")
-tMat.texStyle = "mathbf"
-tMat.eqTexAsMatrix = false
+tMat.texStyle = function()
+	return tVar.MATtexStyle	
+end
+
+tMat.eqTexAsMatrix = function()
+		return tVar.eqTexAsMatrix
+end
 	
 --- overrides the tVal:New function with new special metatables for matrices
 --
@@ -35,9 +40,9 @@ function tMat:New(_val,_nameTex)
 	if _nameTex == nil then
 		ret.nameTex = ret:pFormatVal()
 	else
-		local _,count = _nameTex:gsub("\\\\" .. self.texStyle .. "{.*}","")
+		local _,count = _nameTex:gsub("\\\\" .. self.texStyle() .. "{.*}","")
 		if counter == 0 then 
-			ret.nameTex = "\\" .. self.texStyle .. "{" .. _nameTex .. "}" 
+			ret.nameTex = "\\" .. self.texStyle() .. "{" .. _nameTex .. "}" 
 		else
 			ret.nameTex = _nameTex
 		end
