@@ -13,7 +13,11 @@ function tMat:pFormatVal()
   for j=1, self:size(1) do
     local row = {}
     for i=1, self:size(2) do
-      row[i] = tVar.formatValue(self.numFormat,self.val[j][i].val,self.decimalSeparator)
+      --row[i] = tVar.formatValue(self.numFormat,self.val[j][i].val,self.decimalSeparator)
+			row[i] = self.val[j][i]:pFormatVal(true)
+			if tVar.MatrixShowUnits then
+				row[i] = row[i] .. self.val[j][i]:getUnit()
+			end
     end
     ret[j] = table.concat(row,"&")
   end
@@ -70,7 +74,7 @@ function tMat:printFull()
 
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
+	if self.nameTex == "\\" .. self.texStyle() .. "{" .. "}" then return eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit() end
 	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self.eqNum .."=" .. self:pFormatVal() .. self:getUnit()
 end
 --- create string with Name, Result, Equation and Unit
@@ -82,7 +86,7 @@ function tMat:printHalf()
 
 	local eqTexOutput = self.eqTex
 	if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-	if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. self:getUnit() end
+	if self.nameTex == "\\" .. self.texStyle() .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal().. self:getUnit() end
 	return self.nameTex .. eqSign .. eqTexOutput .. "=" .. self:pFormatVal().. self:getUnit()
 end
 
@@ -95,7 +99,7 @@ function tMat:printEQ()
 
   local eqTexOutput = self.eqTex
   if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput  end
+  if self.nameTex == "\\" .. self.texStyle() .. "{" .. "}" then return eqTexOutput  end
   return self.nameTex .. eqSign .. eqTexOutput
 end
 
@@ -108,6 +112,6 @@ function tMat:printN()
   
   local eqTexOutput = self.eqTex
   if self.eqTexAsMatrix then eqTexOutput = self.eqMat end
-  if self.nameTex == "\\" .. self.texStyle .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. self:getUnit() end
+  if self.nameTex == "\\" .. self.texStyle() .. "{" .. "}" then return eqTexOutput .. "=" .. self:pFormatVal() .. self:getUnit() end
   return self.nameTex .. eqSign .. self:pFormatVal() .. self:getUnit()
 end

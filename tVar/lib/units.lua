@@ -762,11 +762,11 @@ do -- String io
 		if string.sub(divisor,#timesSaparator+1) == "" then
 			return string.sub(dividend,#timesSaparator+1)
 		elseif string.sub(dividend,#timesSaparator+1) == "" then
-			return "\\dfrac{1}{"..string.sub(divisor,#timesSaparator+1).."}"
-			--return "1 \\per {"..string.sub(divisor,#timesSaparator+1).."}"
+			return "\\frac{1}{"..string.sub(divisor,#timesSaparator+1).."}"
+			--return "1/("..string.sub(divisor,#timesSaparator+1)..")"
 		else
-			return "\\dfrac{"..string.sub(dividend,#timesSaparator+1).."}{"..string.sub(divisor,#timesSaparator+1).."}"
-			--return "{"..string.sub(dividend,#timesSaparator+2).."} \\per {"..string.sub(divisor,#timesSaparator+2).."}"
+			return "\\frac{"..string.sub(dividend,#timesSaparator+1).."}{"..string.sub(divisor,#timesSaparator+1).."}"
+			--return ""..string.sub(dividend,#timesSaparator+1).."/("..string.sub(divisor,#timesSaparator+1)..")"
 		end
 	end
 

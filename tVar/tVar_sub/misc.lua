@@ -46,6 +46,13 @@ end
 function tVar:clean(_nameTex)
 	self.nameTex = _nameTex or self.nameTex
 	self.eqNum = self:pFormatVal()
+	
+	if self.N_outputInBaseUnits and self.N_outputWithUnits then
+			self.eqNum = self.eqNum .. self:getBaseUnit()
+	elseif self.N_outputWithUnits then
+			self.eqNum = self.eqNum .. self:getUnit()
+	end
+	
 	if self.eqMat then 	self.eqMat = self:pFormatVal() end
 
 	self.eqTex = self.nameTex
@@ -68,8 +75,14 @@ function tVar:setUnit(_unit)
 		
 		self.val = self.val*factor
 
-		if new and tVar.N_outputInBaseUnits then
+		if new and self.N_outputInBaseUnits then
 			self.eqNum = self:pFormatVal()
+		end
+		
+		if new and self.N_outputInBaseUnits and self.N_outputWithUnits then
+			self.eqNum = self.eqNum .. self:getBaseUnit()
+		elseif new and self.N_outputWithUnits then
+			self.eqNum = self.eqNum .. self:getUnit()
 		end
 	else
 		local factor = 1
@@ -98,17 +111,28 @@ end
 -- @param _unit (string) Unit
 -- @return self
 function tVar:setUText(_text)
-	self.utext = "~" .. _text
+	self.utext = _text
 	return self
 end
 --- gets unit of tVar object
 --
 -- @return string
 function tVar:getUnit()
+	if self.utext then
+		return "\\," .. self.unitCommand .. "{" .. self.utext .. "}"
+	elseif not self.unit then
+		return ""
+	end
+	return "\\," .. self.unitCommand .. "{" .. (self.prefUnit or self.unit):toString() .. "}"
+end
+--- gets baseunit of tVar object
+--
+-- @return string
+function tVar:getBaseUnit()
 	if not self.unit then
 		return self.utext or ""
 	end
-	return "\\," .. self.unitCommand .. "{" .. (self.prefUnit or self.unit):toString() .. "}"
+	return "\\," .. self.unitCommand .. "{" .. (self.unit):toString() .. "}"
 end
 --- copy tVar to get rid of references
 --
@@ -155,6 +179,42 @@ end
 function tVar:bracC()
 	return self:brac("\\left\\lbrace","\\right\\rbrace")
 end
+--- sourrounds the tVar objects eqTex with round brackets
+--
+-- @return (tVar) self
+function tVar:bracR_EQ()
+	return self:brac_EQ("\\left(","\\right)")
+end
+--- sourrounds the tVar objects eqTex with round brackets
+--
+-- @return (tVar) self
+function tVar:bracB_EQ()
+	return self:brac_EQ("\\left[","\\right]")
+end
+--- sourrounds the tVar objects eqTex with round brackets
+--
+-- @return (tVar) self
+function tVar:bracC_EQ()
+	return self:brac_EQ("\\left\\lbrace","\\right\\rbrace")
+end
+--- sourrounds the tVar objects  eqNum with round brackets
+--
+-- @return (tVar) self
+function tVar:bracR_N()
+	return self:brac_N("\\left(","\\right)")
+end
+--- sourrounds the tVar objects eqNum with round brackets
+--
+-- @return (tVar) self
+function tVar:bracB_N()
+	return self:brac_N("\\left[","\\right]")
+end
+--- sourrounds the tVar objects eqNum with round brackets
+--
+-- @return (tVar) self
+function tVar:bracC_N()
+	return self:brac_N("\\left\\lbrace","\\right\\rbrace")
+end
 --- sourrounds the tVar objects eqTex and eqNum with any bracket
 --
 -- @return (tVar) self
@@ -167,6 +227,28 @@ function tVar:brac(left,right)
 	self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
 
 	self.nameTex = self.eqTex
+	return self
+end
+--- sourrounds the tVar objects eqTex  with any bracket
+--
+-- @return (tVar) self
+function tVar:brac_EQ(left,right)
+	self.eqTex = self.encapuslate(self.eqTex,left,right)
+
+	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
+	self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	self.nameTex = self.eqTex
+	return self
+end
+--- sourrounds the tVar objects eqNum with any bracket
+--
+-- @return (tVar) self
+function tVar:brac_N(left,right)
+	self.eqNum = self.encapuslate(self.eqNum,left,right)
+
+	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
+	self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+
 	return self
 end
 --- adds linebreak in eqNum after tVar
@@ -248,15 +330,11 @@ end
 -- @param returntype (tVar,tMat oder tVec) tVar is default
 -- @return (tVar) result of lua function with tVar paramters
 function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUnit,pipeUnit)
-	local returntype = returntype
-	local pipeUnit = pipeUnit or false
+	pipeUnit = pipeUnit or false
 	if returntype == nil then returntype = tVar end
 	local originalFunction = luaFunction
 	local _texBefore = texBefore
 	local _texAfter = texAfter
-	local inputUnit = inputUnit
-
-	local outputUnit = outputUnit
 	
 	local orcalcFunction = function (...)
 		local arg = table.pack(...)
@@ -336,7 +414,11 @@ end
 --
 -- @return (number) val of tVar roundet to calcPrecision
 function tVar:roundValToPrec()
-	return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
+	if getmetatable(self) == tVar then
+		return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
+	else
+		return tVar.roundNumToPrec(self)
+	end
 end
 --- rounds result to internal precision
 --

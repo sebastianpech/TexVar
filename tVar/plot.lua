@@ -11,11 +11,17 @@ tPlot = {
 -- Path to gnuplot install
 -- For paths with spaces use [[""C:\Program Files (x86)\gnuplot\bin\gnuplot.exe"]] 
 --tPlot.gnuplot_library=[[""C:\Program Files (x86)\gnuplot\bin\gnuplot.exe"]] 
-tPlot.gnuplot_library="gnuplot"
+tPlot.gnuplot_library = function ()
+	return tVar.gnuplot_library
+end
 
 -- gnuplot output terminal
-tPlot.terminal = "postscript eps enhanced color font 'Helvetica,12'"
-tPlot.FileExtension = "eps"
+tPlot.terminal = function()
+		return tVar.gnuplot_terminal
+end
+tPlot.FileExtension = function()
+		return tVar.gnuplot_file_extensions
+end
 --- Initialize tPlot table
 --
 -- @param steps (number) Resolution, steps between xmin and xmax
@@ -81,14 +87,14 @@ function tPlot:plot()
 	if #self.fn == 0 then error("No functions to plot!") end
 
 	-- connect to gnuplot executeable
-	local execState = self.gnuplot_library
+	local execState = self.gnuplot_library()
 	local gnuplotTerminal = io.popen(execState,"w")
 
 	-- create filename
-	local temp = "tmp_"..tPlot.stack.add(self) .. "." .. self.FileExtension
+	local temp = "tmp_"..tPlot.stack.add(self) .. "." .. self.FileExtension()
 
 	-- set terminal and outputpath
-	gnuplotTerminal:write("set terminal "..self.terminal .. " size " .. self.conf.size .. "\n")
+	gnuplotTerminal:write("set terminal "..self.terminal() .. " size " .. self.conf.size .. "\n")
 	gnuplotTerminal:write("set output '" .. temp .. "'\n")
 
 	-- write own commands to gnuplot terminal

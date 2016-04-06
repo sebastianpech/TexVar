@@ -64,6 +64,7 @@ function tVar.intString(_string)
 	if not status then
 		getErrorReport(err,str)
 	end
+	
 end
 
 --- Print Error report

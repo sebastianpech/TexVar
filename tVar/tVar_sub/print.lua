@@ -155,13 +155,14 @@ function tVar:print()
 	local env = tVar.mathEnviroment
 	--RES, RES_EQ, RES_EQ_N,
 	local outString = ""
-	if self.outputMode == "RES" or (self:pFormatVal() == self.eqNum and self:pFormatVal() == self.eqTex) then
+	
+	if tVar.outputMode == "RES" or (self:pFormatVal() == self.eqNum and self:pFormatVal() == self.eqTex) then
 		outString = self:printVar()
-	elseif self.outputMode == "RES_EQ" or self.eqNum == self:pFormatVal()  then
+	elseif tVar.outputMode == "RES_EQ" or self.eqNum == self:pFormatVal()  then
 		outString = self:printHalf() 
-	elseif self.outputMode == "RES_N" or self.eqTex == self:pFormatVal()  then
+	elseif tVar.outputMode == "RES_N" or self.eqTex == self:pFormatVal()  then
 		outString = self:printHalf() 
-	elseif self.outputMode == "RES_EQ_N" then 
+	elseif tVar.outputMode == "RES_EQ_N" then 
 		outString = self:printFull()
 	else
 		return self

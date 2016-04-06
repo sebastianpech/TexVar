@@ -20,7 +20,7 @@ function tMat.mAdd(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = tMat.CheckTable(tVar.matrix.add(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
+    ans.val = tMat.CheckTable(tVar.matrix.add((a.val),(b.val)))
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -53,7 +53,7 @@ function tMat.mSub(_a,_b)
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
     if(a:size(1) ~= b:size(1) or a:size(2) ~= b:size(2)) then error ("Matrix Dimensions do not match") end
-    ans.val = tMat.CheckTable(tVar.matrix.sub(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
+    ans.val = tMat.CheckTable(tVar.matrix.sub((a.val),(b.val)))
   else
     error("Can't perform operation Matrix + Skalar")
   end
@@ -95,7 +95,7 @@ function tMat.mMul(_a,_b)
 		if a:size(1) ~= b:size(2) then error ("Matrix dimension does not match") end
 	end
     
-	ans.val = tMat.CheckTable(tVar.matrix.mul(tMat.converttVartoNumber(a.val),tMat.converttVartoNumber(b.val)))
+	ans.val = tMat.CheckTable(tVar.matrix.mul((a.val),(b.val)))
   else
     local mat = tMat:New({},"")
     local scale = tVar:New(0,"")
@@ -107,7 +107,7 @@ function tMat.mMul(_a,_b)
       scale = a
     end
 
-    ans.val = tMat.CheckTable(tVar.matrix.mulnum(tMat.converttVartoNumber(mat.val),scale.val))
+    ans.val = tMat.CheckTable(tVar.matrix.mulnum((mat.val),scale))
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
@@ -149,7 +149,7 @@ function tMat.mDiv(_a,_b)
       scale = a
     end
 
-    ans.val = tMat.CheckTable(tVar.matrix.divnum(tMat.converttVartoNumber(mat.val),scale.val))
+    ans.val = tMat.CheckTable(tVar.matrix.divnum((mat.val),scale))
   end
   if(getmetatable(ans) == tMat) then
     if(ans:size(2) == 1) then
@@ -184,19 +184,19 @@ end
 -- @return (tMat) Transposed
 function tMat:T()
   local ans = self:copy()
-  ans.val = tMat.CheckTable(tVar.matrix.transpose(tMat.converttVartoNumber(self.val)))
+  ans.val = tMat.CheckTable(tVar.matrix.transpose((self.val)))
 
   ans.eqTex = self.nameTex .. "^\\top"
   ans.eqNum = self.eqNum  .. "^\\top"
   ans.nameTex = ans.eqTex
-		ans.eqMat = (self.eqMat or self.nameTex) .. "^\\top"
+	ans.eqMat = (self.eqMat or self.nameTex) .. "^\\top"
   return ans
 end
 --- Determinant
 --
 -- @return (tMat) Determinant
 function tMat:Det()
-	local ans = tVar:New(tVar.matrix.det(tMat.converttVartoNumber(self.val)),"ANS")
+	local ans = tVar:New(tVar.matrix.det((self.val)),"ANS")
 
 	ans.eqTex = "|" .. self.nameTex .. "|"
 	ans.eqNum = "\\begin{vmatrix} " .. self.eqNum  .. "\\end{vmatrix} "
@@ -208,7 +208,7 @@ end
 -- @return (tMat) Inverse
 function tMat:Inv()
 	local ans = self:copy()
-	local inv,rng=tVar.matrix.invert(tMat.converttVartoNumber(self.val))
+	local inv,rng=tVar.matrix.invert((self.val))
 	
 	ans.val = tMat.CheckTable(inv)
 

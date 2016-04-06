@@ -35,9 +35,25 @@ require "tVar.plot"
 -- luamatrix
 tVar.matrix = require "tVar.lib.matrix"
 
+math.old_abs = math.abs
+math.abs = function (val) 
+	if getmetatable(val) == tVar then
+		return tVar.abs(val)
+	else
+		return math.old_abs(val)
+	end
+end
 
-tVar.Version = "1.5.18 alpha"
+tVar.matrix.copy = function (m) 
+		return m
+end
+
+
+
+tVar.Version = "1.5.18"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
 end
+
+

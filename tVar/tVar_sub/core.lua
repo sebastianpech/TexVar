@@ -59,6 +59,14 @@ tVar = {
 	interpretedShowOutput = false,
 	useUnits = true,
 	N_outputInBaseUnits = true,
+	N_outputWithUnits = false,
+	MatrixShowUnits = false,
+	MATtexStyle = "mathbf",
+	VECtexStyle = "vec",
+	eqTexAsMatrix = false,
+	gnuplot_library = "gnuplot",
+	gnuplot_terminal = "postscript eps enhanced color font 'Helvetica,12'",
+	gnuplot_file_extensions = "eps",
 }
 mt={}
 
@@ -69,6 +77,47 @@ mt={}
 function  mt.__call(_,_string)
 	tVar.intString(_string)
 end
+mt.__index = function(table, key)
+	if tVar.mapping[key] then
+		return rawget(table,tVar.mapping[key]) or rawget(tVar,tVar.mapping[key])
+	else
+		return rawget(tVar,key)
+	end
+end
+mt.__newindex = function (table, key, value)
+	if tVar.mapping[key] then
+		rawset(table,tVar.mapping[key],value)
+	else
+		rawset(table,key,value)
+	end
+end
+
+--- maps parameters to string command
+--
+tVar.mapping = {
+	["NUMBERFORMAT"] = "numFormat",
+	["MATH_ENVIRONMENT"] = "mathEnviroment",
+	["OUTPUT_MODE"] = "outputMode",
+	["EQUATION_NUMBERING"] = "numeration",
+	["DECIMAL_SEPARATOR"] = "decimalSeparator",
+	["MATRIX_COMMAND"] = "MATtexStyle",
+	["MATRIX_EQUATION_AS_MATRIX"] = "eqTexAsMatrix",
+	["VECTOR_COMMAND"] = "VECtexStyle",
+	["OUTPUT_DISABLED"] = "disableOutput",
+	["OUTPUT_COLORED"] = "coloredOuput",
+	["UNIT_COMMAND"] = "unitCommand",
+	["UNIT_N_IN_BASE_UNITS"] = "N_outputInBaseUnits",
+	["UNIT_N_WITH_UNITS"] = "N_outputWithUnits",
+	["UNIT_SHOW_IN_MATRIX"] = "MatrixShowUnits",
+	["REMOVE_ZEROS"] = "autocutZero",
+	["REMOVE_DECIMAL_SEPARATOR"] = "autocutDecimalSep",
+	["CALC_PRECISION"] = "calcPrecision",
+	["DEBUG_MODE"] = "debugMode",
+	["DEBUG_LOG_COMMANDS_TO_FILE"] = "logInterp",
+	["GNUPLOT_LIBRARY"] = "gnuplot_library",
+	["GNUPLOT_TERMINAL"] = "gnuplot_terminal",
+	["GNUPLOT_FILE_NAME_EXTENSION"] = "gnuplot_file_extensions",
+}
 
 setmetatable(tVar, mt)
 
@@ -79,9 +128,24 @@ setmetatable(tVar, mt)
 -- @param _nameTex (string) LaTeX representation
 -- @return (tVar) Number with LaTeX representation
 function tVar:New(_val,_nameTex)
+	if getmetatable(_val) == tVar then return _val end
+	
 	local ret = {}
 	setmetatable(ret,self)
-	self.__index = self
+	self.__index = function(table, key)
+		if tVar.mapping[key] then
+			return rawget(table,tVar.mapping[key]) or rawget(tVar,tVar.mapping[key])
+		else
+			return rawget(tVar,key)
+		end
+	end
+	self.__newindex = function (table, key, value)
+		if tVar.mapping[key] then
+			rawset(table,tVar.mapping[key],value)
+		else
+			rawset(table,key,value)
+		end
+	end
 	self.__add = self.Add
 	self.__sub = self.Sub
 	self.__mul = self.Mul

@@ -727,11 +727,7 @@ local num_copy = function( num )
 	return num
 end
 local t_copy = function( t )
-	local newt = setmetatable( {}, getmetatable( t ) )
-	for i,v in ipairs( t ) do
-		newt[i] = v
-	end
-	return newt
+	return t
 end
 
 --// matrix.copy ( m1 )
