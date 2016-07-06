@@ -1,5 +1,5 @@
 --[[
-Units - Version 0.0.1 alpha
+Units - Version 0.0.2 alpha
 
 DESCRIPTION
 	Units is a library to do calculations based on units.
@@ -19,24 +19,24 @@ API
 		units.fromString([string]) -- use . for multiplication, / for division and () as brackets
 		units([string] optional) -- create a new unit or call a unit incase it was added
 		[units]:addUnit([string]) -- add unit to global stack for later reference
-	
+
 	--operations
 		[units]:mul(factor,[units] optional) -- multiplies self with new factor and unit
 		[units]:div(factor,[units] optional)
 		[units]:add(scale) -- adds a scale to units
 		[units]:root(scale)
-		
+
 	-- calculation
 		[units]:compatible([unit]) -- check if two units are compatible returns true or false
 		[units]:convert([unit]) -- tries to convert self to new unit
 		-- returns named values: [return].unit and [return].factor
 		[units]:tryConvert([unit],[unit],...) -- tries to convert self to new unit
 		-- returns named values: [return].unit and [return].factor
-		
+
 	-- output
 		[units]:printStack() -- prints the complete creation history of self (debug purposes)
 		[units]:toString() -- returns LaTeX formatted unit
-		
+
 DEPENDENCIES
 	No dependencies
 
@@ -47,31 +47,64 @@ LICENSE
 	Copyright (c) 2016 Sebastian Pech
 
 MIT LICENSE:
-	Permission is hereby granted, free of charge, to any person 
-	obtaining a copy of this software and associated documentation 
-	files (the "Software"), to deal in the Software without restriction, 
-	including without limitation the rights to use, copy, modify, merge, 
-	publish, distribute, sublicense, and/or sell copies of the Software, 
-	and to permit persons to whom the Software is furnished to do so, 
+	Permission is hereby granted, free of charge, to any person
+	obtaining a copy of this software and associated documentation
+	files (the "Software"), to deal in the Software without restriction,
+	including without limitation the rights to use, copy, modify, merge,
+	publish, distribute, sublicense, and/or sell copies of the Software,
+	and to permit persons to whom the Software is furnished to do so,
 	subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included 
+	The above copyright notice and this permission notice shall be included
 	in all copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 	THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]--
 local units = {
 	["unitset"] = {},
+	["prefixset"] = {},
 	["__call"] = function(self,identifier)
 
 		if identifier and self.containsIdentifier(identifier) then
 			return self.getByIdentifier(identifier)
+		end
+
+
+		if identifier and identifier ~= ""  then
+			-- Try to find powers
+			if string.find(identifier,"%^") then
+				local testUnit = string.match(identifier,".+%^"):sub(1,-2)
+				local testPower = string.match(identifier,"%^.+"):sub(2)
+				local retUnit = self(testUnit)
+				for i=1,testPower-1 do
+					retUnit = retUnit:mul(1,self(testUnit))
+				end
+				retUnit:addUnit(identifier)
+				return self(identifier)
+			end
+			-- Try to separate prefix
+			for to=1,#identifier-1 do
+				local testPrefix = string.sub(identifier,1,to)
+				local testUnit = string.sub(identifier,to+1)
+				if self.containsPrefix(testPrefix) and  self.containsIdentifier(testUnit) then
+					self(testUnit):copy():mul(self.getByPrefix(testPrefix)):addUnit(identifier)
+					return self(identifier)
+				end
+			end
+			-- Try to add a prefix
+			for testPrefix,v in pairs(self.prefixset) do
+				if self.containsIdentifier(testPrefix..identifier) then
+						units(testPrefix..identifier):copy():div(self.getByPrefix(testPrefix)):addUnit(identifier)
+						return self(identifier)
+				end
+			end
+
 		end
 
 		local new = {}
@@ -94,10 +127,11 @@ local units = {
 		["add"] = "add",
 		["root"] = "root",
 	}
+
 }
 setmetatable(units,units)
 
-do -- stack functions 
+do -- stack functions
 	function units.containsIdentifier(identifier)
 		return units.unitset[identifier] ~= nil
 	end
@@ -106,12 +140,20 @@ do -- stack functions
 		return units.unitset[identifier]
 	end
 
+	function units.containsPrefix(identifier)
+		return units.prefixset[identifier] ~= nil
+	end
+
+	function units.getByPrefix(identifier)
+		return units.prefixset[identifier]
+	end
+
 	function units.addUnit(self,identifier)
 		identifier = self.identifier or identifier
 		if not self then
 			error("Error in function units.addIdentifier: unit nil")
-		elseif units.containsIdentifier(identifier) then
-			error("Error in function units.addIdentifier: identifier "..tostring(identifier).." already contained in set")
+		--elseif units.containsIdentifier(identifier) then
+		--	error("Error in function units.addIdentifier: identifier "..tostring(identifier).." already contained in set")
 		elseif not identifier then
 			error("Error in function units.addIdentifier: identifier not defined")
 		else
@@ -120,12 +162,25 @@ do -- stack functions
 		end
 	end
 
+	function units.addPrefix(self,identifier,value)
+		if not tonumber(value) then
+			value = units.getByPrefix(value)
+		end
+		--if units.containsPrefix(identifier) then
+			--error("Error in function units.addPrefix: identifier "..tostring(identifier).." already contained in set")
+		if not identifier then
+			error("Error in function units.addIdentifier: identifier not defined")
+		else
+			units.prefixset[identifier] = value
+		end
+	end
+
 	function units:iterateStack()
 		local index = 0
 		local n=#self.stack
 		local returnedN = false
 		return function ()
-			if n == 0 and not returnedN then 
+			if n == 0 and not returnedN then
 				returnedN = true
 				return 1,{
 					["unit"] = self,
@@ -162,7 +217,7 @@ do -- stack functions
 		end
 		return true
 	end
-	
+
 	function units:istLastBranchEx2()
 		if self:isLeaf() then return false end
 		for i,v in self:iterateStack() do
@@ -170,7 +225,7 @@ do -- stack functions
 				if v.unit.identifier == nil and v.factor == 1 then
 					for j,w in v.unit:iterateStack() do
 						if #w.unit.stack > 0 and (w.operation == units.operations.mul or w.operation == units.operations.div) then
-							return false 
+							return false
 						end
 					end
 				else
@@ -180,7 +235,7 @@ do -- stack functions
 		end
 		return true
 	end
-	
+
 	function units:printStack(layer)
 		layer = layer or 0
 		if layer == 0 then
@@ -330,10 +385,10 @@ do -- simplifiation
 				end
 			end
 		end
-		
+
 		function units:cancelAdd()
-			local ret 
-		
+			local ret
+
 			local ignore = {}
 			ret = units()
 			for j,w in self:iterateStack() do
@@ -341,7 +396,7 @@ do -- simplifiation
 				elseif w.operation == units.operations.mul and w.unit:istLastBranchEx() then
 					for i,v in self:iterateStack() do
 						if  j ~= i and v.operation == units.operations.div then
-								if v.unit:compatible(w.unit) then 
+								if v.unit:compatible(w.unit) then
 									changes = true
 									ignore[j] = true
 									ignore[i] = true
@@ -356,7 +411,7 @@ do -- simplifiation
 							["operation"] = w.operation
 					})
 				else
-					
+
 					table.insert(ret.stack,{
 							["unit"] = w.unit:cancelAdd(),
 							["factor"] = w.factor,
@@ -553,7 +608,7 @@ do -- simplifiation
 		end
 		return self
 	end
-	
+
 	function units:unfold()
 		selfcp = self:copy()
 		local getOper = function (parentOper,currentOper)
@@ -561,20 +616,20 @@ do -- simplifiation
 			if parentOper == units.operations.div and currentOper == units.operations.div then return units.operations.mul end
 			if parentOper == units.operations.div and currentOper == units.operations.mul then return units.operations.div end
 		end
-		
+
 		local changes = true
 		local counter = 1
 		local counterMax = 100
 		local new
 		while changes and counter < counterMax do
 			new = units()
-			
+
 			changes = false
 			counter = counter + 1
-			
+
 			for i,v in selfcp:iterateStack() do
 				if not v.unit:isLeaf() and (v.operation == units.operations.mul or v.operation == units.operations.div) then
-					
+
 					for j,w in v.unit:iterateStack() do
 						if (w.operation == units.operations.mul or w.operation == units.operations.div) then
 							changes = true
@@ -593,7 +648,7 @@ do -- simplifiation
               ["operation"] = v.operation
             })
           end
-        
+
 					local new_sub = units()
 					for j,w in v.unit:iterateStack() do
 						if not (w.operation == units.operations.mul or w.operation == units.operations.div) then
@@ -611,10 +666,10 @@ do -- simplifiation
 								["operation"] = v.operation
 						})
 					end
-					
+
 				elseif not v.unit:isLeaf() then
 					changes = true
-					
+
 					table.insert(new.stack,{
 								["unit"] = v.unit:unfold():copy(),
 								["factor"] = v.factor,
@@ -690,7 +745,7 @@ do -- unit specifics
 		local newSecondary = self:copy()
 		newSecondary = newSecondary:div(1,unit):simplify()
 		newPrimary = unit:copy():mul(1,newSecondary)
-		
+
 		local factor = self:getConversionFactor(newPrimary)
 		if factor then
 			return {["unit"]=newPrimary,["factor"]=factor}
@@ -705,7 +760,7 @@ do -- unit specifics
 		end
 		return nil
 	end
-	
+
 	function units:replace(unit)
 		local Searchunit,_ = unit:simplify()
 		if Searchunit:isLeaf() or Searchunit:istLastBranch() then
@@ -796,7 +851,7 @@ do -- String io
 			return false
 		end
 
-		local isSpecial = function (char) 
+		local isSpecial = function (char)
 			return isOperator(char) or isBracket(char)
 		end
 
@@ -825,7 +880,7 @@ do -- String io
 		local bracketStack = {
 			stack = {}
 		}
-		
+
 		bracketStack.push = function (elem)
 			table.insert(bracketStack.stack,elem)
 		end
@@ -837,7 +892,7 @@ do -- String io
 		end
 
 		bracketStack.push(new)
-		
+
 		local newBranch2 = units()
 		table.insert(bracketStack.get().stack,{
 						["unit"] = newBranch2,
@@ -872,13 +927,13 @@ do -- String io
 					bracketStack.push(newBranch)
 				end
 			elseif tonumber(elem) then
-				
+
 				table.insert(bracketStack.get().stack,{
 						["unit"] = units(),
 						["factor"] = elem,
 						["operation"] = units.operations.mul
 					})
-				
+
 				bracketStack.pop()
 			else
 				table.insert(bracketStack.get().stack,{
@@ -891,6 +946,69 @@ do -- String io
 		end
 		return new
 	end
+end
+
+function units:parseGNUUnits(filename)
+  local file = io.open(filename,"r")
+  local parsed_lines = {}
+  local parseGNUUnitsLine = self:initParser()
+  local removeFollowingMultiline = false
+  if file then
+    io.close(file)
+    for line in io.lines(filename) do
+      local parsed = parseGNUUnitsLine(line)
+      if parsed then
+        table.insert(parsed_lines,parsed)
+        removeFollowingMultiline = false
+      end
+    end
+  else
+    error("File : " .. filename .. " does not exist!")
+  end
+  return parsed_lines
+end
+
+function units.initParser(self)
+  local removeNext = false
+  return function (line)
+    local comment = line:find("^[% ]*#")
+		local commentAfter = line:find("#")
+    local nonlinearUnits = line:find("^[%a%d%p]+%(.+%)% ")
+    local piecwiselinearUnits = line:find("^[%a%d%p]+%[.+%]% ")
+    local multiline = line:find("\\%s*")
+		local exclMarkAtFirst = line:find("^[% ]*!")
+    local empty = line:find("^%s*$")
+
+    local remove = comment or nonlinearUnits or piecwiselinearUnits or removeNext or exclMarkAtFirst or empty
+
+    if remove and not comment and multiline then removeNext = true end
+
+    if remove then return nil end
+
+		local rawline = line
+		-- remove comments
+		if commentAfter then
+			line = line:match(".*#"):sub(1,-2)
+		end
+
+		-- split
+		local unitName = line:match("^[%a%d%p]*%s"):sub(1,-2)
+		local unitDefinition = line:sub(#unitName+1)
+		unitDefinition = unitDefinition:gsub("^%s*",""):gsub("%s*$",""):gsub("%s*/%s*","/"):gsub("%s",".")
+
+		local isPrefix = unitName:find("%-$")
+		if unitDefinition == "!" or unitDefinition == "!dimensionless" then
+			self(unitName)
+		elseif isPrefix then
+			local prefixName = unitName:sub(1,-2)
+			self:addPrefix(prefixName,(unitDefinition))
+		else
+			unitDefinition = unitDefinition:gsub("|","/")
+			unitDefinition = unitDefinition:gsub("^/","1/")
+			self.fromString(unitDefinition):addUnit(unitName)
+		end
+		return rawline
+  end
 end
 
 return units

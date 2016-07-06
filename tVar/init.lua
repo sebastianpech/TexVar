@@ -2,12 +2,13 @@
 -- tVar init script
 -- Load required modules
 ----------------------------------------------------------------------------
-
 require "tVar.tVar_sub.core"
+kpse.set_program_name('luatex')
 
 tVar.units = require "tVar.lib.units"
+-- load unit definitions
+local allunits = tVar.units:parseGNUUnits(kpse.lookup("tVar/lib/definitions.units"))
 
-require("tVar.lib.unit_definitions")
 require "tVar.tUnit"
 
 require "tVar.tVar_sub.misc"
@@ -36,7 +37,7 @@ require "tVar.plot"
 tVar.matrix = require "tVar.lib.matrix"
 
 math.old_abs = math.abs
-math.abs = function (val) 
+math.abs = function (val)
 	if getmetatable(val) == tVar then
 		return tVar.abs(val)
 	else
@@ -44,7 +45,7 @@ math.abs = function (val)
 	end
 end
 
-tVar.matrix.copy = function (m) 
+tVar.matrix.copy = function (m)
 		return m
 end
 
@@ -55,5 +56,3 @@ tVar.Version = "1.5.18"
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
 end
-
-
