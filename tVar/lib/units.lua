@@ -100,7 +100,7 @@ local units = {
 			-- Try to add a prefix
 			for testPrefix,v in pairs(self.prefixset) do
 				if self.containsIdentifier(testPrefix..identifier) then
-						units(testPrefix..identifier):copy():div(self.getByPrefix(testPrefix)):addUnit(identifier)
+						self(testPrefix..identifier):copy():div(self.getByPrefix(testPrefix)):addUnit(identifier)
 						return self(identifier)
 				end
 			end
@@ -329,8 +329,19 @@ do -- calculations
 	function units:root(scale)
 		return self:pushBranchOperation(scale,units.operations.root)
 	end
-end
 
+  function units:pow(power)
+    local num,denum = units.dec2frac(power)
+    local newU = self:copy()
+		for i=1,num-1 do
+      newU = newU:mul(1,self)
+    end
+    if denum > 1 then
+      newU = newU:root(denum):copy()
+    end
+    return newU
+  end
+end
 do -- simplifiation
 	function units:simplify()
 		local copy,factor = self:copy():unfold():summarizeFactors()
@@ -448,7 +459,7 @@ do -- simplifiation
 		local unit = self:copy()
 		local indices_ignore = {}
 		for i,v in self:iterateStack() do
-			if indices_ignore[i] then
+			if indices_ignore[i] or (v.operation == units.operations.root and v.stack == nil) then
 			elseif v.operation == units.operations.root then
 				local indices = {}
 				local counter = 0
@@ -512,6 +523,7 @@ do -- simplifiation
 					["factor"] = 1,
 					["operation"] = v.operation
 				}
+
 			else
 				local subunit,subfactor = nil,1
 				subunit,subfactor = v.unit:summarizeFactors_rec()
@@ -525,7 +537,7 @@ do -- simplifiation
 				elseif v.operation == units.operations.mul then
 					retfactor = retfactor * (v.factor*subfactor)
 				elseif v.operation == units.operations.root then
-					retfactor = retfactor * math.sqrt(subfactor,v.factor)
+					retfactor = retfactor * subfactor^(1/v.factor)
 					new.stack[i].factor = v.factor
 				elseif v.operation == units.operations.add then
 					retfactor = retfactor * subfactor
@@ -775,6 +787,7 @@ end
 
 do -- String io
 	function units:toString()
+    if self.containsIdentifier(self.identifier) then return self.identifier end
 		unit = self:clean()
 		local timesSaparator = "\\,"
 		local retString = ""
@@ -827,10 +840,13 @@ do -- String io
 
 	function units.fromString(string)
 		if string == "" then return units() end
+    if units.containsIdentifier(string) then return units(string) end
+
 		local new = units()
 		local operators = {
-			["/"]=units.operations.div,
-			["."]=units.operations.mul,
+			["/"]="div",
+			["*"]="mul",
+      ["^"]="pow",
 		}
 		local bracket = {
 			open = "(",
@@ -855,6 +871,10 @@ do -- String io
 			return isOperator(char) or isBracket(char)
 		end
 
+    local isChildGroup = function (chars)
+      return string.sub(chars,1,1) == bracket.open
+    end
+
 		local getNext = function (pos)
 			local index = pos or 1
 			return function ()
@@ -862,11 +882,26 @@ do -- String io
 					return nil
 				else
 					local toIndex = index-1
-					repeat
+
+          -- in case the first element is a open bracket return everthing till the closing bracket
+
+          if string.sub(string,toIndex+1,toIndex+1) == bracket.open then
+            local bracketIndex = 0
+            repeat
+              toIndex = toIndex + 1
+              local curChar = string.sub(string,toIndex,toIndex)
+              if curChar == bracket.open then bracketIndex = bracketIndex + 1 end
+            until curChar == bracket.close and bracketIndex == 1
+            toIndex = toIndex + 1
+          else
+            repeat
 						toIndex = toIndex + 1
 						local curChar = string.sub(string,toIndex,toIndex)
 
-					until isSpecial(curChar) or toIndex > #string
+            until isSpecial(curChar) or toIndex > #string
+          end
+
+
 					if index == toIndex then
 						toIndex = toIndex + 1
 					end
@@ -877,75 +912,30 @@ do -- String io
 			end
 		end
 
-		local bracketStack = {
-			stack = {}
-		}
+    local lastOperation = "*"
+    local returnUnit = units()
 
-		bracketStack.push = function (elem)
-			table.insert(bracketStack.stack,elem)
-		end
-		bracketStack.pop = function()
-			table.remove(bracketStack.stack)
-		end
-		bracketStack.get = function()
-			return bracketStack.stack[#bracketStack.stack]
-		end
-
-		bracketStack.push(new)
-
-		local newBranch2 = units()
-		table.insert(bracketStack.get().stack,{
-						["unit"] = newBranch2,
-						["factor"] = 1,
-						["operation"] = units.operations.mul
-		})
-		bracketStack.push(newBranch2)
 		for elem in getNext() do
-			if isOperator(elem) then
-				local newBranch = units()
-
-				table.insert(bracketStack.get().stack,{
-						["unit"] = newBranch,
-						["factor"] = 1,
-						["operation"] = operators[elem]
-					})
-
-			bracketStack.push(newBranch)
-
-			elseif isBracket(elem) then
-				if elem == bracket.close then
-					bracketStack.pop()
-				else
-					local newBranch = units()
-
-					table.insert(bracketStack.get().stack,{
-							["unit"] = newBranch,
-							["factor"] = 1,
-							["operation"] = units.operations.mul
-						})
-
-					bracketStack.push(newBranch)
-				end
-			elseif tonumber(elem) then
-
-				table.insert(bracketStack.get().stack,{
-						["unit"] = units(),
-						["factor"] = elem,
-						["operation"] = units.operations.mul
-					})
-
-				bracketStack.pop()
-			else
-				table.insert(bracketStack.get().stack,{
-						["unit"] = units(elem),
-						["factor"] = 1,
-						["operation"] = units.operations.mul
-					})
-				bracketStack.pop()
-			end
-		end
-		return new
-	end
+      if isOperator(elem) then
+        lastOperation = elem
+      elseif isChildGroup(elem) then
+        if lastOperation == "^" then
+          local val = assert(load("return " .. elem:sub(2,-2)))()
+          returnUnit = units[operators[lastOperation]](returnUnit,val)
+        else
+          returnUnit = units[operators[lastOperation]](returnUnit,1,units.fromString(elem:sub(2,-2)))
+        end
+        lastOperation = "*"
+      elseif tonumber(elem) then
+        returnUnit = units[operators[lastOperation]](returnUnit,tonumber(elem),returnUnit)
+        lastOperation = "*"
+      else
+        returnUnit = units[operators[lastOperation]](returnUnit,1,units(elem))
+        lastOperation = "*"
+      end
+    end
+    return returnUnit
+end
 end
 
 function units:parseGNUUnits(filename)
@@ -968,20 +958,36 @@ function units:parseGNUUnits(filename)
   return parsed_lines
 end
 
+function math.log2(n) return math.log(n)/math.log(2) end
+
 function units.initParser(self)
   local removeNext = false
+  local utf8hide = false
   return function (line)
     local comment = line:find("^[% ]*#")
 		local commentAfter = line:find("#")
-    local nonlinearUnits = line:find("^[%a%d%p]+%(.+%)% ")
-    local piecwiselinearUnits = line:find("^[%a%d%p]+%[.+%]% ")
+    local nonlinearUnits = line:find("^[%a%d%p]+%(.*%)")
+    local piecwiselinearUnits = line:find("^[%a%d%p]+%[.*%]")
     local multiline = line:find("\\%s*")
 		local exclMarkAtFirst = line:find("^[% ]*!")
     local empty = line:find("^%s*$")
+    local utf8 = line:find("^%!utf8")
+    local endutf8 = line:find("^%!endutf8")
 
-    local remove = comment or nonlinearUnits or piecwiselinearUnits or removeNext or exclMarkAtFirst or empty
 
-    if remove and not comment and multiline then removeNext = true end
+    if utf8 then
+      utf8hide = true
+      return nil
+    end
+    if endutf8 then
+      utf8hide = false
+      return nil
+    end
+    local remove = comment or nonlinearUnits or piecwiselinearUnits or removeNext or exclMarkAtFirst or empty or utf8hide
+		removeNext = false
+    if remove and not comment and multiline then
+			removeNext = true
+		end
 
     if remove then return nil end
 
@@ -993,8 +999,9 @@ function units.initParser(self)
 
 		-- split
 		local unitName = line:match("^[%a%d%p]*%s"):sub(1,-2)
+
 		local unitDefinition = line:sub(#unitName+1)
-		unitDefinition = unitDefinition:gsub("^%s*",""):gsub("%s*$",""):gsub("%s*/%s*","/"):gsub("%s",".")
+		unitDefinition = unitDefinition:gsub("^%s*",""):gsub("%s*$",""):gsub("%s*/%s*","/"):gsub("%s","*")
 
 		local isPrefix = unitName:find("%-$")
 		if unitDefinition == "!" or unitDefinition == "!dimensionless" then
@@ -1005,10 +1012,80 @@ function units.initParser(self)
 		else
 			unitDefinition = unitDefinition:gsub("|","/")
 			unitDefinition = unitDefinition:gsub("^/","1/")
+
+			-- Function replacementes
+			local repl = {
+					["ln"] = "math.log",
+					["log2"] = "math.log2"
+			}
+			for this,that in pairs(repl) do
+				local foundThis = unitDefinition:find(this.."%(%d+%)")
+				if foundThis then
+					thatEval = load("return " .. unitDefinition:match(this.."%(%d+%)"):gsub(this,that))()
+					unitDefinition = unitDefinition:gsub(this.."%(%d+%)",thatEval)
+				end
+			end
+			if unitName == "semitone" then
+        print("ASD")
+      end
+
 			self.fromString(unitDefinition):addUnit(unitName)
 		end
 		return rawline
   end
+end
+
+-- Algorithm to convert A Decimal to A Fraction
+-- Original paper, written by J. Kennedy, available at:
+-- https://sites.google.com/site/johnkennedyshome/home/downloadable-papers/dec2frac.pdf
+
+-- Returns the integer part of a given decimal number
+
+
+-- Returns a fraction that approximates a given decimal
+-- decimal : a decimal to be converted to a fraction
+-- acc     : approximation accuracy, defaults to 1e-8
+-- returns : two integer values, the numerator and the denominator of the fraction
+
+
+
+function units.dec2frac (decimal, acc)
+  local int = function (arg) return math.floor(arg) end
+
+  acc = acc or 1E-4
+  local sign, num, denum
+  local sign = (decimal < 0) and -1 or 1
+  decimal = math.abs(decimal)
+
+  if decimal == int(decimal) then --Handles integers
+    num = decimal * sign
+    denum = 1
+    return num, denum
+  end
+
+  if decimal < 1E-19 then
+    num = sign
+    denum = 9999999999999999999
+  elseif decimal > 1E+19 then
+    num = 9999999999999999999 * sign
+    denum = 1
+  end
+
+  local z = decimal
+  local predenum = 0
+  local sc
+  denum = 1
+
+  repeat
+    z = 1 / (z - int(z))
+    sc = denum
+    denum = denum * int(z) + predenum
+    predenum = sc
+    num = int(decimal * denum)
+  until ((math.abs(decimal - (num / denum)) < acc) or (z == int(z)))
+
+  num = sign * num
+  return num, denum
 end
 
 return units

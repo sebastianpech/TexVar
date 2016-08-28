@@ -1,13 +1,16 @@
 % LaTeX Package for TexVar - LaTeX math calculations
-% Version 0.2.0
+% Version 0.2.2
 %
 % This work may be distributed and/or modified under the
 % terms of the MIT license.
 % 
-\ProvidesPackage{texvar}[2015/10/24 TexVar]
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{texvar}[2016/04/11 TexVar]
 %
 % Load luacode
 \RequirePackage{luacode}
+% Load siunit x
+\RequirePackage{siunitx}
 %
 % Load TexVar Library
 \directlua{require("tVar/init.lua")}
