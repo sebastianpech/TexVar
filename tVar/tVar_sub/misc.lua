@@ -46,13 +46,6 @@ end
 function tVar:clean(_nameTex)
 	self.nameTex = _nameTex or self.nameTex
 	self.eqNum = self:pFormatVal()
-	
-	if self.N_outputInBaseUnits and self.N_outputWithUnits then
-			self.eqNum = self.eqNum .. self:getBaseUnit()
-	elseif self.N_outputWithUnits then
-			self.eqNum = self.eqNum .. self:getUnit()
-	end
-	
 	if self.eqMat then 	self.eqMat = self:pFormatVal() end
 
 	self.eqTex = self.nameTex
@@ -63,76 +56,15 @@ end
 -- @param _unit (string) Unit
 -- @return self
 function tVar:setUnit(_unit)
-	if not _unit then
-		self.prefUnit = tVar.units()
-		self.unit = tVar.units()
-	elseif not self.unit then
-		local factor = 1
-		local new = self.eqNum == self:pFormatVal()
-
-		self.prefUnit = tVar.units.fromString(_unit)
-		self.unit,factor = self.prefUnit:simplify()
-		
-		self.val = self.val*factor
-
-		if new and self.N_outputInBaseUnits then
-			self.eqNum = self:pFormatVal()
-		end
-		
-		if new and self.N_outputInBaseUnits and self.N_outputWithUnits then
-			self.eqNum = self.eqNum .. self:getBaseUnit()
-		elseif new and self.N_outputWithUnits then
-			self.eqNum = self.eqNum .. self:getUnit()
-		end
-	else
-		local factor = 1
-		self.prefUnit = tVar.units.fromString(_unit)
-	end
-	return self
-end
---- clears all unit information
---
--- @param _unit (String, option) converts the value to this unit and removes it afterwards
--- @return self
-function tVar:clearUnit(_unit)
-	if _unit and self.unit then
-		local ret = self.unit:convert(tVar.units.fromString(_unit))
-		if ret.factor then
-			self.val = self.val/ret.factor
-			self.eqNum = self:pFormatVal()
-		end
-	end
-	self.prefUnit = nil
-	self.unit = nil
-	return self
-end
---- sets text after unti of tVar object
---
--- @param _unit (string) Unit
--- @return self
-function tVar:setUText(_text)
-	self.utext = _text
+	self.unit = _unit
 	return self
 end
 --- gets unit of tVar object
 --
 -- @return string
 function tVar:getUnit()
-	if self.utext then
-		return "\\," .. self.unitCommand .. "{" .. self.utext .. "}"
-	elseif not self.unit then
-		return ""
-	end
-	return "\\," .. self.unitCommand .. "{" .. (self.prefUnit or self.unit):toString() .. "}"
-end
---- gets baseunit of tVar object
---
--- @return string
-function tVar:getBaseUnit()
-	if not self.unit then
-		return self.utext or ""
-	end
-	return "\\," .. self.unitCommand .. "{" .. (self.unit):toString() .. "}"
+	if self.unit == nil then return "" end
+	return "~" .. self.unitCommand .. "{" .. self.unit .. "}"
 end
 --- copy tVar to get rid of references
 --
@@ -143,16 +75,7 @@ function tVar:copy()
 
 	copy.eqTex = orig.eqTex
 	copy.eqNum = orig.eqNum
-	if orig.unit then
-		copy.unit = orig.unit:copy()
-	else
-		copy.unit = nil
-	end
-	if orig.prefUnit then
-		copy.prefUnit = orig.prefUnit:copy()
-	else
-		copy.prefUnit = nil
-	end
+	copy.unit = orig.unit
 	copy.numFormat = orig.numFormat
 	copy.mathEnviroment = orig.mathEnviroment
 	copy.debugMode = orig.debugMode
@@ -219,38 +142,42 @@ end
 --
 -- @return (tVar) self
 function tVar:brac(left,right)
-	self.eqTex = self.encapuslate(self.eqTex,left,right)
-	self.eqNum = self.encapuslate(self.eqNum,left,right)
+	local ret_val = self:copy()
+	ret_val.eqTex = ret_val.encapuslate(ret_val.eqTex,left,right)
+	ret_val.eqNum = ret_val.encapuslate(ret_val.eqNum,left,right)
 
 	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
-	self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
-	self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	ret_val.eqTex = string.gsub(ret_val.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	ret_val.eqNum = string.gsub(ret_val.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
 
-	self.nameTex = self.eqTex
-	return self
+	ret_val.nameTex = ret_val.eqTex
+	return ret_val
 end
 --- sourrounds the tVar objects eqTex  with any bracket
 --
 -- @return (tVar) self
 function tVar:brac_EQ(left,right)
-	self.eqTex = self.encapuslate(self.eqTex,left,right)
+	local ret_val = self:copy()
+	ret_val.eqTex = ret_val.encapuslate(ret_val.eqTex,left,right)
 
 	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
-	self.eqTex = string.gsub(self.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
-	self.nameTex = self.eqTex
-	return self
+	ret_val.eqTex = string.gsub(ret_val.eqTex,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	ret_val.nameTex = ret_val.eqTex
+	return ret_val
 end
 --- sourrounds the tVar objects eqNum with any bracket
 --
--- @return (tVar) self
+-- @return (tVar) ret_val
 function tVar:brac_N(left,right)
-	self.eqNum = self.encapuslate(self.eqNum,left,right)
+	local ret_val = self:copy()
+	ret_val.eqNum = ret_val.encapuslate(ret_val.eqNum,left,right)
 
 	-- Latex probleme wenn klammenr ueber mehere Zeilen gehen. Daher wird bei jedem Umbruch eine symbolische klammer zu bzw. klammer auf gesetzt
-	self.eqNum = string.gsub(self.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
+	ret_val.eqNum = string.gsub(ret_val.eqNum,"[^\\right.]\\nonumber\\\\&[^\\left.]"," \\right.\\nonumber\\\\&\\left. ")
 
-	return self
+	return ret_val
 end
+
 --- adds linebreak in eqNum after tVar
 -- 
 -- @param symb (string,optional) Symbol is added before and after linebreak
@@ -329,8 +256,8 @@ end
 -- @param texAfter (string) same as texBefor but after the list
 -- @param returntype (tVar,tMat oder tVec) tVar is default
 -- @return (tVar) result of lua function with tVar paramters
-function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUnit,pipeUnit)
-	pipeUnit = pipeUnit or false
+function tVar.link(luaFunction,texBefore,texAfter,returntype)
+	local returntype = returntype
 	if returntype == nil then returntype = tVar end
 	local originalFunction = luaFunction
 	local _texBefore = texBefore
@@ -344,46 +271,22 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUni
 
 		local arg = table.pack(...)
 
-		-- check every element in arg table in case one is a number
+		-- cheack every element in arg table in case one is a number
 		local anyvalNil = false
 		for i,v in ipairs(arg) do
 			arg[i] = returntype.Check(v)
 			if (arg[i].val == nil) then anyvalNil = true end
-		end 
+		end
 		local ans = returntype:New(nil,"ANS")
 		local val = nil
 
 		if anyvalNil == false then
-			-- check if all values have the correct unit and transform in case
-			if tVar.useUnits then
-			if pipeUnit then
-				inputUnit = arg[1].unit
-				outputUnit = arg[1].unit
-			elseif not inputUnit then
-				inputUnit = arg[1].unit
-			end
-				if inputUnit then
-					 
-					for i,v in ipairs(arg) do
-						
-						local isCompatible = inputUnit:compatible(v.unit)
-						
-						if isCompatible then 
-							arg[i].val = arg[i].val 
-						else
-							error("Units not compatible in link function")
-						end
-					end
-				end
-			end
-
 			val = originalFunction(table.unpack(returntype.valuesFromtVar(arg)))
 			if returntype ~= tVar then
 				val = tMat.CheckTable(val)
 			end
 		end
 		
-
 		ans.val = val
 		-- concat arg values
 		local nameStr = ""
@@ -403,10 +306,6 @@ function tVar.link(luaFunction,texBefore,texAfter,returntype,inputUnit,outputUni
 		ans.history_fun = orcalcFunction
 		ans.history_arg = arg
 		
-		if tVar.useUnits then
-			ans.unit = outputUnit
-		end
-
 		return ans
 	end
 end
@@ -426,6 +325,46 @@ end
 -- @return (number) val of tVar roundet to calcPrecision
 function tVar.roundNumToPrec(val)
 	return math.floor(val * 10^tVar.calcPrecision + 0.5)/10^tVar.calcPrecision
+end
+--- quick input mode converts a string to a variable
+-- Deprecated
+--
+function tVar.q(_)
+
+	if type(_) ~= "table" then
+		_={_}
+	end
+	for i,_string in ipairs(_) do
+		local overLoad = string.gmatch(_string,"([^:=]+)")
+		local varName = overLoad()
+	
+		local nameTex = tVar.formatVarName(varName)
+
+		local value = overLoad()
+		-- remove special chars from Varname
+		varName = string.gsub(varName,"\\","")
+		
+		-- check if value is number matrix or vector
+		if string.sub(value,1,2) == "{{" then --matrix
+			
+			local value = assert(loadstring("return " .. value))()
+			_G[varName]=tMat:New(value,nameTex)
+		elseif string.sub(value,1,1) == "{" then -- vector
+			local value = assert(loadstring("return " .. value))()
+			_G[varName]=tVec:New(value,nameTex)
+		else -- number
+			_G[varName]=tVar:New(value,nameTex)
+		end
+
+		if commands and commands ~= "" then 
+			tex.print(commands)
+			assert(loadstring(varname..commands))()
+		end
+
+		if tVar.qOutput then
+			_G[varName]:outRES()
+		end
+	end
 end
 
 --- formats a value with underscores to a latex subscript

@@ -1,3 +1,7 @@
+Version 1.5.19
+	* Remove Unit based calculations
+	* When entering a a vector with only one elment ({5}) ist converted to
+	a tVar object
 Version 1.5.18
 	* Unit based calculations: See manual section 6 for new functions
 	* Removed trigonometric functions that use degree due to unit based calculations

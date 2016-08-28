@@ -119,6 +119,7 @@ tVar.mapping = {
 	["GNUPLOT_FILE_NAME_EXTENSION"] = "gnuplot_file_extensions",
 }
 
+
 setmetatable(tVar, mt)
 
 --- create new tVar object. tVar has all properties, functions and
@@ -129,7 +130,6 @@ setmetatable(tVar, mt)
 -- @return (tVar) Number with LaTeX representation
 function tVar:New(_val,_nameTex)
 	if getmetatable(_val) == tVar then return _val end
-	
 	local ret = {}
 	setmetatable(ret,self)
 	self.__index = function(table, key)
@@ -169,21 +169,6 @@ function tVar:New(_val,_nameTex)
 		ret.eqTex = ret.nameTex
 	end
 
-
 	ret.eqNum = ret:pFormatVal()
 	return ret
-end
-
---- returns the value in baseunit
---
--- @return (number) value
-function tVar:getPrefVal()
-	if self.unit and self.prefUnit then
-		local ret = self.unit:tryConvert(self.prefUnit)
-		self.prefUnit = ret.unit
-		if not ret then error("Can't convert to prefered unit") end
-		return self.val / ret.factor
-	else
-		return self.val
-	end
 end

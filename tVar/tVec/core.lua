@@ -19,6 +19,17 @@ end
 function tVec:New(_val,_nameTex)
 	local ret = {}
 
+	if getmetatable(_val) == tVar then
+		return _val:copy()
+	end
+	if type(_val) == "table" then
+		if #_val == 1 then
+			if type(_val[1]) ~= "table" then
+				return tVar:New(_val[1],_nameTex)
+			end 
+		end 
+	end
+
 	setmetatable(ret,self)
 	self.__index = tMat.getMatrixVal
 	self.__newindex = tMat.setMatrixVal

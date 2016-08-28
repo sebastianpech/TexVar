@@ -9,12 +9,7 @@
 -- @return (String) formatted number as string
 function tVar:pFormatVal(useUnit)
 	if self.val == nil then return self.nameTex end
-	useUnit = useUnit or false
-	if useUnit or not self.N_outputInBaseUnits then
-		return tVar.formatValue(self.numFormat,self:getPrefVal(),self.decimalSeparator)
-	else
-		return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
-	end
+	return tVar.formatValue(self.numFormat,self.val,self.decimalSeparator)
 	--return string.format(self.numFormat,self.val)
 end
 --- Format a Number according to a number format and a decimal Separator

@@ -3,13 +3,6 @@
 -- Load required modules
 ----------------------------------------------------------------------------
 require "tVar.tVar_sub.core"
-kpse.set_program_name('luatex')
-
-tVar.units = require "tVar.lib.units"
--- load unit definitions
-local allunits = tVar.units:parseGNUUnits(kpse.lookup("tVar/lib/definitions.units"))
-
-require "tVar.tUnit"
 
 require "tVar.tVar_sub.misc"
 require "tVar.tVar_sub.calc"
@@ -49,9 +42,7 @@ tVar.matrix.copy = function (m)
 		return m
 end
 
-
-
-tVar.Version = "1.5.18"
+tVar.Version = "1.5.19"
 
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
