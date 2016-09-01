@@ -100,7 +100,7 @@ function tVar:printFull()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 	
-	if self.nameTex == "" then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal(true) .. self:getUnit() end
+	if self.nameTex == "" or self.nameTex == self.eqTex then return self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal(true) .. self:getUnit() end
 	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self.eqNum .."=" .. self:pFormatVal(true) .. self:getUnit()
 end
 --- create string with Name, Result, Equation and Unit
@@ -110,7 +110,7 @@ function tVar:printHalf()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex .. "=" .. self:pFormatVal(true).. self:getUnit() end
+	if self.nameTex == ""  or self.nameTex == self.eqTex then return self.eqTex .. "=" .. self:pFormatVal(true).. self:getUnit() end
 	return self.nameTex .. eqSign .. self.eqTex .. "=" .. self:pFormatVal(true).. self:getUnit()
 end
 --- create string with Name, Equation
@@ -120,7 +120,7 @@ function tVar:printEQ()
 	local eqSign = "&="
 	if tVar.plainGroup then eqSign = "=" end
 
-	if self.nameTex == "" then return self.eqTex end
+	if self.nameTex == "" or self.nameTex == self.eqTex then return self.eqTex end
 	return self.nameTex .. eqSign .. self.eqTex 
 end
 --- create string with Name, Result and Unit
