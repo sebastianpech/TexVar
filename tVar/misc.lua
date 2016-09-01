@@ -21,19 +21,11 @@ function tVar.intFile(path)
 	local file = assert(io.open(path, "r"))
 	local str = ""
 	for line in file:lines() do
-		str = str .. "\n" .. tVar.interpretEasyInputLine(line)
+		str = str .. line .. "\n"
 	end
 	
-	if tVar.logInterp then
-		logfile = io.open ("tVarLog.log","a+")
-		logfile:write(str.."\n")
-		logfile:close()
-	end
-	local status, err = pcall(function () assert(loadstring(str))() end )
-	
-	if not status then
-		getErrorReport(err,str)
-	end
+	tVar.intString(str)
+
 end
 --- Easy Input analyses a string and
 -- translates it into functions and runs the script

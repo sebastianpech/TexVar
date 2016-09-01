@@ -209,7 +209,6 @@ end
 function tMat:Inv()
 	local ans = self:copy()
 	local inv,rng=tVar.matrix.invert((self.val))
-	
 	ans.val = tMat.CheckTable(inv)
 
 	ans.eqTex = self.nameTex .. "^{-1}"

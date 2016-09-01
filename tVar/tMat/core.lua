@@ -9,7 +9,7 @@
 --
 -- @param texStyle (string) defines display of matrices as variable i.e. bold
 -- @param eqTexAsMatrix (boolean) enables ord disables equation view as matrix or as variable
-tMat = tVar:New(0,"")
+tMat = tVar:New(Nil,"")
 tMat.texStyle = function()
 	return tVar.MATtexStyle	
 end

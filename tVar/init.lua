@@ -42,8 +42,25 @@ tVar.matrix.copy = function (m)
 		return m
 end
 
-tVar.Version = "1.5.19"
+tVar.Version = "1.5.20"
 
+--- Lua 5.2 Functions Available for 5.1
+-- @section lua52
+
+--- pack an argument list into a table.
+-- @param ... any arguments
+-- @return a table with field n set to the length
+-- @return the length
+-- @function table.pack
+if not table.pack then
+    function table.pack (...)
+        return {n=select('#',...); ...}
+    end
+end
+
+if not table.unpack then
+	table.unpack = unpack
+end
 if _VERSION ~= "Lua 5.1" then
 	loadstring = load
 end
