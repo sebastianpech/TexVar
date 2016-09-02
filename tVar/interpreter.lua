@@ -248,7 +248,7 @@ function tVar.interpretEasyInputLine(line)
 		end
 
 	else -- calculation
-
+		-- check if the line might be invalid and try to fix it by sourrounding it with a print statement
 		return line
 	end
 end
