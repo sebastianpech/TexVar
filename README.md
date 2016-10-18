@@ -1,33 +1,81 @@
-# DESCRIPTION
-TexVar (short tVar) is a basic LaTeX math calculations tool written in Lua. For integration into LaTeX, it has to be used together with LuaLaTeX. Compared to software like Mathcad TexVar is a lot more flexible. You can fill custom designed tables with results, do calculations within text documents and print beautiful LaTeX equations. The current version also supports 2D-plotting with gnuplot.
+# Description
+TexVar (short tVar) is a basic LaTeX math calculations tool written in Lua. For
+integration into LaTeX, it has to be used together with LuaLaTeX. Compared to
+software like Mathcad TexVar is a lot more flexible. You can fill custom
+designed tables with results, do calculations within text documents and print
+beautiful LaTeX equations. The current version also supports 2D-plotting with
+gnuplot.
 
 Currently the following operations are supported:
-- Basic math operators
-- Lua math library
-- Matrix and Vector calculations
-- 2D Plots with Gnuplot
 
-Project Website [texvar.projectzoo.at](http://texvar.projectzoo.at)
+* Basic math operators
+* Lua math library
+* Matrix and Vector calculations
+* 2D Plots with Gnuplot
 
-# DEPENDENCIES
-- LuaTeX
-- Lua Modules
-	- luamatrix
-- GnuPlot 5.0 (change path to gnuplot executable in .config file and run lualatex with --shell-escape)
-- Latex Modules
-	- luacode
-	- amsmath
-	- graphicsx (plotting)
-	- color (debuging)
+Upcoming features/task:
 
-# INSTALLATION
-Just download the folders and copy lib and tVar into the folder your *.tex script is.
+* Calculations with units
+* Launch project on CTAN
 
-# GETTING STARTED
-The best way to start with TexVar is reading the manual.
+For a better understanding on what TexVar does, you should have a look at this
+[presentation on SlideShare](http://de.slideshare.net/Specht08/texvar-mathematical-calculations-in-latex-made-easy).
 
-# LICENSE
+# Download
+The download contains the LuaLaTeX-Package and the TexVar-Library,
+
+[TexVar 1.5.20](https://gitlab.com/spech/TexVar/repository/archive.zip?ref=1.5.20)
+
+# Dependencies
+* Lua 5.1-5.3
+* LuaLaTeX (contained in MiKTex, TeX Live and MacTeX)
+* GnuPlot 5.0 (only for plotting) 
+* Latex Modules
+    * luacode
+	* amsmath
+	* graphicsx (plotting)
+	* color (debuging)
+
+# License
 TexVar is a free software distributed under the terms of the MIT license.
 
-# DEVELOPER
-Sebastian Pech
+# Getting Started
+
+## Manual
+The best way to start with TexVar is by reading the manual.
+
+[TexVar Manual 1.5.20](https://gitlab.com/spech/TexVar-Manual/repository/archive.zip?ref=1.5.20)
+
+## Installation
+There is no installation needed. The folders tVar and lib only need to be in
+the same folder your executable file is. For plotting you need to change the
+path to your gnuplot install with the command: 
+
+```latex
+% Linux and Mac
+tPlot.gnuplot_library = "gnuplot"
+% Windows
+tPlot.gnuplot_library = [==["WINDOWSPATH"]==]
+```
+
+## Need more Help?
+In case you need further information or help on using TexVar, just send 
+[me an email](mailto:sebastian.pech@me.com).
+
+# Tips
+
+## How to disable TexVar calculations
+When working together with others on one LaTeX document, using TexVar can cause
+problems, when only one person has a working version. To temporarily disable
+TexVar execution you can easily redefine the tVar environment. The following
+code requires the listings package.
+
+```latex
+% Instead of
+% \usepackage{texvar}
+% write
+\lstnewenvironment{tVar}{}{}
+```
+
+The advantage of converting the tVar environment into a listings environment
+is, that the code is still visible but not executed.
