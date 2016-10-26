@@ -44,7 +44,7 @@ TexVar is a free software distributed under the terms of the MIT license.
 ## Manual
 The best way to start with TexVar is by reading the manual.
 
-[TexVar Manual 1.5.20](https://gitlab.com/spech/TexVar-Manual/repository/archive.zip?ref=1.5.20)
+[TexVar Manual 1.5.20](https://gitlab.com/spech/TexVar-Manual/repository/archive.zip?ref=master)
 
 ## Installation
 There is no installation needed. The folders tVar and lib only need to be in
