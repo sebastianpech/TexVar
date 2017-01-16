@@ -69,7 +69,7 @@ function tMat.setMatrixVal(table,key,value)
 				value = value.val
 			end
 
-			if type(value) ~= "table" then
+			if type(value) ~= "table" or getmetatable(value) == tVar then
 				value = {{value}}
 			elseif type(value[1]) ~= "table" then
 				value = {value}
