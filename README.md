@@ -24,7 +24,7 @@ For a better understanding on what TexVar does, you should have a look at this
 # Download
 The download contains the LuaLaTeX-Package and the TexVar-Library,
 
-[TexVar 1.5.20](https://github.com/sebastianpech/TexVar/archive/1.5.20.zip)
+[TexVar 1.5.21](https://github.com/sebastianpech/TexVar/archive/1.5.21.zip)
 
 # Dependencies
 * Lua 5.1-5.3
@@ -44,7 +44,7 @@ TexVar is a free software distributed under the terms of the MIT license.
 ## Manual
 The best way to start with TexVar is by reading the manual.
 
-[TexVar Manual 1.5.20](https://github.com/sebastianpech/TexVar-Manual/raw/master/TexVar_Manual.pdf)
+[TexVar Manual](https://github.com/sebastianpech/TexVar-Manual/raw/master/TexVar_Manual.pdf)
 
 ## Installation
 There is no installation needed. The folders tVar and lib only need to be in
