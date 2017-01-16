@@ -153,7 +153,7 @@ function tVar:print()
 	
 	if tVar.outputMode == "RES" or (self:pFormatVal() == self.eqNum and self:pFormatVal() == self.eqTex) then
 		outString = self:printVar()
-	elseif tVar.outputMode == "RES_EQ" or self.eqNum == self:pFormatVal()  then
+	elseif tVar.outputMode == "RES_EQ" or self.eqNum == self:pFormatVal() or (self.eqNum == self.eqTex) then
 		outString = self:printHalf() 
 	elseif tVar.outputMode == "RES_N" or self.eqTex == self:pFormatVal()  then
 		outString = self:printHalf() 
