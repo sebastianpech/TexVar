@@ -32,9 +32,10 @@ The download contains the LuaLaTeX-Package and the TexVar-Library,
 * GnuPlot 5.0 (only for plotting) 
 * Latex Modules
     * luacode
-	* amsmath
-	* graphicsx (plotting)
-	* color (debuging)
+    * amsmath
+    * siunitx
+    * graphicsx (plotting)
+    * color (debuging)
 
 # License
 TexVar is a free software distributed under the terms of the MIT license.
