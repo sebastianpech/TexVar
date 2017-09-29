@@ -42,7 +42,7 @@ tVar.matrix.copy = function (m)
 		return m
 end
 
-tVar.Version = "1.5.20"
+tVar.Version = "1.5.21"
 
 --- Lua 5.2 Functions Available for 5.1
 -- @section lua52
