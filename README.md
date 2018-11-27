@@ -18,13 +18,13 @@ Upcoming features/task:
 * Calculations with units
 * Launch project on CTAN
 
-For a better understanding on what TexVar does, you should have a look at this
+For a better understanding on what TexVar does you should have a look at this
 [presentation on SlideShare](http://de.slideshare.net/Specht08/texvar-mathematical-calculations-in-latex-made-easy).
 
 # Download
 The download contains the LuaLaTeX-Package and the TexVar-Library,
 
-[TexVar 1.5.21](https://github.com/sebastianpech/TexVar/archive/1.5.21.zip)
+[TexVar 1.5.22](https://github.com/sebastianpech/TexVar/archive/1.5.22.zip)
 
 # Dependencies
 * Lua 5.1-5.3
