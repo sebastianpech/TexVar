@@ -42,7 +42,7 @@ tVar.matrix.copy = function (m)
 		return m
 end
 
-tVar.Version = "1.5.21"
+tVar.Version = "1.5.22"
 
 --- Lua 5.2 Functions Available for 5.1
 -- @section lua52
@@ -61,6 +61,7 @@ end
 if not table.unpack then
 	table.unpack = unpack
 end
-if _VERSION ~= "Lua 5.1" then
+
+if _VERSION == "Lua 5.1" then
 	loadstring = load
 end
