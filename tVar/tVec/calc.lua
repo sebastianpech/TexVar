@@ -15,7 +15,7 @@ function tVec.mMul(_a,_b)
   ans.nameTex = ""
   local a, b = tVec.Check(_a),tVec.Check(_b)
   -- ab hier a und b entweder tMat oder tVar
-  if (getmetatable(a) == tVec and getmetatable(b) == tVec) then
+  if (ismetatable(a,tVec) and ismetatable(b,tVec)) then
     --falls beide Matrizen
     --kontrolle ob gleiche anzahl zeilen und spalten
 
@@ -25,7 +25,7 @@ function tVec.mMul(_a,_b)
     else
       ans = tVar:New((tVar.matrix.mul(tVar.matrix.transpose((a.val)),(b.val)))[1][1],"ANS")
     end
-  elseif ((getmetatable(a) == tVec or getmetatable(a) == tMat) and (getmetatable(b) == tVec or getmetatable(b) == tMat)) then
+  elseif ((ismetatable(a,tVec) or ismetatable(a,tMat)) and (ismetatable(b,tVec) or ismetatable(b,tMat))) then
     local calcVal = (tVar.matrix.mul((a.val),(b.val)));
     ans = tMat:New(calcVal,"ANS")
     if ans:size(1) == 1 and ans:size(2) == 1 then
@@ -37,7 +37,7 @@ function tVec.mMul(_a,_b)
     local mat = tVec:New({},"")
     local scale = tVar:New(0,"")
 
-     if (getmetatable(a) == tVec or getmetatable(a) == tMat) then
+     if (ismetatable(a,tVec) or ismetatable(a,tMat)) then
       mat = a
       scale = b
     else
@@ -61,7 +61,7 @@ end
 function tVec:crossP(_b)
   local ans = tVec:New({},"ANS")
   ans.nameTex = ""
-  if(getmetatable(self) == tVec and getmetatable(_b) == tVec) then
+  if(ismetatable(self,tVec) and ismetatable(_b,tVec)) then
     if(self:size(1) ~= _b:size(1)) then error ("Vektor dimensions do not match") end
     ans.val = tMat.CheckTable(tVar.matrix.cross((self.val),(_b.val)))
   else
@@ -72,4 +72,15 @@ function tVec:crossP(_b)
   ans.eqMat = (self.eqMat or self.nameTex) .. " \\times " .. (_b.eqMat or _b.nameTex)
   ans.nameTex = ans.eqTex
   return ans
+end
+
+--- Compare Equal
+-- Metatable
+--
+-- @param a (tVec,number)
+-- @param b (tVec,number)
+-- @return (Bool)
+function tVec.Equal(a,b)
+	if tVar.roundValToPrec(a) == tVar.roundValToPrec(b) then return true end
+	return false
 end

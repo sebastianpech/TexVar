@@ -19,7 +19,7 @@ end
 function tVec:New(_val,_nameTex)
 	local ret = {}
 
-	if getmetatable(_val) == tVar then
+	if ismetatable(_val,tVar) then
 		return _val:copy()
 	end
 	if type(_val) == "table" then
@@ -39,6 +39,7 @@ function tVec:New(_val,_nameTex)
 	self.__div = self.mDiv
 	self.__unm = self.mNeg
 	self.__concat = self.concatnameTex
+	self.__eq = self.Equal
 	
 	--self.__tostring = self.Print
 	if _val ~= nil then

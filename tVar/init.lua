@@ -2,6 +2,10 @@
 -- tVar init script
 -- Load required modules
 ----------------------------------------------------------------------------
+function ismetatable(a,b)
+    return tostring(getmetatable(a)) == tostring(b)
+end      
+
 require "tVar.tVar_sub.core"
 
 require "tVar.tVar_sub.misc"
@@ -31,7 +35,7 @@ tVar.matrix = require "tVar.lib.matrix"
 
 math.old_abs = math.abs
 math.abs = function (val)
-	if getmetatable(val) == tVar then
+	if ismetatable(val,tVar) then
 		return tVar.abs(val)
 	else
 		return math.old_abs(val)
@@ -42,7 +46,7 @@ tVar.matrix.copy = function (m)
 		return m
 end
 
-tVar.Version = "1.5.22"
+tVar.Version = "1.5.23"
 
 --- Lua 5.2 Functions Available for 5.1
 -- @section lua52
@@ -63,5 +67,5 @@ if not table.unpack then
 end
 
 if _VERSION == "Lua 5.1" then
-	loadstring = load
+	load = load
 end

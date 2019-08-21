@@ -1035,7 +1035,7 @@ function matrix.solve( m1 )
 	for i = 1,#m1 do
 		mtx[i] = {}
 		for j = 1,#m1[1] do
-			mtx[i][j] = tonumber( loadstring( "return "..m1[i][j][1] )() )
+			mtx[i][j] = tonumber( load( "return "..m1[i][j][1] )() )
 		end
 	end
 	return setmetatable( mtx, matrix_meta )
@@ -1167,7 +1167,7 @@ end
 
 -- Returns "symbol" if object is a symbol type, else nothing.
 function symbol_meta:type()
-	if getmetatable(self) == symbol_meta then
+	if ismetatable(self,symbol_meta) then
 		return "symbol"
 	end
 end

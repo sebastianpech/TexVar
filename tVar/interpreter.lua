@@ -123,11 +123,11 @@ function tVar.interpretEasyInputLine(line)
 		local value = valueAndCommands[1]
 
 		-- load the value as return this way e.g 1+3 gets 4 and can be converted to number 
-		local value_n_test = loadstring("return " .. value)
+		local value_n_test = load("return " .. value)
 
 		local value_n = nil
 
-		-- in case loadstring fails (means no numbers or function) value_n remains nil
+		-- in case load fails (means no numbers or function) value_n remains nil
 		if value_n_test then
 			-- try to convert value_n_test to a number in safe space.
 			_,value_n = pcall(function () return tonumber(value_n_test()) end)

@@ -325,12 +325,12 @@ end
 -- @return (string)
 function tVar.concatnameTex(_a,_b)
 	local a,b
-	if getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec then
+	if ismetatable(_a,tVar) or ismetatable(_a,tMat) or ismetatable(_a,tVec) then
 		a = "$".._a.nameTex.."$"
 	else
 		a = _a
 	end
-	if getmetatable(_b) == tVar or getmetatable(_b) == tMat or getmetatable(_b) == tVec then
+	if ismetatable(_b,tVar) or ismetatable(_b,tMat) or ismetatable(_b,tVec) then
 		b = "$".._b.nameTex.."$"
 	else
 		b = _b

@@ -129,7 +129,7 @@ setmetatable(tVar, mt)
 -- @param _nameTex (string) LaTeX representation
 -- @return (tVar) Number with LaTeX representation
 function tVar:New(_val,_nameTex)
-	if getmetatable(_val) == tVar then return _val end
+	if ismetatable(_val,tVar) then return _val end
 	local ret = {}
 	setmetatable(ret,self)
 	self.__index = function(table, key)

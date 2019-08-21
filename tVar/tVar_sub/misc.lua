@@ -233,7 +233,7 @@ end
 -- @param _a (tVar,number) param to be cecked
 -- @return (tVar) _a as tVar
 function tVar.Check(_a)
-	if(getmetatable(_a) == tVar) then return _a end
+	if(ismetatable(_a,tVar)) then return _a end
 	ret = tVar:New(_a,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
 	ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
 	return ret
@@ -313,7 +313,7 @@ end
 --
 -- @return (number) val of tVar roundet to calcPrecision
 function tVar:roundValToPrec()
-	if getmetatable(self) == tVar then
+	if ismetatable(self,tVar) then
 		return math.floor(self.val * 10^self.calcPrecision + 0.5)/10^self.calcPrecision
 	else
 		return tVar.roundNumToPrec(self)

@@ -30,6 +30,7 @@ function tMat:New(_val,_nameTex)
 	self.__sub = self.mSub
 	self.__mul = self.mMul
 	self.__div = self.mDiv
+	self.__eq = self.Equal
 	self.__unm = self.mNeg
 	self.__concat = self.concatnameTex
 	self.__newindex = self.setMatrixVal
@@ -65,11 +66,11 @@ function tMat.setMatrixVal(table,key,value)
 		if key:find("^[0-9:(end)]+,[0-9:(end)]+$") or key:find("^[0-9:(end)]+$") then
 			local r_start,r_end,c_start,c_end = tMat.getRange(table,key)
 
-			if getmetatable(value) == tMat or getmetatable(value) == tVec then
+			if ismetatable(value,tMat) or ismetatable(value,tVec) then
 				value = value.val
 			end
 
-			if type(value) ~= "table" or getmetatable(value) == tVar then
+			if type(value) ~= "table" or ismetatable(value,tVar) then
 				value = {{value}}
 			elseif type(value[1]) ~= "table" then
 				value = {value}
@@ -144,7 +145,7 @@ function tMat.getRange(table,key)
 	local max_r = table:size(1)
 	local max_c = table:size(2)
 
-	if key:match(".+,") == nil and getmetatable(table) == tVec then
+	if key:match(".+,") == nil and ismetatable(table,tVec) then
 		return key,key,1,1
 	end
 

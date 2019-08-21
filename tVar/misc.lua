@@ -51,7 +51,7 @@ function tVar.intString(_string)
 		print(str)
 	end
 
-	local status, err = pcall(function () assert(loadstring(str))() end )
+	local status, err = pcall(function () assert(load(str))() end )
 	
 	if not status then
 		getErrorReport(err,str)

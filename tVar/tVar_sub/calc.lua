@@ -76,7 +76,7 @@ end
 -- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.Mul(_a,_b)
-  if getmetatable(_b) == tVec or getmetatable(_b) == tMat then return getmetatable(_b).mMul(_a,_b) end
+  if ismetatable(_b,tVec) or ismetatable(_b,tMat) then return getmetatable(_b).mMul(_a,_b) end
 
   local a,b = tVar.Check(_a),tVar.Check(_b)
   local ans = tVar:New(nil,"ANS")
@@ -110,7 +110,7 @@ end
 -- @param _b (tVar,number)
 -- @return (tVar)
 function tVar.Div(_a,_b)
-  if getmetatable(_b) == tVec or getmetatable(_b) == tMat then return getmetatable(_b).mDiv(_a,_b) end
+  if ismetatable(_b,tVec) or ismetatable(_b,tMat) then return getmetatable(_b).mDiv(_a,_b) end
   local a,b = tVar.Check(_a),tVar.Check(_b)
 
   local ans = tVar:New(nil,"ANS")

@@ -71,7 +71,7 @@ end
 -- @param _nameTex (optonal,String) new nameTex for passed number 
 -- @return (tVar) _a as tVar
 function tMat.Check(_a,_nameTex)
-  if(getmetatable(_a) == tVar or getmetatable(_a) == tMat or getmetatable(_a) == tVec) then return _a end
+  if(ismetatable(_a,tVar) or ismetatable(_a,tMat) or ismetatable(_a,tVec)) then return _a end
   ret = tVar:New(_a*1,tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator))
   ret.eqTex = tVar.formatValue(tVar.numFormat,_a,tVar.decimalSeparator)
   if _nameTex then
