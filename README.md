@@ -25,6 +25,7 @@ For a better understanding on what TexVar does you should have a look at this
 The download contains the LuaLaTeX-Package and the TexVar-Library,
 
 [TexVar 1.5.22](https://github.com/sebastianpech/TexVar/archive/1.5.22.zip)
+[TexVar 1.5.23](https://github.com/sebastianpech/TexVar/archive/1.5.23.zip)
 
 # Dependencies
 * Lua 5.1-5.3
